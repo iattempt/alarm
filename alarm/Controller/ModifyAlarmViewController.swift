@@ -73,17 +73,15 @@ extension ModifyAlarmViewController: UITableViewDataSource,
                 if min > 1 {
                     cell.detailTextLabel?.text = (cell.detailTextLabel?.text)! + "s"
                 }
-            } else {
-                cell.detailTextLabel?.text = "none"
             }
             cell.detailTextLabel?.textAlignment = NSTextAlignment.right
         case 3:
             cell.textLabel?.text = "Sound"
-            cell.detailTextLabel?.text = SoundIdProp == nil ? "none" : SoundNameProp
+            cell.detailTextLabel?.text = SoundIdProp == nil ? "" : SoundNameProp
             cell.detailTextLabel?.textAlignment = NSTextAlignment.right
         case 4:
             cell.textLabel?.text = "Vibrate"
-            cell.detailTextLabel?.text = VibrateIdProp == nil ? "none" : VibrateNameProp
+            cell.detailTextLabel?.text = VibrateIdProp == nil ? "" : VibrateNameProp
             cell.detailTextLabel?.textAlignment = NSTextAlignment.right
         case 5:
             cell.textLabel?.text = "Repeat"
