@@ -70,8 +70,6 @@ UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print(indexPath.section)
-        print(indexPath.row)
         let cell = UITableViewCell()
         if indexPath.row == 0 {
             cell.textLabel?.text = "none"

@@ -38,7 +38,6 @@ import UserNotifications
 class EntryViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadMyAlarms()
         requestMusicUsage()
     }
 
@@ -58,6 +57,9 @@ extension EntryViewController {
 
     func requestMusicUsage() {
         if !UserDefaults.standard.bool(forKey: "firstLaunched") {
+            // used for me
+            loadMyAlarms()
+
             MPMediaQuery.songs()
             UserDefaults.standard.set(true, forKey: "firstLaunched")
         }
