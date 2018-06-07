@@ -67,12 +67,13 @@ extension GroupAlarmViewController: UITableViewDelegate,
         cell.textLabel?.text = Utility.dateFormatter.string(from: theAlarm.date)
         cell.detailTextLabel?.text = "\(Groups.instance().group(byId: theAlarm.groupId!).groupLabel):\(theAlarm.alarmLabel)"
         cell.accessoryView = switchButton
-        cell.editingAccessoryType = .detailDisclosureButton
+        cell.editingAccessoryType = .disclosureIndicator
 
         return cell
     }
 
-    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         SelectedAlarm = Alarms.instance().alarms(byGroupId: (SelectedGroup?.groupId)!)[indexPath.row]
         GroupIdProp = SelectedGroup?.groupId
         doesUpdateAlarm = true
@@ -98,6 +99,7 @@ extension GroupAlarmViewController {
     }
 
     fileprivate func refresh() {
+        tableView.allowsSelectionDuringEditing = true
         doesUpdateAlarm = false
         isGroup = true
         SelectedAlarm = nil

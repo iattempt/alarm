@@ -25,6 +25,7 @@ class AlarmLabelViewController: UIViewController {
         debugPrint("editing label will appear")
         super.viewWillAppear(animated)
         textField.text = LabelProp
+        textField.becomeFirstResponder()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear(notification:)), name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear(notification:)), name: .UIKeyboardWillHide, object: nil)
     }

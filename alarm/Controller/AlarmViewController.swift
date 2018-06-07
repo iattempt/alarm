@@ -19,10 +19,6 @@ class AlarmViewController: UIViewController {
         tableView.reloadData()
     }
 
-    @IBAction func add(_ sender: Any) {
-
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -76,13 +72,17 @@ extension AlarmViewController: UITableViewDelegate,
             } else {
                 cell.detailTextLabel?.text = theAlarm.alarmLabel
             }
-            cell.accessoryType = .detailDisclosureButton
+            cell.accessoryType = .disclosureIndicator
         }
 
         return cell
     }
 
-    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+//    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+//        SelectedAlarm = self.alarms[indexPath.row]
+//        performSegue(withIdentifier: "later", sender: self)
+//    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         SelectedAlarm = self.alarms[indexPath.row]
         performSegue(withIdentifier: "later", sender: self)
     }

@@ -66,12 +66,12 @@ extension GroupViewController: UITableViewDelegate,
         let cell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: nil)
         cell.textLabel?.text = theGroup.groupLabel
         cell.accessoryView = switchButton
-        cell.editingAccessoryType = .detailDisclosureButton
+        cell.editingAccessoryType = .disclosureIndicator
 
         return cell
     }
 
-    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         doesUpdateGroup = true
         SelectedGroup = Groups.instance().groups()[indexPath.row]
         performSegue(withIdentifier: "edit_group", sender: self)
@@ -109,6 +109,7 @@ extension GroupViewController {
     }
 
     fileprivate func refresh() {
+        tableView.allowsSelectionDuringEditing = true
         isGroup = true
         doesUpdateGroup = false
         SelectedGroup = nil

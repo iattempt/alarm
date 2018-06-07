@@ -60,12 +60,12 @@ extension DisperseAlarmViewController: UITableViewDelegate,
         cell.textLabel?.text = Utility.dateFormatter.string(from: theAlarm.date)
         cell.detailTextLabel?.text = theAlarm.alarmLabel
         cell.accessoryView = switchButton
-        cell.editingAccessoryType = .detailDisclosureButton
+        cell.editingAccessoryType = .disclosureIndicator
 
         return cell
     }
 
-    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         SelectedAlarm = Alarms.instance().nonGroupAlarms()[indexPath.row]
         doesUpdateAlarm = true
         performSegue(withIdentifier: "edit_disperse_alarm", sender: self)
@@ -97,6 +97,7 @@ extension DisperseAlarmViewController {
     }
 
     func refresh() {
+        tableView.allowsSelectionDuringEditing = true
         isGroup = false
         doesUpdateAlarm = false
         self.tabBarController?.tabBar.isHidden = false

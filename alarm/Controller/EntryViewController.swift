@@ -36,7 +36,6 @@ import UserNotifications
 class EntryViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
-
         loadMyAlarms()
     }
 

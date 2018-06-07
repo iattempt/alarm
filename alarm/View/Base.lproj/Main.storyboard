@@ -54,28 +54,11 @@
             </objects>
             <point key="canvasLocation" x="857" y="3114"/>
         </scene>
-        <!--Alarm Nav-->
-        <scene sceneID="gtK-D0-kgN">
-            <objects>
-                <navigationController id="A4c-S8-ynh" userLabel="Alarm Nav" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Alarm" id="dvj-Iu-w4P"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="vEV-Yy-9eg">
-                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="cAt-Ut-l4g" kind="relationship" relationship="rootViewController" id="acN-bP-Bwh"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="FKw-nM-FTJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-2903" y="1366"/>
-        </scene>
         <!--Disperse Nav-->
         <scene sceneID="cXY-8R-D8U">
             <objects>
                 <navigationController id="S1c-DU-uxE" userLabel="Disperse Nav" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Disperse" id="KBx-I2-0He"/>
+                    <tabBarItem key="tabBarItem" title="Disperse" image="Alarm" id="KBx-I2-0He"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="62t-09-cax">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -92,7 +75,7 @@
         <scene sceneID="HMS-cr-rht">
             <objects>
                 <navigationController id="QES-wY-OMV" userLabel="Group Nav" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Group" id="fqE-ow-zbo"/>
+                    <tabBarItem key="tabBarItem" title="Group" image="Alarm" id="fqE-ow-zbo"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="rei-Id-vlc">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -113,17 +96,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mhp-lz-Dt2">
-                                <rect key="frame" x="20" y="305.5" width="42" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mhp-lz-Dt2">
+                                <rect key="frame" x="20" y="305.5" width="46.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Label" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Orc-c1-dAp">
-                                <rect key="frame" x="77" y="301" width="223" height="30"/>
+                                <rect key="frame" x="81.5" y="301" width="218.5" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <connections>
                                     <action selector="type:" destination="tCT-z7-3VD" eventType="editingChanged" id="1yn-eC-0zG"/>
                                     <outlet property="delegate" destination="tCT-z7-3VD" id="c4I-ve-3Io"/>
@@ -356,9 +339,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="A4c-S8-ynh" kind="relationship" relationship="viewControllers" id="idk-Ft-9fN"/>
+                        <segue destination="F20-hc-xG8" kind="relationship" relationship="viewControllers" id="4Y0-YJ-xvh"/>
                         <segue destination="S1c-DU-uxE" kind="relationship" relationship="viewControllers" id="D2R-7L-S0f"/>
                         <segue destination="QES-wY-OMV" kind="relationship" relationship="viewControllers" id="4Sr-8R-fq6"/>
                     </connections>
@@ -366,6 +350,63 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="axb-Ur-gZj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-313" y="390"/>
+        </scene>
+        <!--Alarm-->
+        <scene sceneID="V7g-XM-lV7">
+            <objects>
+                <viewController id="88a-OM-aZE" customClass="AlarmViewController" customModule="alarm" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gmn-Nx-YNP">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="DwT-r1-dvd">
+                                <rect key="frame" x="0.0" y="64" width="320" height="29"/>
+                                <segments>
+                                    <segment title="All"/>
+                                    <segment title="On"/>
+                                    <segment title="Off"/>
+                                </segments>
+                                <connections>
+                                    <action selector="filter:" destination="88a-OM-aZE" eventType="valueChanged" id="Ld7-tS-E72"/>
+                                </connections>
+                            </segmentedControl>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1MI-cf-9gG">
+                                <rect key="frame" x="0.0" y="93" width="320" height="426"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="88a-OM-aZE" id="Hsp-3s-ulz"/>
+                                    <outlet property="delegate" destination="88a-OM-aZE" id="5tb-Gy-cRK"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="DwT-r1-dvd" firstAttribute="top" secondItem="cpV-h3-c8n" secondAttribute="top" id="6S8-35-6ye"/>
+                            <constraint firstItem="1MI-cf-9gG" firstAttribute="width" secondItem="cpV-h3-c8n" secondAttribute="width" id="8Ew-r6-H0c"/>
+                            <constraint firstItem="DwT-r1-dvd" firstAttribute="centerX" secondItem="cpV-h3-c8n" secondAttribute="centerX" id="dFo-Pb-zAk"/>
+                            <constraint firstItem="1MI-cf-9gG" firstAttribute="top" secondItem="DwT-r1-dvd" secondAttribute="bottom" constant="1" id="gHS-eX-iVf"/>
+                            <constraint firstItem="1MI-cf-9gG" firstAttribute="bottom" secondItem="cpV-h3-c8n" secondAttribute="bottom" id="goI-kq-gaS"/>
+                            <constraint firstItem="1MI-cf-9gG" firstAttribute="centerX" secondItem="cpV-h3-c8n" secondAttribute="centerX" id="ro6-CG-WcS"/>
+                            <constraint firstItem="DwT-r1-dvd" firstAttribute="width" secondItem="cpV-h3-c8n" secondAttribute="width" id="sAL-uf-f8D"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="cpV-h3-c8n"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Alarm" id="CH4-zg-p6C">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="dX3-Bn-CXF">
+                            <connections>
+                                <action selector="add:" destination="88a-OM-aZE" id="g68-pv-c7i"/>
+                                <segue destination="YMI-Od-iGa" kind="show" id="2wP-ux-zXm"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="1MI-cf-9gG" id="HJO-KH-gXn"/>
+                        <segue destination="EkX-yL-epa" kind="show" identifier="later" id="fbL-da-mzS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3Vl-zO-ZOm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2904" y="2178"/>
         </scene>
         <!--Later-->
         <scene sceneID="8ZO-jD-hWc">
@@ -417,72 +458,22 @@
             <point key="canvasLocation" x="-2903" y="3115"/>
         </scene>
         <!--Alarm-->
-        <scene sceneID="lcc-68-Vgf">
+        <scene sceneID="Jse-oo-L6O">
             <objects>
-                <viewController id="cAt-Ut-l4g" customClass="AlarmViewController" customModule="alarm" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="tvL-1a-SB8">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LpT-Ae-9M5">
-                                <rect key="frame" x="0.0" y="64" width="320" height="44"/>
-                                <items>
-                                    <barButtonItem style="plain" id="EHI-CM-SxE">
-                                        <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="1" id="JxE-Ol-Fkm">
-                                            <rect key="frame" x="16" y="7" width="288" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <segments>
-                                                <segment title="All"/>
-                                                <segment title="On"/>
-                                                <segment title="Off"/>
-                                            </segments>
-                                            <connections>
-                                                <action selector="filter:" destination="cAt-Ut-l4g" eventType="valueChanged" id="MJH-fv-X1i"/>
-                                            </connections>
-                                        </segmentedControl>
-                                    </barButtonItem>
-                                </items>
-                                <connections>
-                                    <outlet property="delegate" destination="cAt-Ut-l4g" id="qF8-1u-Ydd"/>
-                                </connections>
-                            </toolbar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xaW-Js-isY">
-                                <rect key="frame" x="0.0" y="108" width="320" height="411"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="cAt-Ut-l4g" id="ff5-kf-pEg"/>
-                                    <outlet property="delegate" destination="cAt-Ut-l4g" id="51K-DU-FlI"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="LpT-Ae-9M5" firstAttribute="centerX" secondItem="adH-bI-4DK" secondAttribute="centerX" id="2zH-o2-fLx"/>
-                            <constraint firstItem="adH-bI-4DK" firstAttribute="trailing" secondItem="xaW-Js-isY" secondAttribute="trailing" id="4RV-Gl-DbL"/>
-                            <constraint firstItem="xaW-Js-isY" firstAttribute="leading" secondItem="adH-bI-4DK" secondAttribute="leading" id="9ul-WT-qJU"/>
-                            <constraint firstItem="adH-bI-4DK" firstAttribute="bottom" secondItem="xaW-Js-isY" secondAttribute="bottom" id="E10-jK-a9k"/>
-                            <constraint firstItem="adH-bI-4DK" firstAttribute="top" secondItem="LpT-Ae-9M5" secondAttribute="top" id="lOA-Dw-VvQ"/>
-                            <constraint firstItem="LpT-Ae-9M5" firstAttribute="width" secondItem="tvL-1a-SB8" secondAttribute="width" id="mmi-nN-qFM"/>
-                            <constraint firstItem="xaW-Js-isY" firstAttribute="top" secondItem="LpT-Ae-9M5" secondAttribute="bottom" id="mwE-CR-dgG"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="adH-bI-4DK"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Alarm" id="UMt-EY-c8A">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="JOw-bX-02J">
-                            <connections>
-                                <action selector="add:" destination="cAt-Ut-l4g" id="TLy-Ub-h9y"/>
-                                <segue destination="YMI-Od-iGa" kind="show" identifier="add_alarm" id="29h-II-ggo"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                <navigationController id="F20-hc-xG8" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Alarm" image="Alarm" id="iNf-mW-4VN"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="uKK-2c-GBS">
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
                     <connections>
-                        <outlet property="tableView" destination="xaW-Js-isY" id="thX-kZ-Icx"/>
-                        <segue destination="EkX-yL-epa" kind="show" identifier="later" id="0UQ-cw-d89"/>
+                        <segue destination="88a-OM-aZE" kind="relationship" relationship="rootViewController" id="2Ha-nu-9OU"/>
                     </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="xKE-8H-8IT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tNc-02-o30" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2903" y="2178"/>
+            <point key="canvasLocation" x="-2904" y="1365"/>
         </scene>
         <!--Disperse-->
         <scene sceneID="6Tg-9S-qZP">
@@ -629,16 +620,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="rNP-HP-aRV">
-                                <rect key="frame" x="0.0" y="64" width="320" height="150"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="150" id="3Fb-Ix-fpX"/>
-                                </constraints>
+                                <rect key="frame" x="0.0" y="64" width="320" height="216"/>
                                 <date key="date" timeIntervalSinceReferenceDate="549516834.80039501">
                                     <!--2018-06-01 03:33:54 +0000-->
                                 </date>
                             </datePicker>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="zag-ve-zcW">
-                                <rect key="frame" x="0.0" y="214" width="320" height="354"/>
+                                <rect key="frame" x="0.0" y="280" width="320" height="288"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="YMI-Od-iGa" id="eQC-fj-mMl"/>
@@ -689,8 +677,11 @@
             <point key="canvasLocation" x="-293" y="4098"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Alarm" width="25" height="25"/>
+    </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="29h-II-ggo"/>
+        <segue reference="2wP-ux-zXm"/>
         <segue reference="BrB-fk-fp1"/>
         <segue reference="lkY-Sh-Cl4"/>
         <segue reference="Y0r-gh-ijn"/>
