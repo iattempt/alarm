@@ -11,6 +11,7 @@ import MediaPlayer
 import AVFoundation
 
 class AlarmSoundViewController: UIViewController {
+    var isSelectedToPlay = false
     @IBOutlet weak var tableView: UITableView!
 
     var items: [MPMediaItem] = [MPMediaItem]()
@@ -19,6 +20,14 @@ class AlarmSoundViewController: UIViewController {
         debugPrint("selecting sound will appear")
         super.viewWillAppear(animated)
         refresh()
+        NotificationCenter.default.addObserver(self, selector: #selector(pauseMusic), name: NSNotification.Name.UIApplicationWillResignActive, object: nil    )
+    }
+
+    @objc func pauseMusic() {
+        if isSelectedToPlay {
+            MPMusicPlayerController.systemMusicPlayer.pause()
+        }
+        isSelectedToPlay = false
     }
 
     override func viewDidLoad() {
@@ -32,7 +41,7 @@ class AlarmSoundViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         debugPrint("selecting sound will disappear")
         super.viewWillDisappear(animated)
-        MPMusicPlayerController.systemMusicPlayer.pause()
+        pauseMusic()
     }
 }
 
@@ -67,7 +76,6 @@ UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        MPMusicPlayerController.systemMusicPlayer.pause()
         if indexPath.row == 0 {
             SoundIdProp = nil
             SoundNameProp = "none"
@@ -75,7 +83,7 @@ UITableViewDataSource {
             let index = indexPath.row - 1
             SoundIdProp = self.items[index].persistentID.hashValue
             SoundNameProp = self.items[index].title!
-
+            isSelectedToPlay = true
             MPMusicPlayerController.systemMusicPlayer.setQueue(with: MPMediaItemCollection(items: [self.items[index]]))
             MPMusicPlayerController.systemMusicPlayer.play()
         }
