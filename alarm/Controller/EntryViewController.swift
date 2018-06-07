@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Foundation
+import MediaPlayer
 
 var SelectedAlarm: Alarm? = nil
 var SelectedGroup: Group? = nil
@@ -37,6 +39,7 @@ class EntryViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadMyAlarms()
+        requestMusicUsage()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -51,6 +54,13 @@ class EntryViewController: UITabBarController {
 extension EntryViewController {
     func initUtility() {
         let _ = Utility()
+    }
+
+    func requestMusicUsage() {
+        if !UserDefaults.standard.bool(forKey: "firstLaunched") {
+            MPMediaQuery.songs()
+            UserDefaults.standard.set(true, forKey: "firstLaunched")
+        }
     }
 
     func loadMyAlarms() {

@@ -12,6 +12,8 @@ import AVFoundation
 
 class AlarmSoundViewController: UIViewController {
     var isSelectedToPlay = false
+    var isFailedToAccessMusic = false
+
     @IBOutlet weak var tableView: UITableView!
 
     var items: [MPMediaItem] = [MPMediaItem]()
@@ -21,6 +23,7 @@ class AlarmSoundViewController: UIViewController {
         super.viewWillAppear(animated)
         refresh()
         NotificationCenter.default.addObserver(self, selector: #selector(pauseMusic), name: NSNotification.Name.UIApplicationWillResignActive, object: nil    )
+        NotificationCenter.default.addObserver(self, selector: #selector(popViewControllerDueToFailedToAccessMusic), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
     }
 
     @objc func pauseMusic() {
@@ -28,6 +31,13 @@ class AlarmSoundViewController: UIViewController {
             MPMusicPlayerController.systemMusicPlayer.pause()
         }
         isSelectedToPlay = false
+    }
+
+    @objc func popViewControllerDueToFailedToAccessMusic() {
+        if isFailedToAccessMusic {
+            self.navigationController?.popViewController(animated: true)
+        }
+        isFailedToAccessMusic = false
     }
 
     override func viewDidLoad() {
@@ -93,6 +103,31 @@ UITableViewDataSource {
 
 extension AlarmSoundViewController {
     func refresh() {
+        MPMediaLibrary.requestAuthorization({ (status ) in
+            switch status {
+            case .denied, .notDetermined, .restricted:
+                let alert = UIAlertController(title:"Failed to load music.",
+                                              message:"Please allow access to your music.",
+                                              preferredStyle:.alert)
+                let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+                    self.navigationController?.popViewController(animated: true)
+                }
+                let confirm = UIAlertAction(title: "Go to Settings", style: .default) { (action) in
+                    if let url = NSURL(string: UIApplicationOpenSettingsURLString) as URL? {
+                        if UIApplication.shared.canOpenURL(url) {
+                            UIApplication.shared.open(url, options: [:], completionHandler: { (_) in
+                                self.isFailedToAccessMusic = true
+                            })
+                        }
+                    }
+                }
+                alert.addAction(cancel)
+                alert.addAction(confirm)
+                self.present(alert, animated: true, completion: nil)
+            default:
+                break
+            }
+        })
         if let items = MPMediaQuery.songs().items {
             self.items = items
         } else {
