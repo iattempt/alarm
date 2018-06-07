@@ -168,7 +168,7 @@ class alarmTests: XCTestCase {
             isInitialized = false
             controller.datePicker.date = Date().addMinutes(Utility.randomInt(1440))
             LabelProp = Utility.randomString(length: 5)
-            SoundIdProp = Utility.randomInt()
+            SoundIdProp = nil
             VibrateIdProp = Utility.randomInt()
             SnoozeIdProp = Utility.randomInt()
             GroupIdProp = nil
@@ -225,7 +225,7 @@ class alarmTests: XCTestCase {
             controller.datePicker.date = Date().addMinutes(Utility.randomInt(1440))
             GroupIdProp = nil
             LabelProp = Utility.randomString(length: 5)
-            SoundIdProp = Utility.randomInt()
+            SoundIdProp = nil
             VibrateIdProp = Utility.randomInt()
             SnoozeIdProp = Utility.randomInt()
             RepeatWeekdaysProp = getRandomRepeatWeekdays()
@@ -414,7 +414,7 @@ extension alarmTests {
         controller.datePicker.date = Date().addMinutes(Utility.randomInt(1440))
         GroupIdProp = nil
         LabelProp = Utility.randomString(length: 5)
-        SoundIdProp = Utility.randomInt()
+        SoundIdProp = nil
         VibrateIdProp = Utility.randomInt()
         SnoozeIdProp = Utility.randomInt()
         RepeatWeekdaysProp = getRandomRepeatWeekdays()

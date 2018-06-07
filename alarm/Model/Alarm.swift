@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import MediaPlayer
 
 var nextAlarmId: Int = 0
 
@@ -17,7 +18,7 @@ struct Alarm: Codable {
     var groupId: Int? = nil
     var enabled: Bool = false
     var date: Date = Date()
-    var soundId: Int?
+    var soundId: MPMediaEntityPersistentID?
     var soundName: String = "none"
     var vibrateId: Int?
     var vibrateName: String = "none"

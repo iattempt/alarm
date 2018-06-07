@@ -22,7 +22,7 @@ var isInitialized: Bool = false
 var AlarmIdProp: Int = 0
 var LabelProp: String = ""
 var EnabledProp: Bool = true
-var SoundIdProp: Int?
+var SoundIdProp: MPMediaEntityPersistentID?
 var SoundNameProp = "none"
 var VibrateIdProp: Int?
 var VibrateNameProp = "none"

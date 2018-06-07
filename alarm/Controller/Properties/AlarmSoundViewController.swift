@@ -80,7 +80,7 @@ UITableViewDataSource {
             let item = items[indexPath.row - 1]
             cell.textLabel?.text = item.title
             cell.tag = indexPath.count
-            cell.accessoryType = SoundIdProp == item.persistentID.hashValue ? .checkmark : .none
+            cell.accessoryType = SoundIdProp == item.persistentID ? .checkmark : .none
         }
         return cell
     }
@@ -91,7 +91,7 @@ UITableViewDataSource {
             SoundNameProp = "none"
         } else {
             let index = indexPath.row - 1
-            SoundIdProp = self.items[index].persistentID.hashValue
+            SoundIdProp = self.items[index].persistentID
             SoundNameProp = self.items[index].title!
             isSelectedToPlay = true
             MPMusicPlayerController.systemMusicPlayer.setQueue(with: MPMediaItemCollection(items: [self.items[index]]))
