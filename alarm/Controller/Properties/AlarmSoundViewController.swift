@@ -96,7 +96,7 @@ extension AlarmSoundViewController {
         if let items = MPMediaQuery.songs().items {
             self.items = items
         } else {
-            self.items = [MPMediaItem]()
+            self.items.removeAll()
         }
     }
 }
