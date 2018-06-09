@@ -9,6 +9,7 @@
 import UIKit
 
 class AlarmRepeatViewController: UIViewController {
+    var repeatWeekdaysInfo = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     @IBOutlet weak var tableView: UITableView!
 
     override func viewWillAppear(_ animated: Bool) {
@@ -37,32 +38,12 @@ extension AlarmRepeatViewController: UITableViewDelegate,
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 7
+        return repeatWeekdaysInfo.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-
-        switch indexPath.row {
-        case 0:
-            cell.textLabel?.text = "Sunday"
-        case 1:
-            cell.textLabel?.text = "Monday"
-        case 2:
-            cell.textLabel?.text = "Tuesday"
-        case 3:
-            cell.textLabel?.text = "Wednesday"
-        case 4:
-            cell.textLabel?.text = "Thursday"
-        case 5:
-            cell.textLabel?.text = "Friday"
-        case 6:
-            cell.textLabel?.text = "Saturday"
-        default:
-            break
-        }
-        cell.accessoryType = .none
-
+        cell.textLabel?.text = repeatWeekdaysInfo[indexPath.row]
         // reload
         if let enable = RepeatWeekdaysProp[(cell.textLabel?.text)!] {
             cell.accessoryType = enable ? .checkmark : .none
@@ -72,7 +53,18 @@ extension AlarmRepeatViewController: UITableViewDelegate,
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let day = tableView.cellForRow(at: indexPath)?.textLabel?.text
+        guarenteeRepeatWeekdays()
         RepeatWeekdaysProp[day!] = !RepeatWeekdaysProp[day!]!
         tableView.reloadData()
+    }
+}
+
+extension AlarmRepeatViewController {
+    func guarenteeRepeatWeekdays() {
+        for day in repeatWeekdaysInfo {
+            if !RepeatWeekdaysProp.keys.contains(day) {
+                RepeatWeekdaysProp[day] = false
+            }
+        }
     }
 }

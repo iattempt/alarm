@@ -61,7 +61,7 @@ class Utility {
         case 127:
             string = "Everyday"
         case 65:
-            string = "Every weekend"
+            string = "Weekends"
         default:
             if !string.isEmpty {
                 string.removeFirst()
