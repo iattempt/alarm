@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 class Utility {
     init() {
         Utility.dateFormatter.dateFormat = "HH:mm"
@@ -22,56 +21,6 @@ class Utility {
         }
     }
 
-    static func convertRepeatToString(_ repeatWeekdays: [String: Bool]) -> String{
-        var string = ""
-        var count = 0
-        for day in repeatWeekdays {
-            if day.value {
-                switch day.key {
-                case "Sunday":
-                    string += " Sun"
-                    count += 1
-                case "Monday":
-                    string += " Mon"
-                    count += 2
-                case "Tuesday":
-                    string += " Tue"
-                    count += 4
-                case "Wednesday":
-                    string += " Wed"
-                    count += 8
-                case "Thursday":
-                    string += " Thu"
-                    count += 16
-                case "Friday":
-                    string += " Fri"
-                    count += 32
-                case "Saturday":
-                    string += " Sat"
-                    count += 64
-                default:
-                    break
-                }
-            }
-        }
-
-        switch count {
-        case 1, 2, 4, 8, 16, 32, 64:
-            string = "Every" + string
-        case 127:
-            string = "Everyday"
-        case 65:
-            string = "Weekends"
-        default:
-            if !string.isEmpty {
-                string.removeFirst()
-            }
-            break
-        }
-
-        return string
-    }
-
     static func unifyDate(_ date: Date ) -> Date {
         // we need to sort date for view therefore always change date to 20180101
         let time = Calendar.current.dateComponents([.hour, .minute], from: date)
@@ -81,6 +30,7 @@ class Utility {
         components.day = 1
         components.hour = time.hour
         components.minute =  time.minute
+        components.second = 0
         return Calendar.current.date(from: components)!
     }
 
@@ -143,11 +93,116 @@ extension RandomAccessCollection {
 }
 
 extension Date {
+    func addSeconds(_ seconds: Int) -> Date {
+        return Calendar.current.date(byAdding: .second, value: seconds, to: self)!
+    }
+
     func addMinutes(_ minutes: Int) -> Date {
         return Calendar.current.date(byAdding: .minute, value: minutes, to: self)!
     }
 
     func addHours(_ hours: Int) -> Date {
         return Calendar.current.date(byAdding: .hour, value: hours, to: self)!
+    }
+}
+
+
+enum Week: Int, Codable {
+    case Monday = 1, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
+
+    static let allRawValues = Week.Monday.rawValue...Week.Sunday.rawValue
+    static let allCases = Array(allRawValues.map{ Week(rawValue: $0)! })
+
+    static func weekday(_ week: Week) -> Int {
+        return week.rawValue % 7 + 1
+    }
+
+    static func convertCaseToAbbreviationString(_ week: Week) -> String {
+        switch week {
+        case .Monday:
+            return "Mon"
+        case .Tuesday:
+            return "Tue"
+        case .Wednesday:
+            return "Wed"
+        case .Thursday:
+            return "Thu"
+        case .Friday:
+            return "Fri"
+        case .Saturday:
+            return "Sat"
+        case .Sunday:
+            return "Sun"
+        }
+    }
+
+    static func convertCaseToString(_ week: Week) -> String {
+        switch week {
+        case .Monday:
+            return "Monday"
+        case .Tuesday:
+            return "Tuesday"
+        case .Wednesday:
+            return "Wednesday"
+        case .Thursday:
+            return "Thursday"
+        case .Friday:
+            return "Friday"
+        case .Saturday:
+            return "Saturday"
+        case .Sunday:
+            return "Sunday"
+        }
+    }
+
+    static func convertStringToCase(_ string: String) -> Week {
+        switch string {
+        case "Monday":
+            return .Monday
+        case "Tuesday":
+            return .Tuesday
+        case "Wednesday":
+            return .Wednesday
+        case "Thursday":
+            return .Thursday
+        case "Friday":
+            return .Friday
+        case "Saturday":
+            return .Saturday
+        case "Sunday":
+            return .Sunday
+        default:
+            assert(false)
+            return .Monday
+        }
+    }
+
+    static func convertToDisplayingString(_ repeatWeekdays: [Week]) -> String{
+        var string = ""
+        var count = 0
+        for day in repeatWeekdays {
+            string += " \(Week.convertCaseToAbbreviationString(day))"
+            count += Week.bit(day)
+        }
+
+        switch count {
+        case 2, 4, 8, 16, 32, 64, 128:
+            string = "Every" + string
+        case 255:
+            string = "Everyday"
+        case 192:
+            string = "Weekends"
+        default:
+            if !string.isEmpty {
+                string.removeFirst()
+            }
+            break
+        }
+
+        return string
+    }
+
+    private static func bit(_ week: Week) -> Int {
+        return Int(pow(Double(2.0), Double(week.rawValue)))
     }
 }

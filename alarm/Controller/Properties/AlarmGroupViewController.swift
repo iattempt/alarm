@@ -9,7 +9,12 @@
 import UIKit
 
 class AlarmGroupViewController: UIViewController {
+    var groups = Groups.instance().groups()
+
     @IBOutlet weak var tableView: UITableView!
+
+    @IBAction func addGroup(_ sender: UIBarButtonItem) {
+    }
 
     override func viewWillAppear(_ animated: Bool) {
         debugPrint("selecting group will appear")
@@ -28,6 +33,12 @@ class AlarmGroupViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         debugPrint("selecting group will disappear")
         super.viewWillDisappear(animated)
+        setEditing(false, animated: false)
+    }
+
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        self.tableView.setEditing(editing, animated: animated)
     }
 }
 
@@ -38,19 +49,20 @@ extension AlarmGroupViewController: UITableViewDelegate,
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Groups.instance().groups().count
+        return self.groups.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let groups = Groups.instance().groups()
         let cell = UITableViewCell()
+        cell.tintColor = UIColor.black
         if groups.isEmpty {
             cell.editingAccessoryType = .none
         } else {
             let theGroup = groups[indexPath.row]
 
             cell.textLabel?.text = theGroup.groupLabel
-            cell.editingAccessoryType = .detailDisclosureButton
+            cell.editingAccessoryType = .disclosureIndicator
 
             // reload
             if GroupIdProp != nil && theGroup.groupId == GroupIdProp! {
@@ -61,17 +73,30 @@ extension AlarmGroupViewController: UITableViewDelegate,
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if tableView.cellForRow(at: indexPath)?.accessoryType != .checkmark {
-            GroupIdProp = Groups.instance().groups()[indexPath.row].groupId
+        if isEditing {
+            SelectedGroup = self.groups[indexPath.row]
+            performSegue(withIdentifier: "edit_group", sender: self)
+            let selectedRow = tableView.cellForRow(at: indexPath)
+            selectedRow?.backgroundColor = UIColor.clear
         } else {
-            GroupIdProp = nil
+            if tableView.cellForRow(at: indexPath)?.accessoryType != .checkmark {
+                GroupIdProp = Groups.instance().groups()[indexPath.row].groupId
+            } else {
+                GroupIdProp = nil
+            }
+            tableView.reloadData()
         }
-        tableView.reloadData()
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return isEditing
     }
 }
 
 extension AlarmGroupViewController {
     fileprivate func refresh() {
+        tableView.allowsSelectionDuringEditing = true
+        self.groups = Groups.instance().groups()
         tableView.reloadData()
     }
 }

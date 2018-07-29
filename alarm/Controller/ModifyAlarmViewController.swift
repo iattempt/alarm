@@ -13,8 +13,8 @@ class ModifyAlarmViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
 
     @IBAction func save(_ sender: Any) {
-        if doesUpdateAlarm {
-            updateAlarm()
+        if let theAlarm = SelectedAlarm {
+            updateAlarm(theAlarm)
         } else {
             addAlarm()
         }
@@ -85,7 +85,7 @@ extension ModifyAlarmViewController: UITableViewDataSource,
             cell.detailTextLabel?.textAlignment = NSTextAlignment.right
         case 5:
             cell.textLabel?.text = "Repeat"
-            cell.detailTextLabel?.text = Utility.convertRepeatToString(RepeatWeekdaysProp)
+            cell.detailTextLabel?.text = Week.convertToDisplayingString(RepeatWeekdaysProp)
             cell.detailTextLabel?.textAlignment = NSTextAlignment.right
         default:
             break
@@ -109,17 +109,18 @@ extension ModifyAlarmViewController: UITableViewDataSource,
 }
 
 extension ModifyAlarmViewController {
-    func updateAlarm() {
-        SelectedAlarm?.alarmLabel = LabelProp
-        SelectedAlarm?.groupId = GroupIdProp
-        SelectedAlarm?.date = datePicker.date
-        SelectedAlarm?.soundId = SoundIdProp
-        SelectedAlarm?.soundName = SoundNameProp
-        SelectedAlarm?.vibrateId = VibrateIdProp
-        SelectedAlarm?.vibrateName = VibrateNameProp
-        SelectedAlarm?.repeatWeekdays = RepeatWeekdaysProp
-        SelectedAlarm?.snoozeId = SnoozeIdProp
-        Alarms.instance().updateAlarm(SelectedAlarm!)
+    func updateAlarm(_ alarm : Alarm) {
+        var theAlarm = alarm
+        theAlarm.alarmLabel = LabelProp
+        theAlarm.groupId = GroupIdProp
+        theAlarm.date = datePicker.date
+        theAlarm.soundId = SoundIdProp
+        theAlarm.soundName = SoundNameProp
+        theAlarm.vibrateId = VibrateIdProp
+        theAlarm.vibrateName = VibrateNameProp
+        theAlarm.repeatWeekdays = RepeatWeekdaysProp
+        theAlarm.snoozeId = SnoozeIdProp
+        Alarms.instance().updateAlarm(theAlarm)
     }
 
     func addAlarm() {
@@ -144,7 +145,7 @@ extension ModifyAlarmViewController {
     }
 
     func loadProperties(alarm: Alarm?, group: Group?) {
-        if !isInitialized {
+        if !IsLoadedProperties {
             if let alarm = alarm {
                 AlarmIdProp = alarm.alarmId
                 GroupIdProp = alarm.groupId
@@ -157,7 +158,7 @@ extension ModifyAlarmViewController {
                 RepeatWeekdaysProp = alarm.repeatWeekdays
                 SnoozeIdProp = alarm.snoozeId
             } else {
-                AlarmIdProp = nextAlarmId
+                AlarmIdProp = NextAlarmId
                 if let group = group {
                     GroupIdProp = group.groupId
                 } else {
@@ -173,6 +174,6 @@ extension ModifyAlarmViewController {
                 SnoozeIdProp = 10
             }
         }
-        isInitialized = true
+        IsLoadedProperties = true
     }
 }

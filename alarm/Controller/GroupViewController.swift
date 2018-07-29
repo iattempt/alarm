@@ -13,6 +13,7 @@ class GroupViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.allowsSelectionDuringEditing = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -35,7 +36,7 @@ class GroupViewController: UIViewController {
         super.setEditing(editing, animated: animated)
         self.tableView.setEditing(editing, animated: animated)
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "edit_group" {
             let dist = segue.destination as! ModifyGroupViewController
@@ -45,7 +46,7 @@ class GroupViewController: UIViewController {
 }
 
 extension GroupViewController: UITableViewDelegate,
-                                       UITableViewDataSource {
+UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -60,7 +61,7 @@ extension GroupViewController: UITableViewDelegate,
 
         let switchButton = UISwitch()
         switchButton.isOn = theGroup.enabled
-        switchButton.tag = indexPath.row
+        switchButton.tag = theGroup.groupId
         switchButton.addTarget(self, action: #selector(self.switchChanged(_:)), for: .valueChanged)
 
         let cell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: nil)
@@ -72,20 +73,26 @@ extension GroupViewController: UITableViewDelegate,
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        doesUpdateGroup = true
         SelectedGroup = Groups.instance().groups()[indexPath.row]
-        performSegue(withIdentifier: "edit_group", sender: self)
+        if isEditing {
+            performSegue(withIdentifier: "edit_group", sender: self)
+        }
+        let selectedRow = tableView.cellForRow(at: indexPath)
+        selectedRow?.backgroundColor = UIColor.clear
     }
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return isEditing
     }
 
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle,
+                   forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let alert = UIAlertController(title:"Warning",
-                                          message:"All alarms in the group will be deleted too. Are you sure want to do this?",
-                                          preferredStyle:.alert)
+            let alert = UIAlertController(
+                title:"Warning",
+                message:"All alarms in the group will be deleted too. " +
+                        "Are you sure want to do this?",
+                preferredStyle:.alert)
             let cancel=UIAlertAction(title:"Cancel", style:.cancel)
             let confirm=UIAlertAction(title:"Confirm", style:.default) { (action) in
                 let theGroup = Groups.instance().groups()[indexPath.row]
@@ -109,11 +116,9 @@ extension GroupViewController {
     }
 
     fileprivate func refresh() {
-        tableView.allowsSelectionDuringEditing = true
-        isGroup = true
-        doesUpdateGroup = false
         SelectedGroup = nil
-        isInitialized = false
+        IsLoadedProperties = false
+
         tableView.reloadData()
         refreshItems()
         self.tabBarController?.tabBar.isHidden = false
@@ -123,15 +128,19 @@ extension GroupViewController {
         var theGroup = Groups.instance().groups()[sender.tag]
         theGroup.enabled = sender.isOn
         Groups.instance().updateGroup(theGroup)
+        NotificationCenter.default.post(name: Notification.Name.openclose, object: nil)
     }
 
     fileprivate func refreshItems() {
         if !tableView.visibleCells.isEmpty &&
             self.navigationItem.rightBarButtonItems?.count == 1 {
-            self.navigationItem.rightBarButtonItems?.append(editButtonItem)
+            let item = editButtonItem
+            item.tintColor = UIColor.black
+            self.navigationItem.rightBarButtonItems?.append(item)
         } else if tableView.visibleCells.isEmpty &&
             self.navigationItem.rightBarButtonItems?.count == 2 {
             self.navigationItem.rightBarButtonItems?.remove(at: 1)
         }
     }
 }
+

@@ -9,7 +9,7 @@
 import Foundation
 import MediaPlayer
 
-var nextAlarmId: Int = 0
+var NextAlarmId: Int = 0
 
 // this can be treated as viewModel
 struct Alarm: Codable {
@@ -22,17 +22,38 @@ struct Alarm: Codable {
     var soundName: String = "none"
     var vibrateId: Int?
     var vibrateName: String = "none"
-    var repeatWeekdays: [String: Bool] = [String: Bool]()
+    var repeatWeekdays: [Week]
     var snoozeId: Int?
+
+    func getLabel() -> String {
+        if let theGroupId = groupId {
+            let groupLabel = Groups.instance().group(byId: theGroupId).groupLabel
+            return "\(groupLabel):\(alarmLabel)"
+        } else {
+            return alarmLabel
+        }
+    }
+
+    func getRepeats() -> [Week] {
+        if let groupId = GroupIdProp {
+            return Groups.instance().group(byId: groupId).repeatWeekdays
+        } else {
+            return repeatWeekdays
+        }
+    }
 
     // if the alarm belongs to one group, then the group must enabled too.
     func isEnabled() -> Bool {
-        if enabled {
-            if let groupId = groupId {
-                if Groups.instance().group(byId: groupId).enabled {
-                    return true
-                }
-            } else {
+        if let _ = groupId {
+            return isGroupEnabled() && enabled
+        } else {
+            return enabled
+        }
+    }
+
+    func isGroupEnabled() -> Bool {
+        if let theGroupId = groupId {
+            if Groups.instance().group(byId: theGroupId).enabled {
                 return true
             }
         }
@@ -48,7 +69,13 @@ struct Alarm: Codable {
     }
 
     func isGroupAlarm() -> Bool {
-        return !isDisabled()
+        return !isDisperseAlarm()
+    }
+
+    func updateNotification() {
+        if self.isEnabled() {
+        } else {
+        }
     }
 }
 
@@ -80,8 +107,7 @@ class Alarms {
                 return alarm
             }
         }
-        assert(false)
-        return Alarm()
+        fatalError()
     }
 
     func alarms() -> [Alarm] {
@@ -187,15 +213,16 @@ class Alarms {
     }
 
     func addAlarm(_ newAlarm: Alarm) {
-        var alarm = newAlarm
-        nextAlarmId += 1
-        if nextAlarmId == Int.max {
-            if !reorganization() {
-                return
-            }
+        guard NextAlarmId < Int.max || reorganize() else {
+            return
         }
+        
+        var alarm = newAlarm
+        NextAlarmId += 1
         alarm.date = Utility.unifyDate(alarm.date)
+
         _alarms.append(alarm)
+        alarm.updateNotification()
     }
 
     func updateAlarm(_ editedAlarm: Alarm) {
@@ -209,9 +236,11 @@ class Alarms {
             fatalError("the id:\(alarm.alarmId) is not found.")
         }
         _alarms[i] = alarm
+        alarm.updateNotification()
     }
 
     func deleteAlarm(_ deleteAlarm: Alarm) {
+        deleteAlarm.updateNotification()
         for (index, alarm) in _alarms.enumerated() {
             if alarm.alarmId == deleteAlarm.alarmId {
                 _alarms.remove(at: index)
@@ -221,28 +250,33 @@ class Alarms {
     }
 
     func emptyAlarm() {
-        nextAlarmId = 0
+        NextAlarmId = 0
         _alarms.removeAll()
         persist()
     }
 
-    private func reorganization() -> Bool{
-        if _alarms.count == Int.max {
+    fileprivate func reorganize() -> Bool{
+        guard _alarms.count < Int.max else {
             return false
         }
-        var alarms = [Alarm]()
-        for (index, alarm) in _alarms.enumerated() {
-            var alm = alarm
-            alm.alarmId = index
-            alarms.append(alm)
+
+        // tear down notifications
+        for alarm in self._alarms {
+            alarm.updateNotification()
         }
-        nextAlarmId = alarms.count
-        _alarms = alarms
+
+        // remove all then add it again
+        let alarms = self._alarms
+        NextAlarmId = 0
+        for var alarm in alarms {
+            alarm.alarmId = NextAlarmId
+            self.addAlarm(alarm)
+        }
         return true
     }
 
     private func persist() {
-        userDefaults.set(nextAlarmId, forKey: persistNextAlarmIdKey)
+        userDefaults.set(NextAlarmId, forKey: persistNextAlarmIdKey)
         userDefaults.set(try? PropertyListEncoder().encode(_alarms), forKey: persistKey)
         userDefaults.synchronize()
     }
@@ -264,9 +298,9 @@ class Alarms {
 
     private func importNextAlarmId() {
         guard let data = userDefaults.value(forKey: persistNextAlarmIdKey) as? Int else {
-            nextAlarmId = 0
+            NextAlarmId = 0
             return
         }
-        nextAlarmId = data
+        NextAlarmId = data
     }
 }

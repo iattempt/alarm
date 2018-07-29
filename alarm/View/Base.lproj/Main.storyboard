@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="eZd-lD-N4O">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="aAW-TB-iD4">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -10,84 +10,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Group Alarm-->
-        <scene sceneID="tiQ-6L-I4U">
-            <objects>
-                <viewController id="eRs-Tx-XtU" customClass="GroupAlarmViewController" customModule="alarm" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="mcx-X4-hWu">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="EZo-Zc-mMk">
-                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="eRs-Tx-XtU" id="U3e-Sg-6Z2"/>
-                                    <outlet property="delegate" destination="eRs-Tx-XtU" id="Hbe-sQ-YnT"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="EZo-Zc-mMk" firstAttribute="top" secondItem="Gg6-sL-eOv" secondAttribute="top" id="GuS-tP-0VZ"/>
-                            <constraint firstItem="EZo-Zc-mMk" firstAttribute="leading" secondItem="Gg6-sL-eOv" secondAttribute="leading" id="LzV-ms-8Dr"/>
-                            <constraint firstItem="Gg6-sL-eOv" firstAttribute="trailing" secondItem="EZo-Zc-mMk" secondAttribute="trailing" id="gjx-Rw-lex"/>
-                            <constraint firstItem="Gg6-sL-eOv" firstAttribute="bottom" secondItem="EZo-Zc-mMk" secondAttribute="bottom" id="wli-EG-mqY"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="Gg6-sL-eOv"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Group" id="FOU-QA-sEl"/>
-                    <navigationItem key="navigationItem" title="Group Alarm" id="ICC-Hg-Tki">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="LRy-Rl-1Nc">
-                            <connections>
-                                <action selector="add:" destination="eRs-Tx-XtU" id="5BC-r4-iqM"/>
-                                <segue destination="YMI-Od-iGa" kind="show" identifier="add_group_alarm" id="cf9-QW-qfM"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="tableView" destination="EZo-Zc-mMk" id="JHr-w3-Fi9"/>
-                        <segue destination="YMI-Od-iGa" kind="show" identifier="edit_group_alarm" id="JEW-IK-nF9"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ib2-ew-qtX" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="857" y="3114"/>
-        </scene>
-        <!--Disperse Nav-->
-        <scene sceneID="cXY-8R-D8U">
-            <objects>
-                <navigationController id="S1c-DU-uxE" userLabel="Disperse Nav" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Disperse" image="Alarm" id="KBx-I2-0He"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="62t-09-cax">
-                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="iiX-xU-r6J" kind="relationship" relationship="rootViewController" id="D2j-9m-8Ft"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ies-bE-6cm" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-313" y="1365"/>
-        </scene>
-        <!--Group Nav-->
-        <scene sceneID="HMS-cr-rht">
-            <objects>
-                <navigationController id="QES-wY-OMV" userLabel="Group Nav" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Group" image="Alarm" id="fqE-ow-zbo"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="rei-Id-vlc">
-                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="W0g-VR-Eb4" kind="relationship" relationship="rootViewController" id="Kjz-yd-xub"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="hp4-nf-uGr" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2123" y="1365"/>
-        </scene>
         <!--Alarm Label-->
         <scene sceneID="6aY-KK-4SM">
             <objects>
@@ -131,7 +53,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="khv-k0-h41" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-413" y="5752"/>
+            <point key="canvasLocation" x="-2933" y="4150"/>
         </scene>
         <!--Repeat-->
         <scene sceneID="kue-2R-EFK">
@@ -166,7 +88,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7GK-b3-UyX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2458" y="5751"/>
+            <point key="canvasLocation" x="-58" y="4149"/>
         </scene>
         <!--Sound-->
         <scene sceneID="Xcb-Ds-Gwc">
@@ -200,7 +122,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="do6-ks-Vjh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="296" y="5752"/>
+            <point key="canvasLocation" x="-2222" y="4150"/>
         </scene>
         <!--Vibrate-->
         <scene sceneID="Pdm-AM-BPh">
@@ -234,18 +156,18 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kin-L2-lLi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1018" y="5752"/>
+            <point key="canvasLocation" x="-1498" y="4150"/>
         </scene>
         <!--Group-->
         <scene sceneID="Zr2-3E-6hV">
             <objects>
-                <viewController title="Group" id="vfM-aN-8ms" customClass="AlarmGroupViewController" customModule="alarm" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Group" id="vfM-aN-8ms" customClass="GroupViewController" customModule="alarm" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JsI-Y5-Gfc">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3Xa-xM-v2y">
-                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="vfM-aN-8ms" id="Z82-en-BzQ"/>
@@ -262,16 +184,25 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="tqJ-kx-LL6"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Group" image="Group" id="dUs-GI-rLX"/>
                     <navigationItem key="navigationItem" title="Group" id="VJa-BZ-mlk">
                         <barButtonItem key="backBarButtonItem" title="Back" id="Og5-ch-oXe"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="V1B-eI-hiw">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="addGroup:" destination="vfM-aN-8ms" id="vj2-YG-72m"/>
+                                <segue destination="8Rx-cg-HUL" kind="show" identifier="add_group" id="Gny-80-x36"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="tableView" destination="3Xa-xM-v2y" id="M62-zK-aCx"/>
+                        <outlet property="tableView" destination="3Xa-xM-v2y" id="wVj-Vx-VHF"/>
+                        <segue destination="8Rx-cg-HUL" kind="show" identifier="edit_group" id="P3Z-wp-l6k"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MLg-Nk-T9K" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3203" y="5750"/>
+            <point key="canvasLocation" x="-583" y="2177"/>
         </scene>
         <!--Snooze-->
         <scene sceneID="iyp-AU-Fdn">
@@ -328,28 +259,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DPw-96-kiy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1738" y="5751"/>
-        </scene>
-        <!--Main Tab Bar-->
-        <scene sceneID="zTT-7Z-Zzr">
-            <objects>
-                <tabBarController id="eZd-lD-N4O" userLabel="Main Tab Bar" customClass="EntryViewController" customModule="alarm" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" title="Alarm" id="shA-LH-wUU"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="PTO-tu-jbI">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </tabBar>
-                    <connections>
-                        <segue destination="F20-hc-xG8" kind="relationship" relationship="viewControllers" id="4Y0-YJ-xvh"/>
-                        <segue destination="S1c-DU-uxE" kind="relationship" relationship="viewControllers" id="D2R-7L-S0f"/>
-                        <segue destination="QES-wY-OMV" kind="relationship" relationship="viewControllers" id="4Sr-8R-fq6"/>
-                    </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="axb-Ur-gZj" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-313" y="390"/>
+            <point key="canvasLocation" x="-778" y="4149"/>
         </scene>
         <!--Alarm-->
         <scene sceneID="V7g-XM-lV7">
@@ -366,8 +276,9 @@
                                     <segment title="On"/>
                                     <segment title="Off"/>
                                 </segments>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <action selector="filter:" destination="88a-OM-aZE" eventType="valueChanged" id="Ld7-tS-E72"/>
+                                    <action selector="filter_status:" destination="88a-OM-aZE" eventType="valueChanged" id="Ld7-tS-E72"/>
                                 </connections>
                             </segmentedControl>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1MI-cf-9gG">
@@ -391,8 +302,16 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="cpV-h3-c8n"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Alarm" image="Alarm" id="WVn-Zd-mpR"/>
                     <navigationItem key="navigationItem" title="Alarm" id="CH4-zg-p6C">
+                        <barButtonItem key="leftBarButtonItem" image="Filter" id="KDh-nK-Vx2">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="filter_group:" destination="88a-OM-aZE" id="19T-Mi-HAJ"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="dX3-Bn-CXF">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="add:" destination="88a-OM-aZE" id="g68-pv-c7i"/>
                                 <segue destination="YMI-Od-iGa" kind="show" id="2wP-ux-zXm"/>
@@ -402,6 +321,7 @@
                     <connections>
                         <outlet property="tableView" destination="1MI-cf-9gG" id="HJO-KH-gXn"/>
                         <segue destination="EkX-yL-epa" kind="show" identifier="later" id="fbL-da-mzS"/>
+                        <segue destination="YMI-Od-iGa" kind="show" identifier="edit_alarm" id="vjJ-pg-Srs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Vl-zO-ZOm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -439,11 +359,13 @@
                     </view>
                     <navigationItem key="navigationItem" title="Later" id="ILz-i7-4ia">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="VVI-IQ-xje">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="cancel:" destination="EkX-yL-epa" id="b5A-aA-SuF"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="fCi-al-klU">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="save:" destination="EkX-yL-epa" id="bi4-db-FHV"/>
                             </connections>
@@ -455,111 +377,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YCj-dF-6Yo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2903" y="3115"/>
+            <point key="canvasLocation" x="-3694" y="2999"/>
         </scene>
         <!--Alarm-->
-        <scene sceneID="Jse-oo-L6O">
+        <scene sceneID="73Y-PA-Ve2">
             <objects>
-                <navigationController id="F20-hc-xG8" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Alarm" image="Alarm" id="iNf-mW-4VN"/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="uKK-2c-GBS">
+                <navigationController id="hoL-ag-jHo" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Alarm" image="Alarm" id="Upx-pe-ReS"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="zVF-Cf-IfP">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="88a-OM-aZE" kind="relationship" relationship="rootViewController" id="2Ha-nu-9OU"/>
+                        <segue destination="88a-OM-aZE" kind="relationship" relationship="rootViewController" id="pof-sU-3DJ"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="tNc-02-o30" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="h6X-AB-Q5o" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2904" y="1365"/>
-        </scene>
-        <!--Disperse-->
-        <scene sceneID="6Tg-9S-qZP">
-            <objects>
-                <viewController id="iiX-xU-r6J" customClass="DisperseAlarmViewController" customModule="alarm" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Dib-aN-odJ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YO8-Rl-V7R">
-                                <rect key="frame" x="0.0" y="64" width="320" height="455"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="iiX-xU-r6J" id="aRT-eK-ZPt"/>
-                                    <outlet property="delegate" destination="iiX-xU-r6J" id="925-ie-Put"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="YO8-Rl-V7R" firstAttribute="top" secondItem="mmj-NR-FtX" secondAttribute="top" id="3bO-6f-kDg"/>
-                            <constraint firstItem="YO8-Rl-V7R" firstAttribute="leading" secondItem="mmj-NR-FtX" secondAttribute="leading" id="df0-Dh-i1E"/>
-                            <constraint firstItem="mmj-NR-FtX" firstAttribute="trailing" secondItem="YO8-Rl-V7R" secondAttribute="trailing" id="miX-CL-f80"/>
-                            <constraint firstItem="mmj-NR-FtX" firstAttribute="bottom" secondItem="YO8-Rl-V7R" secondAttribute="bottom" id="wY2-pa-Ul3"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="mmj-NR-FtX"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Disperse" id="Vl5-RB-TNM">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="zqZ-gu-h3j">
-                            <connections>
-                                <action selector="add:" destination="iiX-xU-r6J" id="MiC-pP-cAv"/>
-                                <segue destination="YMI-Od-iGa" kind="show" identifier="add_disperse_alarm" id="DEB-T2-xvG"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="tableView" destination="YO8-Rl-V7R" id="Vwg-t3-zoi"/>
-                        <segue destination="YMI-Od-iGa" kind="show" identifier="edit_disperse_alarm" id="vx9-yW-i50"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="KG8-xM-ms1" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-311" y="2179"/>
-        </scene>
-        <!--Group-->
-        <scene sceneID="0Jd-VW-Xcr">
-            <objects>
-                <viewController id="W0g-VR-Eb4" customClass="GroupViewController" customModule="alarm" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="f2d-rD-jVR">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="i4z-yT-KkB">
-                                <rect key="frame" x="0.0" y="64" width="320" height="455"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="W0g-VR-Eb4" id="B1M-CA-2U9"/>
-                                    <outlet property="delegate" destination="W0g-VR-Eb4" id="ZsC-i2-IwF"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="cwe-uJ-9kH" firstAttribute="bottom" secondItem="i4z-yT-KkB" secondAttribute="bottom" id="7bw-HR-yXC"/>
-                            <constraint firstItem="cwe-uJ-9kH" firstAttribute="trailing" secondItem="i4z-yT-KkB" secondAttribute="trailing" id="Hvi-vO-MCb"/>
-                            <constraint firstItem="i4z-yT-KkB" firstAttribute="top" secondItem="cwe-uJ-9kH" secondAttribute="top" id="Ohg-Rk-ugI"/>
-                            <constraint firstItem="i4z-yT-KkB" firstAttribute="leading" secondItem="cwe-uJ-9kH" secondAttribute="leading" id="SaM-1o-bJ8"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="cwe-uJ-9kH"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Group" id="LSq-tH-VP9">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="GsJ-VY-Lnl">
-                            <connections>
-                                <action selector="add:" destination="W0g-VR-Eb4" id="Pi7-Ld-dQ4"/>
-                                <segue destination="8Rx-cg-HUL" kind="show" id="BrB-fk-fp1"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="tableView" destination="i4z-yT-KkB" id="irH-MC-M6B"/>
-                        <segue destination="8Rx-cg-HUL" kind="show" identifier="edit_group" id="Oab-dn-Pya"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="XoZ-Tl-VgU" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2123" y="2178"/>
+            <point key="canvasLocation" x="-2904" y="1442"/>
         </scene>
         <!--Add Group-->
         <scene sceneID="IEN-MD-vPh">
@@ -589,11 +425,13 @@
                     </view>
                     <navigationItem key="navigationItem" title="Add Group" id="Fma-nh-SBd">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="ll0-PZ-eDi">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="cancel:" destination="8Rx-cg-HUL" id="glr-Xd-bXT"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="V7S-Uk-TZE">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="save:" destination="8Rx-cg-HUL" id="lu9-YJ-ywz"/>
                             </connections>
@@ -604,12 +442,11 @@
                         <outlet property="tableView" destination="Tun-du-6h6" id="1qq-Fb-P3k"/>
                         <segue destination="OcY-AD-xaw" kind="show" identifier="group_repeat" id="wYS-Fh-LJU"/>
                         <segue destination="tCT-z7-3VD" kind="show" identifier="group_label" id="kzK-pQ-M7j"/>
-                        <segue destination="eRs-Tx-XtU" kind="show" identifier="group_alarms" id="h0l-pN-nNZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HZV-o2-bmG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2143" y="4098"/>
+            <point key="canvasLocation" x="-583" y="2999"/>
         </scene>
         <!--Add Alarm-->
         <scene sceneID="SVh-Hm-lfD">
@@ -648,11 +485,13 @@
                     </view>
                     <navigationItem key="navigationItem" title="Add Alarm" id="a6e-JV-zSg">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="eoy-7u-Hjx">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="cancel:" destination="YMI-Od-iGa" id="sj2-DV-HRZ"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="rig-LM-dok">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="save:" destination="YMI-Od-iGa" id="jiR-pQ-tq9"/>
                             </connections>
@@ -668,21 +507,98 @@
                         <segue destination="iZY-Hs-V0V" kind="show" identifier="alarm_sound" id="f4F-2B-asP"/>
                         <segue destination="R9m-ua-WzE" kind="show" identifier="alarm_vibrate" id="svo-08-pCh"/>
                         <segue destination="yhb-0a-Hdh" kind="show" identifier="alarm_snooze" id="vk9-Ij-JF0"/>
-                        <segue destination="vfM-aN-8ms" kind="show" identifier="alarm_group_label" id="jcl-wa-NfG"/>
                         <segue destination="OcY-AD-xaw" kind="show" identifier="alarm_repeat" id="lkY-Sh-Cl4"/>
+                        <segue destination="TDZ-I2-Qkq" kind="show" identifier="alarm_group_label" id="6Pa-Ep-ddy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2sA-Tl-CT5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-293" y="4098"/>
+            <point key="canvasLocation" x="-1913" y="2999"/>
+        </scene>
+        <!--Group-->
+        <scene sceneID="he9-DN-BJ2">
+            <objects>
+                <navigationController id="sDT-mf-Ag0" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Group" image="Group" id="faA-9M-fiS"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ece-7d-gZ3">
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="vfM-aN-8ms" kind="relationship" relationship="rootViewController" id="vEW-yf-uFK"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9dq-NL-SDN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-583" y="1442"/>
+        </scene>
+        <!--Entry View Controller-->
+        <scene sceneID="eDA-R2-U3o">
+            <objects>
+                <tabBarController id="aAW-TB-iD4" customClass="EntryViewController" customModule="alarm" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="zcT-Ln-K37"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="qnQ-2z-D19">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="hoL-ag-jHo" kind="relationship" relationship="viewControllers" id="ACb-ok-Ta9"/>
+                        <segue destination="sDT-mf-Ag0" kind="relationship" relationship="viewControllers" id="89D-84-JG8"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hd9-Mr-cOL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1633" y="541"/>
+        </scene>
+        <!--Group-->
+        <scene sceneID="97l-Ld-Z1Q">
+            <objects>
+                <viewController title="Group" id="TDZ-I2-Qkq" customClass="AlarmGroupViewController" customModule="alarm" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zRV-Rq-sJh">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NVp-5X-ZcP">
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="TDZ-I2-Qkq" id="PCM-Vj-N5j"/>
+                                    <outlet property="delegate" destination="TDZ-I2-Qkq" id="dF3-kO-6yd"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="NVp-5X-ZcP" firstAttribute="leading" secondItem="Ks2-AW-nRb" secondAttribute="leading" id="1WA-9U-E1O"/>
+                            <constraint firstItem="NVp-5X-ZcP" firstAttribute="top" secondItem="Ks2-AW-nRb" secondAttribute="top" id="9gC-qB-7ov"/>
+                            <constraint firstItem="Ks2-AW-nRb" firstAttribute="trailing" secondItem="NVp-5X-ZcP" secondAttribute="trailing" id="eva-RE-snG"/>
+                            <constraint firstItem="Ks2-AW-nRb" firstAttribute="bottom" secondItem="NVp-5X-ZcP" secondAttribute="bottom" id="gvw-Be-DhW"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Ks2-AW-nRb"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Group" id="6h8-Kv-vY9"/>
+                    <navigationItem key="navigationItem" title="Group" id="mot-Ij-qLp">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="WgT-bH-yBY"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="NVp-5X-ZcP" id="ooL-3A-qCN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qOQ-pz-UOO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3696" y="4149"/>
         </scene>
     </scenes>
     <resources>
         <image name="Alarm" width="25" height="25"/>
+        <image name="Filter" width="25" height="25"/>
+        <image name="Group" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="2wP-ux-zXm"/>
-        <segue reference="BrB-fk-fp1"/>
+        <segue reference="Gny-80-x36"/>
         <segue reference="lkY-Sh-Cl4"/>
         <segue reference="Y0r-gh-ijn"/>
     </inferredMetricsTieBreakers>

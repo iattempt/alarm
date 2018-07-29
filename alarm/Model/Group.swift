@@ -8,13 +8,20 @@
 
 import Foundation
 
-var nextGroupId: Int = 0
+var NextGroupId: Int = 0
 
 struct Group: Codable {
     var groupId: Int = 0
     var groupLabel = ""
     var enabled = false
-    var repeatWeekdays: [String: Bool] = [String: Bool]()
+    var repeatWeekdays: [Week] = [Week]()
+
+    func updateNotification() {
+        let alarms = Alarms.instance().alarms(byGroupId: groupId)
+        for alarm in alarms {
+            alarm.updateNotification()
+        }
+    }
 }
 
 class Groups {
@@ -51,12 +58,15 @@ class Groups {
                 return group
             }
         }
-        assert(false)
-        return Group()
+        fatalError()
     }
 
     func addGroup(_ group: Group) {
-        nextGroupId += 1
+        guard NextGroupId < Int.max || reorganize() else {
+            return
+        }
+
+        NextGroupId += 1
         _groups.append(group)
     }
 
@@ -67,6 +77,7 @@ class Groups {
                 break
             }
         }
+        editedGroup.updateNotification()
     }
 
     func deleteGroup(_ deleteGroup: Group) {
@@ -76,16 +87,47 @@ class Groups {
                 break
             }
         }
+        deleteGroup.updateNotification()
     }
 
     func emptyGroup() {
-        nextGroupId = 0
         _groups.removeAll()
+        NextGroupId = 0
         persist()
     }
 
+    fileprivate func reorganize() -> Bool {
+        guard _groups.count < Int.max else {
+            return false
+        }
+
+        // tear down notifications
+        for var group in _groups {
+            group.enabled = false
+            group.updateNotification()
+            for alarm in Alarms.instance().alarms(byGroupId: group.groupId) {
+                alarm.updateNotification()
+            }
+        }
+
+        // remove all then add it again
+        NextGroupId = 0
+        let groups = self._groups
+        self._groups.removeAll()
+        for var group in groups {
+            group.groupId = NextGroupId
+            self.addGroup(group)
+            // update groupId for alarms which belong to current group
+            for var alarm in Alarms.instance().alarms(byGroupId: group.groupId) {
+                alarm.groupId = NextGroupId
+                Alarms.instance().updateAlarm(alarm)
+            }
+        }
+        return true
+    }
+
     private func persist() {
-        userDefaults.set(nextAlarmId, forKey: persistNextGroupIdKey)
+        userDefaults.set(NextAlarmId, forKey: persistNextGroupIdKey)
         userDefaults.set(try? PropertyListEncoder().encode(_groups), forKey: persistKey)
         userDefaults.synchronize()
     }
@@ -107,10 +149,10 @@ class Groups {
 
     private func importNextAlarmId() {
         guard let data = userDefaults.value(forKey: persistNextGroupIdKey) as? Int else {
-            nextGroupId = 0
+            NextGroupId = 0
             return
         }
-        nextGroupId = data
+        NextGroupId = data
     }
 }
 

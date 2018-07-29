@@ -9,10 +9,10 @@
 /* Begin PBXBuildFile section */
 		1708307520C753EA0064BA0C /* SnoozeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1708307420C753EA0064BA0C /* SnoozeTableViewCell.swift */; };
 		1732222C20C7EA0C001FDF4B /* AlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1732222B20C7EA0C001FDF4B /* AlarmViewController.swift */; };
+		1734994A210D77010001DADC /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17349949210D77010001DADC /* Scheduler.swift */; };
+		174DAD2B20F80962008D4879 /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174DAD2A20F80961008D4879 /* GroupViewController.swift */; };
 		17B5477120C3D0FB003B81DE /* AlarmGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B5477020C3D0FB003B81DE /* AlarmGroupViewController.swift */; };
 		17BAC86320C5546600775E0B /* ModifyGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BAC86220C5546600775E0B /* ModifyGroupViewController.swift */; };
-		17BAC86520C557A100775E0B /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BAC86420C557A100775E0B /* Scheduler.swift */; };
-		17BAC86920C567B200775E0B /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BAC86820C567B200775E0B /* GroupViewController.swift */; };
 		17D8B24820C0B65A0097F6A8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8B24720C0B65A0097F6A8 /* AppDelegate.swift */; };
 		17D8B24A20C0B65A0097F6A8 /* EntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8B24920C0B65A0097F6A8 /* EntryViewController.swift */; };
 		17D8B24D20C0B65A0097F6A8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17D8B24B20C0B65A0097F6A8 /* Main.storyboard */; };
@@ -22,8 +22,6 @@
 		17D8B26020C0B65B0097F6A8 /* alarmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8B25F20C0B65B0097F6A8 /* alarmTests.swift */; };
 		17D8B26B20C0B65B0097F6A8 /* alarmUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8B26A20C0B65B0097F6A8 /* alarmUITests.swift */; };
 		17D8B28420C0D1380097F6A8 /* AlarmProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8B28320C0D1380097F6A8 /* AlarmProtocol.swift */; };
-		17D8B2A120C10CDA0097F6A8 /* DisperseAlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8B2A020C10CDA0097F6A8 /* DisperseAlarmViewController.swift */; };
-		17D8B2A320C10D130097F6A8 /* GroupAlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8B2A220C10D130097F6A8 /* GroupAlarmViewController.swift */; };
 		17D8B2A520C11BD90097F6A8 /* ModifyAlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8B2A420C11BD90097F6A8 /* ModifyAlarmViewController.swift */; };
 		17D8B2B120C18EBA0097F6A8 /* AlarmLabelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8B2B020C18EBA0097F6A8 /* AlarmLabelViewController.swift */; };
 		17D8B2B320C18EC90097F6A8 /* AlarmSoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8B2B220C18EC90097F6A8 /* AlarmSoundViewController.swift */; };
@@ -32,7 +30,6 @@
 		17D8B2BB20C18EFC0097F6A8 /* AlarmRepeatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8B2BA20C18EFC0097F6A8 /* AlarmRepeatViewController.swift */; };
 		17D8B2BF20C19F090097F6A8 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8B2BE20C19F090097F6A8 /* Utility.swift */; };
 		17D8B2C420C2934A0097F6A8 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8B2C320C293490097F6A8 /* Notifications.swift */; };
-		17D8B2CE20C3ACA20097F6A8 /* LaterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8B2CD20C3ACA20097F6A8 /* LaterViewController.swift */; };
 		17D8B2D020C3B9730097F6A8 /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8B2CF20C3B9730097F6A8 /* Alarm.swift */; };
 		17D8B2D220C3B9800097F6A8 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8B2D120C3B9800097F6A8 /* Group.swift */; };
 		17E6868220C9133900BA966F /* issue.rst in Resources */ = {isa = PBXBuildFile; fileRef = 17E6868120C9133900BA966F /* issue.rst */; };
@@ -58,10 +55,10 @@
 /* Begin PBXFileReference section */
 		1708307420C753EA0064BA0C /* SnoozeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnoozeTableViewCell.swift; sourceTree = "<group>"; };
 		1732222B20C7EA0C001FDF4B /* AlarmViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmViewController.swift; sourceTree = "<group>"; };
+		17349949210D77010001DADC /* Scheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scheduler.swift; sourceTree = "<group>"; };
+		174DAD2A20F80961008D4879 /* GroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewController.swift; sourceTree = "<group>"; };
 		17B5477020C3D0FB003B81DE /* AlarmGroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmGroupViewController.swift; sourceTree = "<group>"; };
 		17BAC86220C5546600775E0B /* ModifyGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyGroupViewController.swift; sourceTree = "<group>"; };
-		17BAC86420C557A100775E0B /* Scheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scheduler.swift; sourceTree = "<group>"; };
-		17BAC86820C567B200775E0B /* GroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewController.swift; sourceTree = "<group>"; };
 		17D8B24420C0B65A0097F6A8 /* alarm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = alarm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17D8B24720C0B65A0097F6A8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		17D8B24920C0B65A0097F6A8 /* EntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewController.swift; sourceTree = "<group>"; };
@@ -77,8 +74,6 @@
 		17D8B26A20C0B65B0097F6A8 /* alarmUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = alarmUITests.swift; sourceTree = "<group>"; };
 		17D8B26C20C0B65B0097F6A8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17D8B28320C0D1380097F6A8 /* AlarmProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmProtocol.swift; sourceTree = "<group>"; };
-		17D8B2A020C10CDA0097F6A8 /* DisperseAlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisperseAlarmViewController.swift; sourceTree = "<group>"; };
-		17D8B2A220C10D130097F6A8 /* GroupAlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupAlarmViewController.swift; sourceTree = "<group>"; };
 		17D8B2A420C11BD90097F6A8 /* ModifyAlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyAlarmViewController.swift; sourceTree = "<group>"; };
 		17D8B2B020C18EBA0097F6A8 /* AlarmLabelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmLabelViewController.swift; sourceTree = "<group>"; };
 		17D8B2B220C18EC90097F6A8 /* AlarmSoundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmSoundViewController.swift; sourceTree = "<group>"; };
@@ -87,7 +82,6 @@
 		17D8B2BA20C18EFC0097F6A8 /* AlarmRepeatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmRepeatViewController.swift; sourceTree = "<group>"; };
 		17D8B2BE20C19F090097F6A8 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		17D8B2C320C293490097F6A8 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
-		17D8B2CD20C3ACA20097F6A8 /* LaterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaterViewController.swift; sourceTree = "<group>"; };
 		17D8B2CF20C3B9730097F6A8 /* Alarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alarm.swift; sourceTree = "<group>"; };
 		17D8B2D120C3B9800097F6A8 /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		17E6868120C9133900BA966F /* issue.rst */ = {isa = PBXFileReference; lastKnownFileType = text; path = issue.rst; sourceTree = "<group>"; };
@@ -195,10 +189,7 @@
 			children = (
 				17D8B24920C0B65A0097F6A8 /* EntryViewController.swift */,
 				1732222B20C7EA0C001FDF4B /* AlarmViewController.swift */,
-				17D8B2CD20C3ACA20097F6A8 /* LaterViewController.swift */,
-				17D8B2A020C10CDA0097F6A8 /* DisperseAlarmViewController.swift */,
-				17BAC86820C567B200775E0B /* GroupViewController.swift */,
-				17D8B2A220C10D130097F6A8 /* GroupAlarmViewController.swift */,
+				174DAD2A20F80961008D4879 /* GroupViewController.swift */,
 				17D8B2A420C11BD90097F6A8 /* ModifyAlarmViewController.swift */,
 				17BAC86220C5546600775E0B /* ModifyGroupViewController.swift */,
 				17D8B2C220C25A4E0097F6A8 /* Properties */,
@@ -235,9 +226,9 @@
 		17D8B2C120C258340097F6A8 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				17349949210D77010001DADC /* Scheduler.swift */,
 				17D8B24720C0B65A0097F6A8 /* AppDelegate.swift */,
 				17D8B2C320C293490097F6A8 /* Notifications.swift */,
-				17BAC86420C557A100775E0B /* Scheduler.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -397,22 +388,19 @@
 			files = (
 				17D8B2BF20C19F090097F6A8 /* Utility.swift in Sources */,
 				17BAC86320C5546600775E0B /* ModifyGroupViewController.swift in Sources */,
-				17BAC86520C557A100775E0B /* Scheduler.swift in Sources */,
 				1732222C20C7EA0C001FDF4B /* AlarmViewController.swift in Sources */,
 				17D8B2B520C18ED20097F6A8 /* AlarmVibrateViewController.swift in Sources */,
-				17D8B2A320C10D130097F6A8 /* GroupAlarmViewController.swift in Sources */,
-				17D8B2A120C10CDA0097F6A8 /* DisperseAlarmViewController.swift in Sources */,
 				17D8B2D220C3B9800097F6A8 /* Group.swift in Sources */,
+				174DAD2B20F80962008D4879 /* GroupViewController.swift in Sources */,
 				17D8B2B120C18EBA0097F6A8 /* AlarmLabelViewController.swift in Sources */,
 				17B5477120C3D0FB003B81DE /* AlarmGroupViewController.swift in Sources */,
 				17D8B2BB20C18EFC0097F6A8 /* AlarmRepeatViewController.swift in Sources */,
 				17D8B2D020C3B9730097F6A8 /* Alarm.swift in Sources */,
 				17D8B24A20C0B65A0097F6A8 /* EntryViewController.swift in Sources */,
 				17D8B24820C0B65A0097F6A8 /* AppDelegate.swift in Sources */,
-				17D8B2CE20C3ACA20097F6A8 /* LaterViewController.swift in Sources */,
-				17BAC86920C567B200775E0B /* GroupViewController.swift in Sources */,
 				17D8B2B320C18EC90097F6A8 /* AlarmSoundViewController.swift in Sources */,
 				17D8B28420C0D1380097F6A8 /* AlarmProtocol.swift in Sources */,
+				1734994A210D77010001DADC /* Scheduler.swift in Sources */,
 				17D8B2C420C2934A0097F6A8 /* Notifications.swift in Sources */,
 				17D8B2A520C11BD90097F6A8 /* ModifyAlarmViewController.swift in Sources */,
 				17D8B25020C0B65A0097F6A8 /* alarm.xcdatamodeld in Sources */,

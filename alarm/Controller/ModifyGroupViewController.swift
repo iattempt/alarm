@@ -12,8 +12,8 @@ class ModifyGroupViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
 
     @IBAction func save(_ sender: UIBarButtonItem) {
-        if doesUpdateGroup {
-            updateGroup()
+        if let theGroup = SelectedGroup {
+            updateGroup(theGroup)
         } else {
             addGroup()
         }
@@ -48,7 +48,7 @@ extension ModifyGroupViewController: UITableViewDataSource,
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return SelectedGroup != nil ? 3 : 2
+        return 2
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -61,10 +61,8 @@ extension ModifyGroupViewController: UITableViewDataSource,
             cell.detailTextLabel?.textAlignment = NSTextAlignment.right
         case 1:
             cell.textLabel?.text = "Repeat"
-            cell.detailTextLabel?.text = Utility.convertRepeatToString(RepeatWeekdaysProp)
+            cell.detailTextLabel?.text = Week.convertToDisplayingString(RepeatWeekdaysProp)
             cell.detailTextLabel?.textAlignment = NSTextAlignment.right
-        case 2:
-            cell.textLabel?.text = "Alarms"
         default:
             break
         }
@@ -79,8 +77,6 @@ extension ModifyGroupViewController: UITableViewDataSource,
             performSegue(withIdentifier: "group_label", sender: self)
         case 1:
             performSegue(withIdentifier: "group_repeat", sender: self)
-        case 2:
-            performSegue(withIdentifier: "group_alarms", sender: self)
         default:
             break
         }
@@ -88,10 +84,11 @@ extension ModifyGroupViewController: UITableViewDataSource,
 }
 
 extension ModifyGroupViewController {
-    func updateGroup() {
-        SelectedGroup?.groupLabel = LabelProp
-        SelectedGroup?.repeatWeekdays = RepeatWeekdaysProp
-        Groups.instance().updateGroup(SelectedGroup!)
+    func updateGroup(_ group: Group) {
+        var theGroup = group
+        theGroup.groupLabel = LabelProp
+        theGroup.repeatWeekdays = RepeatWeekdaysProp
+        Groups.instance().updateGroup(theGroup)
     }
 
     func addGroup() {
@@ -109,19 +106,17 @@ extension ModifyGroupViewController {
     }
 
     func loadProperties(group: Group?) {
-        if !isInitialized {
+        if !IsLoadedProperties {
             if let group = group {
                 LabelProp = group.groupLabel
                 GroupIdProp = group.groupId
                 RepeatWeekdaysProp = group.repeatWeekdays
             } else {
                 LabelProp = "Label"
-                GroupIdProp = nextGroupId
-                for day in ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] {
-                    RepeatWeekdaysProp[day] = false
-                }
+                GroupIdProp = NextGroupId
+                RepeatWeekdaysProp.removeAll()
             }
         }
-        isInitialized = true
+        IsLoadedProperties = true
     }
 }

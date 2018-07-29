@@ -9,7 +9,6 @@
 import UIKit
 
 class AlarmRepeatViewController: UIViewController {
-    var repeatWeekdaysInfo = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     @IBOutlet weak var tableView: UITableView!
 
     override func viewWillAppear(_ animated: Bool) {
@@ -38,33 +37,31 @@ extension AlarmRepeatViewController: UITableViewDelegate,
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return repeatWeekdaysInfo.count
+        return Week.allCases.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-        cell.textLabel?.text = repeatWeekdaysInfo[indexPath.row]
+        cell.tintColor = UIColor.black
+        cell.textLabel?.text = Week.convertCaseToString(Week(rawValue: indexPath.row + 1)!)
         // reload
-        if let enable = RepeatWeekdaysProp[(cell.textLabel?.text)!] {
-            cell.accessoryType = enable ? .checkmark : .none
+        if RepeatWeekdaysProp.contains(Week.convertStringToCase((cell.textLabel?.text)!)) {
+            cell.accessoryType = .checkmark
         }
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let day = tableView.cellForRow(at: indexPath)?.textLabel?.text
-        guarenteeRepeatWeekdays()
-        RepeatWeekdaysProp[day!] = !RepeatWeekdaysProp[day!]!
-        tableView.reloadData()
-    }
-}
-
-extension AlarmRepeatViewController {
-    func guarenteeRepeatWeekdays() {
-        for day in repeatWeekdaysInfo {
-            if !RepeatWeekdaysProp.keys.contains(day) {
-                RepeatWeekdaysProp[day] = false
+        let week = Week.convertStringToCase((tableView.cellForRow(at: indexPath)?.textLabel?.text)!)
+        if RepeatWeekdaysProp.contains(week) {
+            for (i, w) in RepeatWeekdaysProp.enumerated() {
+                if w == week {
+                    RepeatWeekdaysProp.remove(at: i)
+                }
             }
+        } else {
+            RepeatWeekdaysProp.append(week)
         }
+        tableView.reloadData()
     }
 }

@@ -22,17 +22,13 @@ class alarmTests: XCTestCase {
         Alarms.instance().emptyAlarm()
         Groups.instance().emptyGroup()
 
-        nextAlarmId = 0
-        nextGroupId = 0
+        NextAlarmId = 0
+        NextGroupId = 0
 
         SelectedAlarm = nil
         SelectedGroup = nil
 
-        doesUpdateAlarm = false
-        isGroup = false
-        doesUpdateGroup = false
-
-        isInitialized = false
+        IsLoadedProperties = false
         AlarmIdProp = 0
         LabelProp = ""
         EnabledProp = true
@@ -40,13 +36,14 @@ class alarmTests: XCTestCase {
         VibrateIdProp = nil
         SnoozeIdProp = 9
         GroupIdProp = nil
-        RepeatWeekdaysProp = [String: Bool]()
+        RepeatWeekdaysProp = [Week]()
     }
     
     override func tearDown() {
         super.tearDown()
         Alarms.instance().emptyAlarm()
         Groups.instance().emptyGroup()
+        UserDefaults.standard.set(false, forKey: "firstLaunched")
     }
 
     func interactCalling() throws {
@@ -125,7 +122,7 @@ class alarmTests: XCTestCase {
             try interactCalling()
 
             // set up
-            isInitialized = false
+            IsLoadedProperties = false
             SelectedAlarm = nil
             SelectedGroup = nil
             controller.datePicker.date = Date().addMinutes(Int(arc4random() % 1440))
@@ -137,12 +134,12 @@ class alarmTests: XCTestCase {
             controller.addAlarm()
 
             // then
-            let alarm = Alarms.instance().alarm(byId: nextAlarmId - 1)
+            let alarm = Alarms.instance().alarm(byId: NextAlarmId - 1)
 
-            XCTAssert(Alarms.instance().alarms().count == nextAlarmId)
-            XCTAssert(Groups.instance().groups().count == nextGroupId)
+            XCTAssert(Alarms.instance().alarms().count == NextAlarmId)
+            XCTAssert(Groups.instance().groups().count == NextGroupId)
 
-            XCTAssert(alarm.alarmId == nextAlarmId - 1)
+            XCTAssert(alarm.alarmId == NextAlarmId - 1)
             XCTAssert(alarm.groupId == nil)
             XCTAssert(alarm.alarmLabel == LabelProp)
             XCTAssert(alarm.enabled == EnabledProp)
@@ -165,7 +162,7 @@ class alarmTests: XCTestCase {
             try interactCalling()
 
             // set up
-            isInitialized = false
+            IsLoadedProperties = false
             controller.datePicker.date = Date().addMinutes(Utility.randomInt(1440))
             LabelProp = Utility.randomString(length: 5)
             SoundIdProp = nil
@@ -184,12 +181,12 @@ class alarmTests: XCTestCase {
             controller.addAlarm()
 
             // then
-            let alarm = Alarms.instance().alarm(byId: nextAlarmId - 1)
+            let alarm = Alarms.instance().alarm(byId: NextAlarmId - 1)
 
-            XCTAssert(Alarms.instance().alarms().count == nextAlarmId)
-            XCTAssert(Groups.instance().groups().count == nextGroupId)
+            XCTAssert(Alarms.instance().alarms().count == NextAlarmId)
+            XCTAssert(Groups.instance().groups().count == NextGroupId)
 
-            XCTAssert(alarm.alarmId == nextAlarmId - 1)
+            XCTAssert(alarm.alarmId == NextAlarmId - 1)
             XCTAssert(alarm.groupId == nil)
             XCTAssert(alarm.alarmLabel == LabelProp)
             XCTAssert(alarm.enabled == EnabledProp)
@@ -216,7 +213,7 @@ class alarmTests: XCTestCase {
             }
 
             // set up
-            isInitialized = false
+            IsLoadedProperties = false
             SelectedAlarm = Alarms.instance().alarm(byId: 0)
             SelectedGroup = nil
             controller.loadProperties(alarm: SelectedAlarm, group: SelectedGroup)
@@ -231,13 +228,13 @@ class alarmTests: XCTestCase {
             RepeatWeekdaysProp = getRandomRepeatWeekdays()
 
             // when
-            controller.updateAlarm()
+            controller.updateAlarm(SelectedAlarm!)
 
             // then
             let alarm = Alarms.instance().alarm(byId: 0)
 
-            XCTAssert(nextAlarmId == Alarms.instance().alarms().count)
-            XCTAssert(nextGroupId == Groups.instance().groups().count)
+            XCTAssert(NextAlarmId == Alarms.instance().alarms().count)
+            XCTAssert(NextGroupId == Groups.instance().groups().count)
 
             XCTAssert(alarm.alarmId == 0)
             XCTAssert(alarm.groupId == nil)
@@ -260,7 +257,7 @@ class alarmTests: XCTestCase {
             try interactCalling()
 
             // set up
-            isInitialized = false
+            IsLoadedProperties = false
             SelectedAlarm = nil
             SelectedGroup = nil
             controller.loadProperties(group: SelectedGroup)
@@ -271,10 +268,10 @@ class alarmTests: XCTestCase {
             controller.addGroup()
 
             // then
-            let group = Groups.instance().group(byId: nextGroupId - 1)
+            let group = Groups.instance().group(byId: NextGroupId - 1)
 
-            XCTAssert(Groups.instance().groups().count == nextGroupId)
-            XCTAssert(group.groupId == nextGroupId - 1)
+            XCTAssert(Groups.instance().groups().count == NextGroupId)
+            XCTAssert(group.groupId == NextGroupId - 1)
             XCTAssert(group.groupLabel == LabelProp)
             XCTAssert(group.repeatWeekdays.count == RepeatWeekdaysProp.count)
             XCTAssert(group.repeatWeekdays == RepeatWeekdaysProp)
@@ -289,7 +286,7 @@ class alarmTests: XCTestCase {
             try interactCalling()
 
             // set up
-            isInitialized = false
+            IsLoadedProperties = false
             LabelProp = Utility.randomString(length: 5)
             RepeatWeekdaysProp = getRandomRepeatWeekdays()
             SelectedAlarm = nil
@@ -302,11 +299,11 @@ class alarmTests: XCTestCase {
             controller.addGroup()
 
             // then
-            let group = Groups.instance().group(byId: nextGroupId - 1)
+            let group = Groups.instance().group(byId: NextGroupId - 1)
 
-            XCTAssert(Groups.instance().groups().count == nextGroupId)
+            XCTAssert(Groups.instance().groups().count == NextGroupId)
 
-            XCTAssert(group.groupId == nextGroupId - 1)
+            XCTAssert(group.groupId == NextGroupId - 1)
             XCTAssert(group.groupLabel == LabelProp)
             XCTAssert(group.repeatWeekdays.count == RepeatWeekdaysProp.count)
             XCTAssert(group.repeatWeekdays == RepeatWeekdaysProp)
@@ -325,7 +322,7 @@ class alarmTests: XCTestCase {
             }
 
             // set up
-            isInitialized = false
+            IsLoadedProperties = false
             SelectedAlarm = nil
             SelectedGroup = Groups.instance().group(byId: 0)
             controller.loadProperties(group: SelectedGroup)
@@ -334,12 +331,12 @@ class alarmTests: XCTestCase {
             LabelProp = Utility.randomString(length: 5)
             RepeatWeekdaysProp = getRandomRepeatWeekdays()
             // when
-            controller.updateGroup()
+            controller.updateGroup(SelectedGroup!)
 
             // then
             let group = Groups.instance().group(byId: 0)
 
-            XCTAssert(nextGroupId == Groups.instance().groups().count)
+            XCTAssert(NextGroupId == Groups.instance().groups().count)
             XCTAssert(group.groupId == 0)
             XCTAssert(group.groupLabel == LabelProp)
             XCTAssert(group.repeatWeekdays.count == RepeatWeekdaysProp.count)
@@ -361,7 +358,7 @@ class alarmTests: XCTestCase {
             }
 
             // set up
-            isInitialized = false
+            IsLoadedProperties = false
             SelectedAlarm = Alarms.instance().alarm(
                 byId: (Utility.randomInt(Alarms.instance().alarms().count)))
             if let id = SelectedAlarm?.groupId {
@@ -375,13 +372,13 @@ class alarmTests: XCTestCase {
             GroupIdProp = SelectedGroup == nil ? 0 : nil
 
             // when
-            controller.updateAlarm()
+            controller.updateAlarm(SelectedAlarm!)
 
             // then
             let alarm = Alarms.instance().alarm(byId: (SelectedAlarm?.alarmId)!)
 
-            XCTAssert(nextAlarmId == Alarms.instance().alarms().count)
-            XCTAssert(nextGroupId == Groups.instance().groups().count)
+            XCTAssert(NextAlarmId == Alarms.instance().alarms().count)
+            XCTAssert(NextGroupId == Groups.instance().groups().count)
 
             XCTAssert(alarm.groupId == GroupIdProp)
         }
@@ -399,7 +396,7 @@ extension alarmTests {
         SelectedGroup = nil
 
         for _ in 0...200 {
-            isInitialized = false
+            IsLoadedProperties = false
             controller.loadProperties(alarm: SelectedAlarm, group: SelectedGroup)
             controller.addAlarm()
         }
@@ -422,9 +419,9 @@ extension alarmTests {
         for i in 0...200 {
             SelectedAlarm = Alarms.instance().alarm(byId: i)
             SelectedGroup = nil
-            isInitialized = false
+            IsLoadedProperties = false
             controller.loadProperties(alarm: SelectedAlarm, group: SelectedGroup)
-            controller.updateAlarm()
+            controller.updateAlarm(SelectedAlarm!)
         }
     }
 
@@ -435,7 +432,7 @@ extension alarmTests {
         SelectedGroup = nil
 
         for _ in 0...200 {
-            isInitialized = false
+            IsLoadedProperties = false
             controller.loadProperties(group: SelectedGroup)
             controller.addGroup()
         }
@@ -447,12 +444,12 @@ extension alarmTests {
         let controller = ModifyGroupViewController()
 
         for i in 0...200 {
-            isInitialized = false
+            IsLoadedProperties = false
             SelectedAlarm = nil
             SelectedGroup = Groups.instance().group(byId: i)
             controller.loadProperties(group: SelectedGroup)
             // when
-            controller.updateGroup()
+            controller.updateGroup(SelectedGroup!)
         }
     }
 }
@@ -466,13 +463,13 @@ extension alarmTests {
         }
     }
 
-    fileprivate func getRandomRepeatWeekdays() -> [String : Bool] {
-        return ["Sunday": Utility.randomBool(),
-                "Monday": Utility.randomBool(),
-                "Tuesday": Utility.randomBool(),
-                "Wednesday": Utility.randomBool(),
-                "Thursday": Utility.randomBool(),
-                "Friday": Utility.randomBool(),
-                "Saturday": Utility.randomBool()]
+    fileprivate func getRandomRepeatWeekdays() -> [Week] {
+        var weeks = [Week]()
+        for week in Week.allCases {
+            if Utility.randomBool() {
+                weeks.append(week)
+            }
+        }
+        return weeks
     }
 }

@@ -9,16 +9,15 @@
 import UIKit
 import Foundation
 import MediaPlayer
+import UserNotifications
 
+// be used for adding/editing
 var SelectedAlarm: Alarm? = nil
 var SelectedGroup: Group? = nil
 
-// be used for adding/editing
-var doesUpdateAlarm: Bool = false
-var isGroup: Bool = false
-var doesUpdateGroup: Bool = false
-
-var isInitialized: Bool = false
+// only reload properties while create/select an alarm for editing
+var IsLoadedProperties: Bool = false
+// used to store properties while adding or editing alarm/group
 var AlarmIdProp: Int = 0
 var LabelProp: String = ""
 var EnabledProp: Bool = true
@@ -28,17 +27,15 @@ var VibrateIdProp: Int?
 var VibrateNameProp = "none"
 var SnoozeIdProp: Int?
 var GroupIdProp: Int? = nil
-var RepeatWeekdaysProp: [String: Bool] = [String: Bool]()
-
-
-import MediaPlayer
-import UserNotifications
+var RepeatWeekdaysProp: [Week] = [Week]()
 
 
 class EntryViewController: UITabBarController {
     override func viewDidLoad() {
+        UIWindow.appearance().tintColor = UIColor.black
         super.viewDidLoad()
-        requestMusicUsage()
+        requestAuthorize()
+        addCategory()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -48,6 +45,20 @@ class EntryViewController: UITabBarController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+
+    func addCategory() {
+        let snoozeAction = UNNotificationAction(identifier: "Snooze",
+                                                title: "Snooze",
+                                                options: [.destructive])
+        let stopAction = UNNotificationAction(identifier: "Stop",
+                                              title: "Stop",
+                                              options: [])
+        let snoozeCategory = UNNotificationCategory(identifier: "Snooze",
+                                              actions: [snoozeAction, stopAction],
+                                              intentIdentifiers: [],
+                                              options: [])
+        UNUserNotificationCenter.current().setNotificationCategories([snoozeCategory])
+    }
 }
 
 extension EntryViewController {
@@ -55,27 +66,36 @@ extension EntryViewController {
         let _ = Utility()
     }
 
-    func requestMusicUsage() {
+    func requestAuthorize() {
         if !UserDefaults.standard.bool(forKey: "firstLaunched") {
             // used for me
             loadMyAlarms()
 
-            MPMediaQuery.songs()
+            UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+
+            requestMusicUsage()
+            requestNotificationUsage()
+
             UserDefaults.standard.set(true, forKey: "firstLaunched")
         }
     }
 
+    fileprivate func requestMusicUsage() {
+        MPMediaQuery.songs()
+    }
+
+    fileprivate func requestNotificationUsage() {
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .sound]) {(_,_) in}
+    }
+
     func loadMyAlarms() {
-        nextAlarmId = 0
-        nextGroupId = 0
+        NextAlarmId = 0
+        NextGroupId = 0
         Alarms.instance().emptyAlarm()
         Groups.instance().emptyGroup()
 
-        RepeatWeekdaysProp = [String: Bool]()
-        for day in ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] {
-            RepeatWeekdaysProp[day] = false
-        }
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "起床",
                                          groupId: nil,
                                          enabled: true,
@@ -89,7 +109,7 @@ extension EntryViewController {
                                          vibrateName: "",
                                          repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: 10))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "拿包裹",
                                          groupId: nil,
                                          enabled: false,
@@ -103,7 +123,7 @@ extension EntryViewController {
                                          vibrateName: "",
                                          repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: 10))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "跑步",
                                          groupId: nil,
                                          enabled: true,
@@ -118,12 +138,12 @@ extension EntryViewController {
                                          repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: 10))
 
-        Groups.instance().addGroup(Group(groupId: nextGroupId, groupLabel: "航站", enabled: true, repeatWeekdays: RepeatWeekdaysProp))
-        Groups.instance().addGroup(Group(groupId: nextGroupId, groupLabel: "航務值班", enabled: true, repeatWeekdays: RepeatWeekdaysProp))
-        Groups.instance().addGroup(Group(groupId: nextGroupId, groupLabel: "消防值班", enabled: true, repeatWeekdays: RepeatWeekdaysProp))
+        Groups.instance().addGroup(Group(groupId: NextGroupId, groupLabel: "航站", enabled: true, repeatWeekdays: RepeatWeekdaysProp))
+        Groups.instance().addGroup(Group(groupId: NextGroupId, groupLabel: "航務值班", enabled: true, repeatWeekdays: RepeatWeekdaysProp))
+        Groups.instance().addGroup(Group(groupId: NextGroupId, groupLabel: "消防值班", enabled: true, repeatWeekdays: RepeatWeekdaysProp))
 
 
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "點早餐",
                                          groupId: 0,
                                          enabled: true,
@@ -135,9 +155,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "打飯",
                                          groupId: 0,
                                          enabled: true,
@@ -149,11 +169,11 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
 
         // 航務值班
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "巡視鳥網",
                                          groupId: 1,
                                          enabled: true,
@@ -165,9 +185,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "業務",
                                          groupId: 1,
                                          enabled: true,
@@ -179,9 +199,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "業務",
                                          groupId: 1,
                                          enabled: true,
@@ -193,9 +213,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "業務",
                                          groupId: 1,
                                          enabled: true,
@@ -207,9 +227,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "吃飯",
                                          groupId: 1,
                                          enabled: true,
@@ -221,9 +241,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "起床",
                                          groupId: 1,
                                          enabled: true,
@@ -235,9 +255,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "業務",
                                          groupId: 1,
                                          enabled: true,
@@ -249,9 +269,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "業務",
                                          groupId: 1,
                                          enabled: true,
@@ -263,9 +283,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "業務",
                                          groupId: 1,
                                          enabled: true,
@@ -277,9 +297,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "降旗",
                                          groupId: 1,
                                          enabled: true,
@@ -291,11 +311,11 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
 
         // 消防值班
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "訂早餐",
                                          groupId: 2,
                                          enabled: true,
@@ -307,9 +327,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "廣播",
                                          groupId: 2,
                                          enabled: true,
@@ -321,9 +341,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "訂早餐",
                                          groupId: 2,
                                          enabled: true,
@@ -335,9 +355,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "無線電測試",
                                          groupId: 2,
                                          enabled: true,
@@ -349,9 +369,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "警鈴測試",
                                          groupId: 2,
                                          enabled: true,
@@ -363,9 +383,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "廣播",
                                          groupId: 2,
                                          enabled: true,
@@ -377,9 +397,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "檢查FOD",
                                          groupId: 2,
                                          enabled: true,
@@ -391,9 +411,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "廣播",
                                          groupId: 2,
                                          enabled: true,
@@ -405,9 +425,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "廣播",
                                          groupId: 2,
                                          enabled: true,
@@ -419,9 +439,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "廣播",
                                          groupId: 2,
                                          enabled: true,
@@ -433,9 +453,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "廣播",
                                          groupId: 2,
                                          enabled: true,
@@ -447,9 +467,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "廣播",
                                          groupId: 2,
                                          enabled: true,
@@ -461,9 +481,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "廣播",
                                          groupId: 2,
                                          enabled: true,
@@ -475,9 +495,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "檢查FOD",
                                          groupId: 2,
                                          enabled: true,
@@ -489,9 +509,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "廣播",
                                          groupId: 2,
                                          enabled: true,
@@ -503,9 +523,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "廣播",
                                          groupId: 2,
                                          enabled: true,
@@ -517,9 +537,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "廣播",
                                          groupId: 2,
                                          enabled: true,
@@ -531,9 +551,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "廣播",
                                          groupId: 2,
                                          enabled: true,
@@ -545,9 +565,9 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
-        Alarms.instance().addAlarm(Alarm(alarmId: nextAlarmId,
+        Alarms.instance().addAlarm(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "廣播",
                                          groupId: 2,
                                          enabled: true,
@@ -559,7 +579,7 @@ extension EntryViewController {
                                          soundName: "",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: [String : Bool](),
+                                         repeatWeekdays: RepeatWeekdaysProp,
                                          snoozeId: nil))
     }
 }

@@ -42,6 +42,7 @@ UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "snooze_cell", for: indexPath) as! SnoozeTableViewCell
+        cell.tintColor = UIColor.black
         if indexPath.row == 0 {
             cell.label.text = "none"
             cell.accessoryType = SnoozeIdProp == nil ? .checkmark : .none

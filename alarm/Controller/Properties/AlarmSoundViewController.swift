@@ -71,6 +71,7 @@ UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
+        cell.tintColor = UIColor.black
         if indexPath.row == 0 {
             cell.textLabel?.text = "none"
             cell.accessoryType = SoundIdProp == nil ? .checkmark : .none
