@@ -108,10 +108,10 @@ extension ModifyGroupViewController {
 
     func loadProperties(group: Group?) {
         if !IsLoadedPropertiesOfSelectedAlarmOrGroup {
-            if let group = group {
-                LabelProp = group.groupLabel
-                GroupIdProp = group.groupId
-                RepeatWeekdaysProp = group.repeatWeekdays
+            if let theGroup = group {
+                LabelProp = theGroup.groupLabel
+                GroupIdProp = theGroup.groupId
+                RepeatWeekdaysProp = theGroup.repeatWeekdays
             } else {
                 LabelProp = "Label"
                 GroupIdProp = NextGroupId

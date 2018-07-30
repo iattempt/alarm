@@ -83,19 +83,6 @@ extension InitViewController {
     }
 }
 
-func refreshItems(_ controller: UIViewController, _ tableView: UITableView) {
-    let editButtonItem = UIViewController().editButtonItem
-    if !tableView.visibleCells.isEmpty &&
-        controller.navigationItem.rightBarButtonItems?.count == 1 {
-        let item =  editButtonItem
-        item.tintColor = UIColor.black
-        controller.navigationItem.rightBarButtonItems?.append(item)
-    } else if tableView.visibleCells.isEmpty &&
-        controller.navigationItem.rightBarButtonItems?.count == 2 {
-        controller.navigationItem.rightBarButtonItems?.remove(at: 1)
-    }
-}
-
 extension InitViewController {
     func loadMyAlarms() {
         NextAlarmId = 0

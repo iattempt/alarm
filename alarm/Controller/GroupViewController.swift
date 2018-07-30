@@ -66,6 +66,7 @@ UITableViewDataSource {
 
         let cell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: nil)
         cell.textLabel?.text = theGroup.groupLabel
+        cell.tag = theGroup.groupId
         cell.accessoryView = switchButton
         cell.editingAccessoryType = .disclosureIndicator
 
@@ -73,7 +74,8 @@ UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        SelectedGroup = Groups.instance().groups()[indexPath.row]
+        let groupId = tableView.cellForRow(at: indexPath)?.tag
+        SelectedGroup = Groups.instance().group(byId: groupId!)
         if isEditing {
             performSegue(withIdentifier: SegueIdentifiers.EditGroup.rawValue, sender: self)
         }
@@ -95,7 +97,8 @@ UITableViewDataSource {
                 preferredStyle:.alert)
             let cancel=UIAlertAction(title:"Cancel", style:.cancel)
             let confirm=UIAlertAction(title:"Confirm", style:.default) { (action) in
-                let theGroup = Groups.instance().groups()[indexPath.row]
+                let groupId = tableView.cellForRow(at: indexPath)?.tag
+                let theGroup = Groups.instance().group(byId: groupId!)
                 let theAlarmsOfTheGroup = Alarms.instance().alarms(byGroupId: theGroup.groupId)
                 for alarm in theAlarmsOfTheGroup {
                     Alarms.instance().remove(alarm)
@@ -119,14 +122,26 @@ extension GroupViewController {
         SelectedGroup = nil
         IsLoadedPropertiesOfSelectedAlarmOrGroup = false
         tableView.reloadData()
-        refreshItems(self, tableView)
+        refreshItems()
         self.tabBarController?.tabBar.isHidden = false
     }
 
     @objc func switchChanged(_ sender: UISwitch!) {
-        var theGroup = Groups.instance().groups()[sender.tag]
+        var theGroup = Groups.instance().group(byId: sender.tag)
         theGroup.enabled = sender.isOn
         Groups.instance().update(theGroup)
         NotificationCenter.default.post(name: Notification.Name.openclose, object: nil)
+    }
+
+    func refreshItems() {
+        if !tableView.visibleCells.isEmpty &&
+            navigationItem.rightBarButtonItems?.count == 1 {
+            let item = editButtonItem
+            item.tintColor = UIColor.black
+            navigationItem.rightBarButtonItems?.append(item)
+        } else if tableView.visibleCells.isEmpty &&
+            navigationItem.rightBarButtonItems?.count == 2 {
+            navigationItem.rightBarButtonItems?.remove(at: 1)
+        }
     }
 }

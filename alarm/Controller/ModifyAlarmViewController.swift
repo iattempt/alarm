@@ -153,24 +153,20 @@ extension ModifyAlarmViewController {
 
     func loadProperties(alarm: Alarm?, group: Group?) {
         if !IsLoadedPropertiesOfSelectedAlarmOrGroup {
-            if let alarm = alarm {
-                AlarmIdProp = alarm.alarmId
-                GroupIdProp = alarm.groupId
-                LabelProp = alarm.alarmLabel
-                datePicker.date = alarm.date
-                SoundIdProp = alarm.soundId
-                SoundNameProp = alarm.soundName
-                VibrateIdProp = alarm.vibrateId
-                VibrateNameProp = alarm.vibrateName
-                RepeatWeekdaysProp = alarm.repeatWeekdays
-                SnoozeIdProp = alarm.snoozeId
+            if let theAlarm = alarm {
+                AlarmIdProp = theAlarm.alarmId
+                GroupIdProp = theAlarm.groupId
+                LabelProp = theAlarm.alarmLabel
+                datePicker.date = theAlarm.date
+                SoundIdProp = theAlarm.soundId
+                SoundNameProp = theAlarm.soundName
+                VibrateIdProp = theAlarm.vibrateId
+                VibrateNameProp = theAlarm.vibrateName
+                RepeatWeekdaysProp = theAlarm.repeatWeekdays
+                SnoozeIdProp = theAlarm.snoozeId
             } else {
                 AlarmIdProp = NextAlarmId
-                if let group = group {
-                    GroupIdProp = group.groupId
-                } else {
-                    GroupIdProp = nil
-                }
+                GroupIdProp = nil
                 LabelProp = "Label"
                 SoundIdProp = nil
                 SoundNameProp = "none"

@@ -175,6 +175,7 @@ extension AlarmViewController: UITableViewDelegate,
 
         let cell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: nil)
         cell.textLabel?.text = Utility.dateFormatter.string(from: theAlarm.date)
+        cell.tag = theAlarm.alarmId
         cell.detailTextLabel?.text = theAlarm.getLabel()
         cell.accessoryView = switchButton
         cell.editingAccessoryType = .disclosureIndicator
@@ -191,9 +192,9 @@ extension AlarmViewController: UITableViewDelegate,
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        SelectedAlarm = self.alarms[indexPath.row]
+        let alarmId = tableView.cellForRow(at: indexPath)?.tag
+        SelectedAlarm = Alarms.instance().alarm(byId: alarmId!)
         if isEditing {
-            IsLoadedPropertiesOfSelectedAlarmOrGroup = false
             performSegue(withIdentifier: SegueIdentifiers.EditAlarm.rawValue, sender: self)
         } else {
 //            performSegue(withIdentifier: "later", sender: self)
@@ -206,7 +207,8 @@ extension AlarmViewController: UITableViewDelegate,
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let theAlarm = self.alarms[indexPath.row]
+            let alarmId = tableView.cellForRow(at: indexPath)?.tag
+            let theAlarm = Alarms.instance().alarm(byId: alarmId!)
             Alarms.instance().remove(theAlarm)
             refresh()
         }
@@ -218,8 +220,9 @@ extension AlarmViewController {
         alarms = Alarms.instance().alarms()
         SelectedAlarm = nil
 
+        IsLoadedPropertiesOfSelectedAlarmOrGroup = false
         tableView.reloadData()
-        refreshItems(self, tableView)
+        refreshItems()
         self.tabBarController?.tabBar.isHidden = false
     }
 
@@ -228,5 +231,17 @@ extension AlarmViewController {
         theAlarm.enabled = sender.isOn
         Alarms.instance().update(theAlarm)
         refresh()
+    }
+
+    func refreshItems() {
+        if !tableView.visibleCells.isEmpty &&
+            navigationItem.rightBarButtonItems?.count == 1 {
+            let item = editButtonItem
+            item.tintColor = UIColor.black
+            navigationItem.rightBarButtonItems?.append(item)
+        } else if tableView.visibleCells.isEmpty &&
+            navigationItem.rightBarButtonItems?.count == 2 {
+            navigationItem.rightBarButtonItems?.remove(at: 1)
+        }
     }
 }
