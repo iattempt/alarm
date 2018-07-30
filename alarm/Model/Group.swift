@@ -16,18 +16,25 @@ struct Group: Codable {
     var enabled = false
     var repeatWeekdays: [Week] = [Week]()
 
-    func updateNotification() {
+    func setUpAlarmNotification() {
         let alarms = Alarms.instance().alarms(byGroupId: groupId)
         for alarm in alarms {
-            alarm.updateNotification()
+            alarm.setUpNotification()
+        }
+    }
+
+    func tearDownAlarmNotification() {
+        let alarms = Alarms.instance().alarms(byGroupId: groupId)
+        for alarm in alarms {
+            alarm.tearDownNotification()
         }
     }
 }
 
 class Groups {
     private init() {
-        importNextAlarmId()
-        importDisperseAlarms()
+        importNextGroupId()
+        importGroup()
     }
     private static var instance_: Groups? = nil
     static func instance() -> Groups {
@@ -61,38 +68,42 @@ class Groups {
         fatalError()
     }
 
-    func addGroup(_ group: Group) {
+    func containsGroup(byId id: Int) -> Bool {
+        for group in _groups {
+            if group.groupId == id {
+                return true
+            }
+        }
+        return false
+    }
+
+    func add(_ group: Group) {
         guard NextGroupId < Int.max || reorganize() else {
             return
         }
 
         NextGroupId += 1
         _groups.append(group)
+        group.setUpAlarmNotification()
     }
 
-    func updateGroup(_ editedGroup: Group) {
-        for (index, group) in _groups.enumerated() {
-            if group.groupId == editedGroup.groupId {
-                _groups[index] = editedGroup
-                break
-            }
-        }
-        editedGroup.updateNotification()
+    func update(_ editedGroup: Group) {
+        remove(editedGroup)
+        add(editedGroup)
     }
 
-    func deleteGroup(_ deleteGroup: Group) {
+    func remove(_ deleteGroup: Group) {
+        deleteGroup.tearDownAlarmNotification()
         for (index, group) in _groups.enumerated() {
             if group.groupId == deleteGroup.groupId {
                 _groups.remove(at: index)
                 break
             }
         }
-        deleteGroup.updateNotification()
     }
 
-    func emptyGroup() {
+    func removeAll() {
         _groups.removeAll()
-        NextGroupId = 0
         persist()
     }
 
@@ -104,10 +115,8 @@ class Groups {
         // tear down notifications
         for var group in _groups {
             group.enabled = false
-            group.updateNotification()
-            for alarm in Alarms.instance().alarms(byGroupId: group.groupId) {
-                alarm.updateNotification()
-            }
+            group.setUpAlarmNotification()
+            group.tearDownAlarmNotification()
         }
 
         // remove all then add it again
@@ -115,12 +124,13 @@ class Groups {
         let groups = self._groups
         self._groups.removeAll()
         for var group in groups {
+            let oldGroupId = group.groupId
             group.groupId = NextGroupId
-            self.addGroup(group)
+            self.add(group)
             // update groupId for alarms which belong to current group
-            for var alarm in Alarms.instance().alarms(byGroupId: group.groupId) {
-                alarm.groupId = NextGroupId
-                Alarms.instance().updateAlarm(alarm)
+            for var alarm in Alarms.instance().alarms(byGroupId: oldGroupId) {
+                alarm.groupId = group.groupId
+                Alarms.instance().update(alarm)
             }
         }
         return true
@@ -134,10 +144,11 @@ class Groups {
 
     private func unpersist() {
         userDefaults.removeObject(forKey: persistKey)
+        userDefaults.removeObject(forKey: persistNextGroupIdKey)
         userDefaults.synchronize()
     }
 
-    private func importDisperseAlarms() {
+    private func importGroup() {
         guard let data = userDefaults.value(forKey: persistKey) as? Data,
             let groups = try? PropertyListDecoder().decode(Array<Group>.self, from: data)
             else {
@@ -147,7 +158,7 @@ class Groups {
         self._groups = groups
     }
 
-    private func importNextAlarmId() {
+    private func importNextGroupId() {
         guard let data = userDefaults.value(forKey: persistNextGroupIdKey) as? Int else {
             NextGroupId = 0
             return

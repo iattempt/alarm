@@ -96,6 +96,7 @@ class AlarmViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         debugPrint("alarms will disappear")
         super.viewWillDisappear(animated)
+        self.filter_groups = nil
         setEditing(false, animated: false)
     }
 
@@ -192,8 +193,8 @@ extension AlarmViewController: UITableViewDelegate,
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         SelectedAlarm = self.alarms[indexPath.row]
         if isEditing {
-            IsLoadedProperties = false
-            performSegue(withIdentifier: "edit_alarm", sender: self)
+            IsLoadedPropertiesOfSelectedAlarmOrGroup = false
+            performSegue(withIdentifier: SegueIdentifiers.EditAlarm.rawValue, sender: self)
         } else {
 //            performSegue(withIdentifier: "later", sender: self)
         }
@@ -206,7 +207,7 @@ extension AlarmViewController: UITableViewDelegate,
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let theAlarm = self.alarms[indexPath.row]
-            Alarms.instance().deleteAlarm(theAlarm)
+            Alarms.instance().remove(theAlarm)
             refresh()
         }
     }
@@ -218,26 +219,14 @@ extension AlarmViewController {
         SelectedAlarm = nil
 
         tableView.reloadData()
-        refreshItems()
+        refreshItems(self, tableView)
         self.tabBarController?.tabBar.isHidden = false
     }
 
     @objc func switchChanged(_ sender: UISwitch!) {
         var theAlarm = Alarms.instance().alarm(byId: sender.tag)
         theAlarm.enabled = sender.isOn
-        Alarms.instance().updateAlarm(theAlarm)
-        NotificationCenter.default.post(name: Notification.Name.openclose, object: nil)
-    }
-
-    fileprivate func refreshItems() {
-        if !tableView.visibleCells.isEmpty &&
-            self.navigationItem.rightBarButtonItems?.count == 1 {
-            let item = editButtonItem
-            item.tintColor = UIColor.black
-            self.navigationItem.rightBarButtonItems?.append(item)
-        } else if tableView.visibleCells.isEmpty &&
-            self.navigationItem.rightBarButtonItems?.count == 2 {
-            self.navigationItem.rightBarButtonItems?.remove(at: 1)
-        }
+        Alarms.instance().update(theAlarm)
+        refresh()
     }
 }

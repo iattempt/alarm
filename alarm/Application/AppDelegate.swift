@@ -19,6 +19,7 @@ class AppDelegate: UIResponder,
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        UNUserNotificationCenter.current().delegate = self
         return true
     }
 
@@ -90,6 +91,5 @@ class AppDelegate: UIResponder,
             }
         }
     }
-
 }
 

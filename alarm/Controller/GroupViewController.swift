@@ -75,7 +75,7 @@ UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         SelectedGroup = Groups.instance().groups()[indexPath.row]
         if isEditing {
-            performSegue(withIdentifier: "edit_group", sender: self)
+            performSegue(withIdentifier: SegueIdentifiers.EditGroup.rawValue, sender: self)
         }
         let selectedRow = tableView.cellForRow(at: indexPath)
         selectedRow?.backgroundColor = UIColor.clear
@@ -98,9 +98,9 @@ UITableViewDataSource {
                 let theGroup = Groups.instance().groups()[indexPath.row]
                 let theAlarmsOfTheGroup = Alarms.instance().alarms(byGroupId: theGroup.groupId)
                 for alarm in theAlarmsOfTheGroup {
-                    Alarms.instance().deleteAlarm(alarm)
+                    Alarms.instance().remove(alarm)
                 }
-                Groups.instance().deleteGroup(theGroup)
+                Groups.instance().remove(theGroup)
                 self.refresh()
             }
             alert.addAction(cancel)
@@ -117,30 +117,16 @@ extension GroupViewController {
 
     fileprivate func refresh() {
         SelectedGroup = nil
-        IsLoadedProperties = false
-
+        IsLoadedPropertiesOfSelectedAlarmOrGroup = false
         tableView.reloadData()
-        refreshItems()
+        refreshItems(self, tableView)
         self.tabBarController?.tabBar.isHidden = false
     }
 
     @objc func switchChanged(_ sender: UISwitch!) {
         var theGroup = Groups.instance().groups()[sender.tag]
         theGroup.enabled = sender.isOn
-        Groups.instance().updateGroup(theGroup)
+        Groups.instance().update(theGroup)
         NotificationCenter.default.post(name: Notification.Name.openclose, object: nil)
     }
-
-    fileprivate func refreshItems() {
-        if !tableView.visibleCells.isEmpty &&
-            self.navigationItem.rightBarButtonItems?.count == 1 {
-            let item = editButtonItem
-            item.tintColor = UIColor.black
-            self.navigationItem.rightBarButtonItems?.append(item)
-        } else if tableView.visibleCells.isEmpty &&
-            self.navigationItem.rightBarButtonItems?.count == 2 {
-            self.navigationItem.rightBarButtonItems?.remove(at: 1)
-        }
-    }
 }
-

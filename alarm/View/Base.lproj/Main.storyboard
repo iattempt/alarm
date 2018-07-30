@@ -532,10 +532,10 @@
             </objects>
             <point key="canvasLocation" x="-583" y="1442"/>
         </scene>
-        <!--Entry View Controller-->
+        <!--Init View Controller-->
         <scene sceneID="eDA-R2-U3o">
             <objects>
-                <tabBarController id="aAW-TB-iD4" customClass="EntryViewController" customModule="alarm" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController id="aAW-TB-iD4" customClass="InitViewController" customModule="alarm" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="zcT-Ln-K37"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="qnQ-2z-D19">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>

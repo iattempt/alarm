@@ -34,12 +34,16 @@ struct Alarm: Codable {
         }
     }
 
-    func getRepeats() -> [Week] {
-        if let groupId = GroupIdProp {
-            return Groups.instance().group(byId: groupId).repeatWeekdays
+    func getRepeatWeekdays() -> [Week] {
+        if let theGroupId = groupId {
+            return Groups.instance().group(byId: theGroupId).repeatWeekdays
         } else {
             return repeatWeekdays
         }
+    }
+
+    func isRepeat() -> Bool {
+        return !getRepeatWeekdays().isEmpty
     }
 
     // if the alarm belongs to one group, then the group must enabled too.
@@ -51,47 +55,44 @@ struct Alarm: Codable {
         }
     }
 
-    func isGroupEnabled() -> Bool {
-        if let theGroupId = groupId {
-            if Groups.instance().group(byId: theGroupId).enabled {
-                return true
-            }
-        }
-        return false
-    }
-
     func isDisabled() -> Bool {
         return !isEnabled()
     }
 
-    func isDisperseAlarm() -> Bool {
+    func isGroupEnabled() -> Bool {
+        if let theGroupId = groupId {
+            return Groups.instance().group(byId: theGroupId).enabled
+        }
+        return false
+    }
+
+    func isGroupDiabled() -> Bool {
+        return !isGroupEnabled()
+    }
+
+    func isNonGroupAlarm() -> Bool {
         return groupId == nil
     }
 
     func isGroupAlarm() -> Bool {
-        return !isDisperseAlarm()
+        return !isNonGroupAlarm()
     }
 
-    func updateNotification() {
+    func setUpNotification() {
         if self.isEnabled() {
+            Scheduler.setUpAlarmNotifications(self)
         } else {
+            Scheduler.tearDownAlarmNotifications(self)
         }
+    }
+
+    func tearDownNotification() {
+        Scheduler.tearDownAlarmNotifications(self)
     }
 }
 
 class Alarms {
-    private init() {
-        importNextAlarmId()
-        importDisperseAlarms()
-    }
     private static var instance_: Alarms? = nil
-    static func instance() -> Alarms {
-        if instance_ == nil {
-            instance_ = Alarms()
-        }
-        return instance_!
-    }
-
     private let persistNextAlarmIdKey = "NextAlarmIdKey"
     private let persistKey = "AlarmKey"
     private let userDefaults = UserDefaults.standard
@@ -99,6 +100,18 @@ class Alarms {
         didSet {
             persist()
         }
+    }
+
+    private init() {
+        importNextAlarmId()
+        importAlarms()
+    }
+
+    static func instance() -> Alarms {
+        if instance_ == nil {
+            instance_ = Alarms()
+        }
+        return instance_!
     }
 
     func alarm(byId id: Int) -> Alarm {
@@ -110,10 +123,17 @@ class Alarms {
         fatalError()
     }
 
+    func containsAlarm(byId id: Int) -> Bool {
+        for alarm in _alarms {
+            if alarm.alarmId == id {
+                return true
+            }
+        }
+        return false
+    }
+
     func alarms() -> [Alarm] {
-        return Utility.sortAlarmByTime(_alarms.stableSorted(by: { (a, b) -> Bool in
-            return a.alarmId < b.alarmId
-        }))
+        return sorted(_alarms)
     }
 
     func alarms(byGroupId id: Int) -> [Alarm] {
@@ -123,96 +143,98 @@ class Alarms {
                 alarms.append(alarm)
             }
         }
-        return Utility.sortAlarmByTime(alarms.stableSorted(by: { (a, b) -> Bool in
-            return a.alarmId < b.alarmId
-        }))
+        return sorted(alarms)
+    }
+
+    func nonGroupAlarms() -> [Alarm] {
+        var alarms = [Alarm]()
+        for alarm in _alarms {
+            if alarm.groupId == nil {
+                alarms.append(alarm)
+            }
+        }
+        return sorted(alarms)
+    }
+
+    func groupAlarms() -> [Alarm] {
+        var alarms = [Alarm]()
+        for alarm in _alarms {
+            if alarm.groupId != nil {
+                alarms.append(alarm)
+            }
+        }
+        return sorted(alarms)
     }
 
     func enabledAlarms() -> [Alarm] {
+        return sorted(enabledNonGroupAlarms() + enabledGroupAlarms())
+    }
+
+    func enabledNonGroupAlarms() -> [Alarm] {
         var alarms = [Alarm]()
-        for alarm in _alarms {
+        for alarm in nonGroupAlarms() {
             if alarm.isEnabled() {
                 alarms.append(alarm)
             }
         }
-        return alarms
+        return sorted(alarms)
     }
 
-    func disabledAlarms() -> [Alarm] {
+    func enabledGroupAlarms() -> [Alarm] {
         var alarms = [Alarm]()
-        for alarm in _alarms {
-            if alarm.isDisabled() {
+        for alarm in groupAlarms() {
+            if alarm.isEnabled() {
                 alarms.append(alarm)
             }
         }
-        return alarms
-    }
-
-    func enabledDisperseAlarms() -> [Alarm] {
-        var alarms = [Alarm]()
-        for alarm in _alarms {
-            if alarm.isDisperseAlarm() && alarm.isEnabled() {
-                alarms.append(alarm)
-            }
-        }
-        return alarms
-    }
-
-    func disabledDisperseAlarms() -> [Alarm] {
-        var alarms = [Alarm]()
-        for alarm in _alarms {
-            if alarm.isDisperseAlarm() && alarm.isDisabled() {
-                alarms.append(alarm)
-            }
-        }
-        return alarms
+        return sorted(alarms)
     }
 
     func enabledGroupAlarms(byGroupId id: Int) -> [Alarm] {
         var alarms = [Alarm]()
-        for alarm in _alarms {
-            if alarm.isGroupAlarm() && alarm.isEnabled() {
+        for alarm in enabledGroupAlarms() {
+            if alarm.groupId == id {
                 alarms.append(alarm)
             }
         }
-        return alarms
+        return sorted(alarms)
+    }
+
+    func disabledAlarms() -> [Alarm] {
+        return sorted(disabledNonGroupAlarms() + disabledGroupAlarms())
+    }
+
+    func disabledNonGroupAlarms() -> [Alarm] {
+        var alarms = [Alarm]()
+        for alarm in nonGroupAlarms() {
+            if alarm.isDisabled() {
+                alarms.append(alarm)
+            }
+        }
+        return sorted(alarms)
+    }
+
+    func disabledGroupAlarms() -> [Alarm] {
+        var alarms = [Alarm]()
+        for alarm in groupAlarms() {
+            if alarm.isDisabled() {
+                alarms.append(alarm)
+            }
+        }
+        return sorted(alarms)
     }
 
     func disabledGroupAlarms(byGroupId id: Int) -> [Alarm] {
         var alarms = [Alarm]()
-        for alarm in _alarms {
-            if alarm.isGroupAlarm() && alarm.isDisabled() {
+        for alarm in disabledGroupAlarms() {
+            if alarm.groupId == id {
                 alarms.append(alarm)
             }
         }
-        return alarms
+        return sorted(alarms)
     }
 
-    func nonGroupAlarms() -> [Alarm] {
-        var nonGroupAlarms = [Alarm]()
-        for alarm in _alarms {
-            if alarm.groupId == nil {
-                nonGroupAlarms.append(alarm)
-            }
-        }
-        return Utility.sortAlarmByTime(nonGroupAlarms.stableSorted(by: { (a, b) -> Bool in
-            return a.alarmId < b.alarmId
-        }))
-    }
-
-    func groupAlarms() -> [Alarm] {
-        var groupAlarms = [Alarm]()
-        for alarm in _alarms {
-            if alarm.groupId != nil {
-                groupAlarms.append(alarm)
-            }
-        }
-        return Utility.sortAlarmByTime(groupAlarms.stableSorted(by: { (a, b) -> Bool in
-            return a.alarmId < b.alarmId
-        }))
-    }
-
-    func addAlarm(_ newAlarm: Alarm) {
+    func add(_ newAlarm: Alarm) {
         guard NextAlarmId < Int.max || reorganize() else {
             return
         }
@@ -222,25 +244,16 @@ class Alarms {
         alarm.date = Utility.unifyDate(alarm.date)
 
         _alarms.append(alarm)
-        alarm.updateNotification()
+        alarm.setUpNotification()
     }
 
-    func updateAlarm(_ editedAlarm: Alarm) {
-        var alarm = editedAlarm
-        alarm.date = Utility.unifyDate(alarm.date)
-        let index = Utility.binarySearch(_alarms,
-                                         key: alarm.alarmId,
-                                         range: 0..<_alarms.count)
-        guard let i = index,
-            _alarms[i].alarmId == alarm.alarmId else {
-            fatalError("the id:\(alarm.alarmId) is not found.")
-        }
-        _alarms[i] = alarm
-        alarm.updateNotification()
+    func update(_ editedAlarm: Alarm) {
+        remove(editedAlarm)
+        add(editedAlarm)
     }
 
-    func deleteAlarm(_ deleteAlarm: Alarm) {
-        deleteAlarm.updateNotification()
+    func remove(_ deleteAlarm: Alarm) {
+        deleteAlarm.tearDownNotification()
         for (index, alarm) in _alarms.enumerated() {
             if alarm.alarmId == deleteAlarm.alarmId {
                 _alarms.remove(at: index)
@@ -249,28 +262,28 @@ class Alarms {
         }
     }
 
-    func emptyAlarm() {
-        NextAlarmId = 0
+    func removeAll() {
         _alarms.removeAll()
         persist()
     }
 
-    fileprivate func reorganize() -> Bool{
+    fileprivate func reorganize() -> Bool {
         guard _alarms.count < Int.max else {
             return false
         }
 
         // tear down notifications
         for alarm in self._alarms {
-            alarm.updateNotification()
+            Scheduler.tearDownAlarmNotifications(alarm)
         }
 
         // remove all then add it again
-        let alarms = self._alarms
         NextAlarmId = 0
+        let alarms = self._alarms
+        self._alarms.removeAll()
         for var alarm in alarms {
             alarm.alarmId = NextAlarmId
-            self.addAlarm(alarm)
+            self.add(alarm)
         }
         return true
     }
@@ -283,10 +296,11 @@ class Alarms {
 
     private func unpersist() {
         userDefaults.removeObject(forKey: persistKey)
+        userDefaults.removeObject(forKey: persistNextAlarmIdKey)
         userDefaults.synchronize()
     }
 
-    private func importDisperseAlarms() {
+    private func importAlarms() {
         guard let data = userDefaults.value(forKey: persistKey) as? Data,
             let alarms = try? PropertyListDecoder().decode(Array<Alarm>.self, from: data)
             else {
@@ -302,5 +316,11 @@ class Alarms {
             return
         }
         NextAlarmId = data
+    }
+
+    fileprivate func sorted(_ alarms: [Alarm]) -> [Alarm] {
+        return Utility.sortAlarmByTime(alarms.stableSorted(by: { (a, b) -> Bool in
+            return a.alarmId < b.alarmId
+        }))
     }
 }

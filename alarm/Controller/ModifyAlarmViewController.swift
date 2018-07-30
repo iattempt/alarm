@@ -85,7 +85,7 @@ extension ModifyAlarmViewController: UITableViewDataSource,
             cell.detailTextLabel?.textAlignment = NSTextAlignment.right
         case 5:
             cell.textLabel?.text = "Repeat"
-            cell.detailTextLabel?.text = Week.convertToDisplayingString(RepeatWeekdaysProp)
+            cell.detailTextLabel?.text = Week.convertWeekdaysToStringForDisplaying(RepeatWeekdaysProp)
             cell.detailTextLabel?.textAlignment = NSTextAlignment.right
         default:
             break
@@ -97,12 +97,18 @@ extension ModifyAlarmViewController: UITableViewDataSource,
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
-        case 0: performSegue(withIdentifier: "alarm_label", sender: self)
-        case 1: performSegue(withIdentifier: "alarm_group_label", sender: self)
-        case 2: performSegue(withIdentifier: "alarm_snooze", sender: self)
-        case 3: performSegue(withIdentifier: "alarm_sound", sender: self)
-        case 4: performSegue(withIdentifier: "alarm_vibrate", sender: self)
-        case 5: performSegue(withIdentifier: "alarm_repeat", sender: self)
+        case 0: performSegue(withIdentifier: SegueIdentifiers.AlarmLabel.rawValue,
+                             sender: self)
+        case 1: performSegue(withIdentifier: SegueIdentifiers.AlarmGroupLabel.rawValue,
+                             sender: self)
+        case 2: performSegue(withIdentifier: SegueIdentifiers.AlarmSnooze.rawValue,
+                             sender: self)
+        case 3: performSegue(withIdentifier: SegueIdentifiers.AlarmSound.rawValue,
+                             sender: self)
+        case 4: performSegue(withIdentifier: SegueIdentifiers.AlarmVibrate.rawValue,
+                             sender: self)
+        case 5: performSegue(withIdentifier: SegueIdentifiers.AlarmRepeat.rawValue,
+                             sender: self)
         default: break
         }
     }
@@ -113,6 +119,7 @@ extension ModifyAlarmViewController {
         var theAlarm = alarm
         theAlarm.alarmLabel = LabelProp
         theAlarm.groupId = GroupIdProp
+        theAlarm.enabled = true
         theAlarm.date = datePicker.date
         theAlarm.soundId = SoundIdProp
         theAlarm.soundName = SoundNameProp
@@ -120,7 +127,7 @@ extension ModifyAlarmViewController {
         theAlarm.vibrateName = VibrateNameProp
         theAlarm.repeatWeekdays = RepeatWeekdaysProp
         theAlarm.snoozeId = SnoozeIdProp
-        Alarms.instance().updateAlarm(theAlarm)
+        Alarms.instance().update(theAlarm)
     }
 
     func addAlarm() {
@@ -135,7 +142,7 @@ extension ModifyAlarmViewController {
                           vibrateName: VibrateNameProp,
                           repeatWeekdays: RepeatWeekdaysProp,
                           snoozeId: SnoozeIdProp)
-        Alarms.instance().addAlarm(alarm)
+        Alarms.instance().add(alarm)
     }
 
     func refresh() {
@@ -145,7 +152,7 @@ extension ModifyAlarmViewController {
     }
 
     func loadProperties(alarm: Alarm?, group: Group?) {
-        if !IsLoadedProperties {
+        if !IsLoadedPropertiesOfSelectedAlarmOrGroup {
             if let alarm = alarm {
                 AlarmIdProp = alarm.alarmId
                 GroupIdProp = alarm.groupId
@@ -174,6 +181,6 @@ extension ModifyAlarmViewController {
                 SnoozeIdProp = 10
             }
         }
-        IsLoadedProperties = true
+        IsLoadedPropertiesOfSelectedAlarmOrGroup = true
     }
 }

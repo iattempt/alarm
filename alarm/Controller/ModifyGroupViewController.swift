@@ -61,7 +61,7 @@ extension ModifyGroupViewController: UITableViewDataSource,
             cell.detailTextLabel?.textAlignment = NSTextAlignment.right
         case 1:
             cell.textLabel?.text = "Repeat"
-            cell.detailTextLabel?.text = Week.convertToDisplayingString(RepeatWeekdaysProp)
+            cell.detailTextLabel?.text = Week.convertWeekdaysToStringForDisplaying(RepeatWeekdaysProp)
             cell.detailTextLabel?.textAlignment = NSTextAlignment.right
         default:
             break
@@ -74,9 +74,9 @@ extension ModifyGroupViewController: UITableViewDataSource,
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
-            performSegue(withIdentifier: "group_label", sender: self)
+            performSegue(withIdentifier: SegueIdentifiers.GroupLabel.rawValue, sender: self)
         case 1:
-            performSegue(withIdentifier: "group_repeat", sender: self)
+            performSegue(withIdentifier: SegueIdentifiers.GroupRepeat.rawValue, sender: self)
         default:
             break
         }
@@ -87,8 +87,9 @@ extension ModifyGroupViewController {
     func updateGroup(_ group: Group) {
         var theGroup = group
         theGroup.groupLabel = LabelProp
+        theGroup.enabled = true
         theGroup.repeatWeekdays = RepeatWeekdaysProp
-        Groups.instance().updateGroup(theGroup)
+        Groups.instance().update(theGroup)
     }
 
     func addGroup() {
@@ -96,7 +97,7 @@ extension ModifyGroupViewController {
                           groupLabel: LabelProp,
                           enabled: true,
                           repeatWeekdays: RepeatWeekdaysProp)
-        Groups.instance().addGroup(group)
+        Groups.instance().add(group)
     }
 
     func refresh() {
@@ -106,7 +107,7 @@ extension ModifyGroupViewController {
     }
 
     func loadProperties(group: Group?) {
-        if !IsLoadedProperties {
+        if !IsLoadedPropertiesOfSelectedAlarmOrGroup {
             if let group = group {
                 LabelProp = group.groupLabel
                 GroupIdProp = group.groupId
@@ -117,6 +118,6 @@ extension ModifyGroupViewController {
                 RepeatWeekdaysProp.removeAll()
             }
         }
-        IsLoadedProperties = true
+        IsLoadedPropertiesOfSelectedAlarmOrGroup = true
     }
 }

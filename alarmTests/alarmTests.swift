@@ -12,6 +12,7 @@ import XCTest
 
 class alarmTests: XCTestCase {
     let callingFunctionMaxTimes = 3
+    let callingFunctionMaxTimesForMixOperation = 15
     let interactFunctionCounts = 7
     var currentTestedFunctions: [String: Int] = [String: Int]()
 
@@ -19,8 +20,8 @@ class alarmTests: XCTestCase {
         super.setUp()
         currentTestedFunctions.removeAll()
 
-        Alarms.instance().emptyAlarm()
-        Groups.instance().emptyGroup()
+        Alarms.instance().removeAll()
+        Groups.instance().removeAll()
 
         NextAlarmId = 0
         NextGroupId = 0
@@ -28,7 +29,7 @@ class alarmTests: XCTestCase {
         SelectedAlarm = nil
         SelectedGroup = nil
 
-        IsLoadedProperties = false
+        IsLoadedPropertiesOfSelectedAlarmOrGroup = false
         AlarmIdProp = 0
         LabelProp = ""
         EnabledProp = true
@@ -41,8 +42,8 @@ class alarmTests: XCTestCase {
     
     override func tearDown() {
         super.tearDown()
-        Alarms.instance().emptyAlarm()
-        Groups.instance().emptyGroup()
+        Alarms.instance().removeAll()
+        Groups.instance().removeAll()
         UserDefaults.standard.set(false, forKey: "firstLaunched")
     }
 
@@ -84,7 +85,30 @@ class alarmTests: XCTestCase {
         }
     }
 
-    func testMultipleRoundsForInteract() throws {
+    func interactCallingForMixOperation() throws {
+        if Utility.randomInt() % interactFunctionCounts == 0 &&
+            (!currentTestedFunctions.keys.contains("_testAddAlarm()") ||
+                currentTestedFunctions["_testAddAlarm()"]! < callingFunctionMaxTimesForMixOperation) {
+            try _testAddAlarm()
+        }
+        if Utility.randomInt() % interactFunctionCounts == 0 &&
+            (!currentTestedFunctions.keys.contains("_testDeleteAlarm()") ||
+                currentTestedFunctions["_testDeleteAlarm()"]! < callingFunctionMaxTimesForMixOperation) {
+            try _testDeleteAlarm()
+        }
+        if Utility.randomInt() % interactFunctionCounts == 0 &&
+            (!currentTestedFunctions.keys.contains("_testAddGroup()") ||
+                currentTestedFunctions["_testAddGroup()"]! < callingFunctionMaxTimesForMixOperation) {
+            try _testAddGroup()
+        }
+        if Utility.randomInt() % interactFunctionCounts == 0 &&
+            (!currentTestedFunctions.keys.contains("_testDeleteGroup()") ||
+                currentTestedFunctions["_testDeleteGroup()"]! < callingFunctionMaxTimesForMixOperation) {
+            try _testDeleteGroup()
+        }
+    }
+
+    func testMultipleRoundsForInteractForUI() throws {
         for firstCallingFunction in 0...interactFunctionCounts * 3 {
             // print("\nRound:\(firstCallingFunction)\n ", terminator: "")
             setUp()
@@ -122,7 +146,7 @@ class alarmTests: XCTestCase {
             try interactCalling()
 
             // set up
-            IsLoadedProperties = false
+            IsLoadedPropertiesOfSelectedAlarmOrGroup = false
             SelectedAlarm = nil
             SelectedGroup = nil
             controller.datePicker.date = Date().addMinutes(Int(arc4random() % 1440))
@@ -135,9 +159,6 @@ class alarmTests: XCTestCase {
 
             // then
             let alarm = Alarms.instance().alarm(byId: NextAlarmId - 1)
-
-            XCTAssert(Alarms.instance().alarms().count == NextAlarmId)
-            XCTAssert(Groups.instance().groups().count == NextGroupId)
 
             XCTAssert(alarm.alarmId == NextAlarmId - 1)
             XCTAssert(alarm.groupId == nil)
@@ -162,9 +183,9 @@ class alarmTests: XCTestCase {
             try interactCalling()
 
             // set up
-            IsLoadedProperties = false
+            IsLoadedPropertiesOfSelectedAlarmOrGroup = false
             controller.datePicker.date = Date().addMinutes(Utility.randomInt(1440))
-            LabelProp = Utility.randomString(length: 5)
+            LabelProp = Utility.randomAlphaNumber(length: 5)
             SoundIdProp = nil
             VibrateIdProp = Utility.randomInt()
             SnoozeIdProp = Utility.randomInt()
@@ -182,9 +203,6 @@ class alarmTests: XCTestCase {
 
             // then
             let alarm = Alarms.instance().alarm(byId: NextAlarmId - 1)
-
-            XCTAssert(Alarms.instance().alarms().count == NextAlarmId)
-            XCTAssert(Groups.instance().groups().count == NextGroupId)
 
             XCTAssert(alarm.alarmId == NextAlarmId - 1)
             XCTAssert(alarm.groupId == nil)
@@ -213,7 +231,7 @@ class alarmTests: XCTestCase {
             }
 
             // set up
-            IsLoadedProperties = false
+            IsLoadedPropertiesOfSelectedAlarmOrGroup = false
             SelectedAlarm = Alarms.instance().alarm(byId: 0)
             SelectedGroup = nil
             controller.loadProperties(alarm: SelectedAlarm, group: SelectedGroup)
@@ -221,7 +239,7 @@ class alarmTests: XCTestCase {
             // given
             controller.datePicker.date = Date().addMinutes(Utility.randomInt(1440))
             GroupIdProp = nil
-            LabelProp = Utility.randomString(length: 5)
+            LabelProp = Utility.randomAlphaNumber(length: 5)
             SoundIdProp = nil
             VibrateIdProp = Utility.randomInt()
             SnoozeIdProp = Utility.randomInt()
@@ -232,9 +250,6 @@ class alarmTests: XCTestCase {
 
             // then
             let alarm = Alarms.instance().alarm(byId: 0)
-
-            XCTAssert(NextAlarmId == Alarms.instance().alarms().count)
-            XCTAssert(NextGroupId == Groups.instance().groups().count)
 
             XCTAssert(alarm.alarmId == 0)
             XCTAssert(alarm.groupId == nil)
@@ -257,7 +272,7 @@ class alarmTests: XCTestCase {
             try interactCalling()
 
             // set up
-            IsLoadedProperties = false
+            IsLoadedPropertiesOfSelectedAlarmOrGroup = false
             SelectedAlarm = nil
             SelectedGroup = nil
             controller.loadProperties(group: SelectedGroup)
@@ -270,7 +285,6 @@ class alarmTests: XCTestCase {
             // then
             let group = Groups.instance().group(byId: NextGroupId - 1)
 
-            XCTAssert(Groups.instance().groups().count == NextGroupId)
             XCTAssert(group.groupId == NextGroupId - 1)
             XCTAssert(group.groupLabel == LabelProp)
             XCTAssert(group.repeatWeekdays.count == RepeatWeekdaysProp.count)
@@ -286,8 +300,8 @@ class alarmTests: XCTestCase {
             try interactCalling()
 
             // set up
-            IsLoadedProperties = false
-            LabelProp = Utility.randomString(length: 5)
+            IsLoadedPropertiesOfSelectedAlarmOrGroup = false
+            LabelProp = Utility.randomAlphaNumber(length: 5)
             RepeatWeekdaysProp = getRandomRepeatWeekdays()
             SelectedAlarm = nil
             SelectedGroup = nil
@@ -300,8 +314,6 @@ class alarmTests: XCTestCase {
 
             // then
             let group = Groups.instance().group(byId: NextGroupId - 1)
-
-            XCTAssert(Groups.instance().groups().count == NextGroupId)
 
             XCTAssert(group.groupId == NextGroupId - 1)
             XCTAssert(group.groupLabel == LabelProp)
@@ -322,13 +334,13 @@ class alarmTests: XCTestCase {
             }
 
             // set up
-            IsLoadedProperties = false
+            IsLoadedPropertiesOfSelectedAlarmOrGroup = false
             SelectedAlarm = nil
             SelectedGroup = Groups.instance().group(byId: 0)
             controller.loadProperties(group: SelectedGroup)
 
             // given
-            LabelProp = Utility.randomString(length: 5)
+            LabelProp = Utility.randomAlphaNumber(length: 5)
             RepeatWeekdaysProp = getRandomRepeatWeekdays()
             // when
             controller.updateGroup(SelectedGroup!)
@@ -336,7 +348,6 @@ class alarmTests: XCTestCase {
             // then
             let group = Groups.instance().group(byId: 0)
 
-            XCTAssert(NextGroupId == Groups.instance().groups().count)
             XCTAssert(group.groupId == 0)
             XCTAssert(group.groupLabel == LabelProp)
             XCTAssert(group.repeatWeekdays.count == RepeatWeekdaysProp.count)
@@ -358,9 +369,8 @@ class alarmTests: XCTestCase {
             }
 
             // set up
-            IsLoadedProperties = false
-            SelectedAlarm = Alarms.instance().alarm(
-                byId: (Utility.randomInt(Alarms.instance().alarms().count)))
+            IsLoadedPropertiesOfSelectedAlarmOrGroup = false
+            SelectedAlarm = Alarms.instance().alarms()[0]
             if let id = SelectedAlarm?.groupId {
                 SelectedGroup = Groups.instance().group(byId: id)
             } else {
@@ -377,10 +387,114 @@ class alarmTests: XCTestCase {
             // then
             let alarm = Alarms.instance().alarm(byId: (SelectedAlarm?.alarmId)!)
 
-            XCTAssert(NextAlarmId == Alarms.instance().alarms().count)
-            XCTAssert(NextGroupId == Groups.instance().groups().count)
-
             XCTAssert(alarm.groupId == GroupIdProp)
+        }
+    }
+}
+
+extension alarmTests {
+    func testMixOperation() throws {
+        for r in 0...10 {
+            switch (r % 4) {
+            case 0:
+                try _testAddAlarm()
+            case 1:
+                try _testDeleteAlarm()
+            case 2:
+                try _testAddGroup()
+            case 3:
+                try _testDeleteGroup()
+            default:
+                break
+            }
+        }
+    }
+
+    func _testAddAlarm() throws {
+        incrementCallingFuncionTimes(#function)
+        for _ in 0...30 {
+            try interactCallingForMixOperation()
+
+            // given
+            let id = NextAlarmId
+            let alarm = Alarm(alarmId: id, alarmLabel: "", groupId: nil, enabled: false, date: Date(), soundId: nil, soundName: "", vibrateId: nil, vibrateName: "", repeatWeekdays: [], snoozeId: nil)
+
+            // when
+            Alarms.instance().add(alarm)
+
+            // then
+            XCTAssertTrue(Alarms.instance().containsAlarm(byId: id))
+        }
+    }
+
+    func _testDeleteAlarm() throws {
+        incrementCallingFuncionTimes(#function)
+        for c in 0...30 {
+            if c % 5 == 0 {
+                try interactCallingForMixOperation()
+            }
+            guard Alarms.instance().alarms().count > 0 else {
+                return
+            }
+
+            // given
+            let alarms = Alarms.instance().alarms()
+            var deleteAlarm = alarms[0]
+            for alarm in alarms {
+                if Utility.randomBool() {
+                    deleteAlarm = alarm
+                }
+            }
+
+            // when
+            Alarms.instance().remove(deleteAlarm)
+
+            // then
+            XCTAssertFalse(Alarms.instance().containsAlarm(byId: deleteAlarm.alarmId))
+        }
+    }
+
+    func _testAddGroup() throws {
+        incrementCallingFuncionTimes(#function)
+        for _ in 0...30 {
+            try interactCallingForMixOperation()
+
+            // given
+            let id = NextGroupId
+            let group = Group(groupId: id, groupLabel: "", enabled: false, repeatWeekdays: [])
+
+            // when
+            Groups.instance().add(group)
+
+            // then
+            XCTAssertTrue(Groups.instance().containsGroup(byId: id))
+        }
+    }
+
+    func _testDeleteGroup() throws {
+        incrementCallingFuncionTimes(#function)
+        for c in 0...30 {
+            if c % 5 == 0 {
+                try interactCallingForMixOperation()
+            }
+            guard Groups.instance().groups().count > 0 else {
+                return
+            }
+
+            // given
+            let groups = Groups.instance().groups()
+            var deleteGroup = groups[0]
+            for group in groups {
+                if Utility.randomBool() {
+                    deleteGroup = group
+                }
+            }
+
+            // when
+            Groups.instance().remove(deleteGroup)
+
+            // then
+            XCTAssertFalse(Groups.instance().containsGroup(byId: deleteGroup.groupId))
         }
     }
 }
@@ -396,7 +510,7 @@ extension alarmTests {
         SelectedGroup = nil
 
         for _ in 0...200 {
-            IsLoadedProperties = false
+            IsLoadedPropertiesOfSelectedAlarmOrGroup = false
             controller.loadProperties(alarm: SelectedAlarm, group: SelectedGroup)
             controller.addAlarm()
         }
@@ -410,7 +524,7 @@ extension alarmTests {
         controller.datePicker = dp
         controller.datePicker.date = Date().addMinutes(Utility.randomInt(1440))
         GroupIdProp = nil
-        LabelProp = Utility.randomString(length: 5)
+        LabelProp = Utility.randomAlphaNumber(length: 5)
         SoundIdProp = nil
         VibrateIdProp = Utility.randomInt()
         SnoozeIdProp = Utility.randomInt()
@@ -419,7 +533,7 @@ extension alarmTests {
         for i in 0...200 {
             SelectedAlarm = Alarms.instance().alarm(byId: i)
             SelectedGroup = nil
-            IsLoadedProperties = false
+            IsLoadedPropertiesOfSelectedAlarmOrGroup = false
             controller.loadProperties(alarm: SelectedAlarm, group: SelectedGroup)
             controller.updateAlarm(SelectedAlarm!)
         }
@@ -432,7 +546,7 @@ extension alarmTests {
         SelectedGroup = nil
 
         for _ in 0...200 {
-            IsLoadedProperties = false
+            IsLoadedPropertiesOfSelectedAlarmOrGroup = false
             controller.loadProperties(group: SelectedGroup)
             controller.addGroup()
         }
@@ -444,13 +558,39 @@ extension alarmTests {
         let controller = ModifyGroupViewController()
 
         for i in 0...200 {
-            IsLoadedProperties = false
+            IsLoadedPropertiesOfSelectedAlarmOrGroup = false
             SelectedAlarm = nil
             SelectedGroup = Groups.instance().group(byId: i)
             controller.loadProperties(group: SelectedGroup)
             // when
             controller.updateGroup(SelectedGroup!)
         }
+    }
+}
+
+extension alarmTests {
+    func testPredicate() {
+        let alarm1 = Alarm(alarmId: 0, alarmLabel: "", groupId: nil, enabled: false, date: Date(), soundId: nil, soundName: "", vibrateId: nil, vibrateName: "", repeatWeekdays: [], snoozeId: nil)
+
+        XCTAssertTrue(alarm1.isNonGroupAlarm())
+        XCTAssertTrue(alarm1.isDisabled())
+
+        XCTAssertFalse(alarm1.isGroupAlarm())
+        XCTAssertFalse(alarm1.isEnabled())
+        XCTAssertFalse(alarm1.isRepeat())
+
+        let alarm2 = Alarm(alarmId: 0, alarmLabel: "", groupId: 0, enabled: true, date: Date(), soundId: nil, soundName: "", vibrateId: nil, vibrateName: "", repeatWeekdays: [], snoozeId: nil)
+        let group2 = Group(groupId: 0, groupLabel: "", enabled: true, repeatWeekdays: Week.allCases)
+        Groups.instance().add(group2)
+
+        XCTAssertTrue(alarm2.isGroupAlarm())
+        XCTAssertTrue(alarm2.isEnabled())
+        XCTAssertTrue(alarm2.isRepeat())
+        XCTAssertTrue(alarm2.isGroupEnabled())
+
+        XCTAssertFalse(alarm2.isGroupDiabled())
+        XCTAssertFalse(alarm2.isNonGroupAlarm())
+        XCTAssertFalse(alarm2.isDisabled())
     }
 }
 

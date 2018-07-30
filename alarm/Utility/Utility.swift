@@ -34,14 +34,51 @@ class Utility {
         return Calendar.current.date(from: components)!
     }
 
-    static func randomString(length: Int) -> String {
-        let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        let len = UInt32(letters.length)
-
+    static func randomLowerCase(length: Int) -> String {
+        let letters : NSString = "abcdefghijklmnopqrstuvwxyz"
         var randomString = ""
 
         for _ in 0 ..< length {
-            let rand = arc4random_uniform(len)
+            let rand = arc4random_uniform(UInt32(letters.length))
+            var nextChar = letters.character(at: Int(rand))
+            randomString += NSString(characters: &nextChar, length: 1) as String
+        }
+
+        return randomString
+    }
+
+    static func randomUpperCase(length: Int) -> String {
+        let letters : NSString = "abcdefghijklmnopqrstuvwxyz"
+        var randomString = ""
+
+        for _ in 0 ..< length {
+            let rand = arc4random_uniform(UInt32(letters.length))
+            var nextChar = letters.character(at: Int(rand))
+            randomString += NSString(characters: &nextChar, length: 1) as String
+        }
+
+        return randomString
+    }
+
+    static func randomAlpha(length: Int) -> String {
+        let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        var randomString = ""
+
+        for _ in 0 ..< length {
+            let rand = arc4random_uniform(UInt32(letters.length))
+            var nextChar = letters.character(at: Int(rand))
+            randomString += NSString(characters: &nextChar, length: 1) as String
+        }
+
+        return randomString
+    }
+
+    static func randomAlphaNumber(length: Int) -> String {
+        let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        var randomString = ""
+
+        for _ in 0 ..< length {
+            let rand = arc4random_uniform(UInt32(letters.length))
             var nextChar = letters.character(at: Int(rand))
             randomString += NSString(characters: &nextChar, length: 1) as String
         }
@@ -51,6 +88,11 @@ class Utility {
 
     static func randomInt(_ max: Int = Int(UInt32.max)) -> Int {
         return Int(arc4random_uniform(UInt32(max)))
+    }
+
+    static func randomInt(_ min: Int, _ max: Int) -> Int {
+        let diff = max - min
+        return min + Int(arc4random_uniform(UInt32(diff)))
     }
 
     static func randomBool() -> Bool {
@@ -113,11 +155,11 @@ enum Week: Int, Codable {
     static let allRawValues = Week.Monday.rawValue...Week.Sunday.rawValue
     static let allCases = Array(allRawValues.map{ Week(rawValue: $0)! })
 
-    static func weekday(_ week: Week) -> Int {
+    static func convertWeekToInt(_ week: Week) -> Int {
         return week.rawValue % 7 + 1
     }
 
-    static func convertCaseToAbbreviationString(_ week: Week) -> String {
+    static func convertWeekCaseToAbbreviationString(_ week: Week) -> String {
         switch week {
         case .Monday:
             return "Mon"
@@ -136,7 +178,7 @@ enum Week: Int, Codable {
         }
     }
 
-    static func convertCaseToString(_ week: Week) -> String {
+    static func convertWeekCaseToString(_ week: Week) -> String {
         switch week {
         case .Monday:
             return "Monday"
@@ -155,7 +197,7 @@ enum Week: Int, Codable {
         }
     }
 
-    static func convertStringToCase(_ string: String) -> Week {
+    static func convertWeekStringToCase(_ string: String) -> Week {
         switch string {
         case "Monday":
             return .Monday
@@ -177,12 +219,12 @@ enum Week: Int, Codable {
         }
     }
 
-    static func convertToDisplayingString(_ repeatWeekdays: [Week]) -> String{
+    static func convertWeekdaysToStringForDisplaying(_ repeatWeekdays: [Week]) -> String{
         var string = ""
         var count = 0
         for day in repeatWeekdays {
-            string += " \(Week.convertCaseToAbbreviationString(day))"
-            count += Week.bit(day)
+            string += " \(Week.convertWeekCaseToAbbreviationString(day))"
+            count += Week.convertWeekToFlagBit(day)
         }
 
         switch count {
@@ -202,7 +244,7 @@ enum Week: Int, Codable {
         return string
     }
 
-    private static func bit(_ week: Week) -> Int {
+    private static func convertWeekToFlagBit(_ week: Week) -> Int {
         return Int(pow(Double(2.0), Double(week.rawValue)))
     }
 }
