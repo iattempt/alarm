@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1708307520C753EA0064BA0C /* SnoozeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1708307420C753EA0064BA0C /* SnoozeTableViewCell.swift */; };
+		171D03AD210F0C800037EBF9 /* 2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 171D03AB210F0C800037EBF9 /* 2.mp3 */; };
+		171D03AE210F0C800037EBF9 /* 1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 171D03AC210F0C800037EBF9 /* 1.mp3 */; };
 		1732222C20C7EA0C001FDF4B /* AlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1732222B20C7EA0C001FDF4B /* AlarmViewController.swift */; };
 		1734994A210D77010001DADC /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17349949210D77010001DADC /* Scheduler.swift */; };
 		1734994E210DF7790001DADC /* InitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1734994D210DF7780001DADC /* InitViewController.swift */; };
@@ -54,6 +56,8 @@
 
 /* Begin PBXFileReference section */
 		1708307420C753EA0064BA0C /* SnoozeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnoozeTableViewCell.swift; sourceTree = "<group>"; };
+		171D03AB210F0C800037EBF9 /* 2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 2.mp3; sourceTree = "<group>"; };
+		171D03AC210F0C800037EBF9 /* 1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 1.mp3; sourceTree = "<group>"; };
 		1732222B20C7EA0C001FDF4B /* AlarmViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmViewController.swift; sourceTree = "<group>"; };
 		17349949210D77010001DADC /* Scheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scheduler.swift; sourceTree = "<group>"; };
 		1734994D210DF7780001DADC /* InitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitViewController.swift; sourceTree = "<group>"; };
@@ -120,6 +124,15 @@
 			path = CustomView;
 			sourceTree = "<group>";
 		};
+		17404AD0210F055600C37BB7 /* Sound */ = {
+			isa = PBXGroup;
+			children = (
+				171D03AC210F0C800037EBF9 /* 1.mp3 */,
+				171D03AB210F0C800037EBF9 /* 2.mp3 */,
+			);
+			name = Sound;
+			sourceTree = "<group>";
+		};
 		17D8B23B20C0B65A0097F6A8 = {
 			isa = PBXGroup;
 			children = (
@@ -143,6 +156,7 @@
 		17D8B24620C0B65A0097F6A8 /* alarm */ = {
 			isa = PBXGroup;
 			children = (
+				17404AD0210F055600C37BB7 /* Sound */,
 				17E6868120C9133900BA966F /* issue.rst */,
 				17D8B2C120C258340097F6A8 /* Application */,
 				17D8B2C020C19F100097F6A8 /* Utility */,
@@ -350,8 +364,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				171D03AE210F0C800037EBF9 /* 1.mp3 in Resources */,
 				17D8B25520C0B65A0097F6A8 /* LaunchScreen.storyboard in Resources */,
 				17D8B25220C0B65A0097F6A8 /* Assets.xcassets in Resources */,
+				171D03AD210F0C800037EBF9 /* 2.mp3 in Resources */,
 				17E6868220C9133900BA966F /* issue.rst in Resources */,
 				17D8B24D20C0B65A0097F6A8 /* Main.storyboard in Resources */,
 			);

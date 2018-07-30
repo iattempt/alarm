@@ -177,6 +177,7 @@ extension Scheduler {
 
     private static func setContentSoundForAlarm(_ content: UNMutableNotificationContent, _ alarm: Alarm) {
         if let _ = alarm.soundId {
+            var sound = UNNotificationSound(named: alarm.soundName)
             content.sound = UNNotificationSound(named: alarm.soundName)
         }
     }
@@ -187,7 +188,7 @@ extension Scheduler {
  set up snooze
 
  TODO:
-    1. Set up snooze when user tapped close button of notificaiton
+    1. Set up snooze when user tapped close button or swipe out of notificaiton
     2. Add timer notification for snooze
  */
 extension AppDelegate: UNUserNotificationCenterDelegate {
@@ -203,12 +204,13 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         default:
             let alarmId = response.notification.request.content.userInfo["alarmId"] as! Int
             var alarm = Alarms.instance().alarm(byId: alarmId)
-            // according latest date, maybe has snoozed
-            let date = response.notification.request.content.userInfo["date"] as! Date
-            alarm.date = date.addMinutes(alarm.snoozeId!)
+            alarm.date = Utility.unifyDate(Date().addMinutes(alarm.snoozeId!))
             Scheduler.setUpAlarmOnceNotifications(alarm)
         }
 
         completionHandler()
+    }
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound])
     }
 }
