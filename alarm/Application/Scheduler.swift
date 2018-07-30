@@ -14,21 +14,21 @@ import MediaPlayer
 class Scheduler {
     init() {
         let snoozeAction = UNNotificationAction(
-            identifier: Notification.Name.AlarmSnoozeAction,
+            identifier: NotificationIdentifiers.AlarmSnoozeAction,
             title: "Snooze",
             options: [.destructive])
         let stopAction = UNNotificationAction(
-            identifier: Notification.Name.AlarmStopAction,
+            identifier: NotificationIdentifiers.AlarmStopAction,
             title: "Stop",
             options: [])
 
         let snoozeAndStopCategory = UNNotificationCategory(
-            identifier: Notification.Name.SnoozeAndStopCategory,
+            identifier: NotificationIdentifiers.SnoozeAndStopCategory,
             actions: [snoozeAction, stopAction],
             intentIdentifiers: [],
             options: [])
         let stopOnlyCategory = UNNotificationCategory(
-            identifier: Notification.Name.StopOnlyCategory,
+            identifier: NotificationIdentifiers.StopOnlyCategory,
             actions: [stopAction],
             intentIdentifiers: [],
             options: [])
@@ -169,15 +169,14 @@ extension Scheduler {
     private static func setContentCategoryForAlarm(_ content: UNMutableNotificationContent, _ alarm: Alarm) {
         if let snooze = alarm.snoozeId {
             content.subtitle = "Snooze \(snooze) Min"
-            content.categoryIdentifier = Notification.Name.SnoozeAndStopCategory
+            content.categoryIdentifier = NotificationIdentifiers.SnoozeAndStopCategory
         } else {
-            content.categoryIdentifier = Notification.Name.StopOnlyCategory
+            content.categoryIdentifier = NotificationIdentifiers.StopOnlyCategory
         }
     }
 
     private static func setContentSoundForAlarm(_ content: UNMutableNotificationContent, _ alarm: Alarm) {
         if let _ = alarm.soundId {
-            var sound = UNNotificationSound(named: alarm.soundName)
             content.sound = UNNotificationSound(named: alarm.soundName)
         }
     }
@@ -199,7 +198,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         UNUserNotificationCenter.current().removePendingNotificationRequests(
             withIdentifiers: [response.notification.request.identifier])
         switch response.actionIdentifier {
-        case Notification.Name.AlarmStopAction:
+        case NotificationIdentifiers.AlarmStopAction:
             break
         default:
             let alarmId = response.notification.request.content.userInfo["alarmId"] as! Int

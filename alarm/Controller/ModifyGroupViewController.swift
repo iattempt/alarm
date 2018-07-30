@@ -74,9 +74,9 @@ extension ModifyGroupViewController: UITableViewDataSource,
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
-            performSegue(withIdentifier: SegueIdentifiers.GroupLabel.rawValue, sender: self)
+            performSegue(withIdentifier: SegueIdentifiers.GroupLabel, sender: self)
         case 1:
-            performSegue(withIdentifier: SegueIdentifiers.GroupRepeat.rawValue, sender: self)
+            performSegue(withIdentifier: SegueIdentifiers.GroupRepeat, sender: self)
         default:
             break
         }

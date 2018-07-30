@@ -77,7 +77,7 @@ UITableViewDataSource {
         let groupId = tableView.cellForRow(at: indexPath)?.tag
         SelectedGroup = Groups.instance().group(byId: groupId!)
         if isEditing {
-            performSegue(withIdentifier: SegueIdentifiers.EditGroup.rawValue, sender: self)
+            performSegue(withIdentifier: SegueIdentifiers.EditGroup, sender: self)
         }
         let selectedRow = tableView.cellForRow(at: indexPath)
         selectedRow?.backgroundColor = UIColor.clear
@@ -130,7 +130,7 @@ extension GroupViewController {
         var theGroup = Groups.instance().group(byId: sender.tag)
         theGroup.enabled = sender.isOn
         Groups.instance().update(theGroup)
-        NotificationCenter.default.post(name: Notification.Name.openclose, object: nil)
+        NotificationCenter.default.post(name: Notification.Name.switchGroup, object: nil)
     }
 
     func refreshItems() {

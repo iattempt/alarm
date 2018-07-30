@@ -97,17 +97,17 @@ extension ModifyAlarmViewController: UITableViewDataSource,
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
-        case 0: performSegue(withIdentifier: SegueIdentifiers.AlarmLabel.rawValue,
+        case 0: performSegue(withIdentifier: SegueIdentifiers.AlarmLabel,
                              sender: self)
-        case 1: performSegue(withIdentifier: SegueIdentifiers.AlarmGroupLabel.rawValue,
+        case 1: performSegue(withIdentifier: SegueIdentifiers.AlarmGroupLabel,
                              sender: self)
-        case 2: performSegue(withIdentifier: SegueIdentifiers.AlarmSnooze.rawValue,
+        case 2: performSegue(withIdentifier: SegueIdentifiers.AlarmSnooze,
                              sender: self)
-        case 3: performSegue(withIdentifier: SegueIdentifiers.AlarmSound.rawValue,
+        case 3: performSegue(withIdentifier: SegueIdentifiers.AlarmSound,
                              sender: self)
-        case 4: performSegue(withIdentifier: SegueIdentifiers.AlarmVibrate.rawValue,
+        case 4: performSegue(withIdentifier: SegueIdentifiers.AlarmVibrate,
                              sender: self)
-        case 5: performSegue(withIdentifier: SegueIdentifiers.AlarmRepeat.rawValue,
+        case 5: performSegue(withIdentifier: SegueIdentifiers.AlarmRepeat,
                              sender: self)
         default: break
         }

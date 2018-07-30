@@ -9,10 +9,5 @@
 import Foundation
 
 extension Notification.Name {
-    static let openclose = Notification.Name("openclose")
-
-    static let SnoozeAndStopCategory = "SnoozeAndStopCategory"
-    static let StopOnlyCategory = "StopOnlyCategory"
-    static let AlarmStopAction = "AlarmStopAction"
-    static let AlarmSnoozeAction = "AlarmSnoozeAction"
+    static let switchGroup = Notification.Name("switch_group")
 }

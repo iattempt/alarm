@@ -89,7 +89,7 @@ class AlarmViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         debugPrint("alarms will appear")
         super.viewWillAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: Notification.Name.openclose, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: Notification.Name.switchGroup, object: nil)
         refresh()
     }
 
@@ -195,7 +195,7 @@ extension AlarmViewController: UITableViewDelegate,
         let alarmId = tableView.cellForRow(at: indexPath)?.tag
         SelectedAlarm = Alarms.instance().alarm(byId: alarmId!)
         if isEditing {
-            performSegue(withIdentifier: SegueIdentifiers.EditAlarm.rawValue, sender: self)
+            performSegue(withIdentifier: SegueIdentifiers.EditAlarm, sender: self)
         } else {
 //            performSegue(withIdentifier: "later", sender: self)
         }
