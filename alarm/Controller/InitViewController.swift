@@ -33,7 +33,6 @@ class InitViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         requestAuthorization()
-        initNotificationCategory()
         initStatic()
     }
 
@@ -43,20 +42,6 @@ class InitViewController: UITabBarController {
 }
 
 extension InitViewController {
-    func initNotificationCategory() {
-        let snoozeAction = UNNotificationAction(identifier: "Snooze",
-                                                title: "Snooze",
-                                                options: [.destructive])
-        let stopAction = UNNotificationAction(identifier: "Stop",
-                                              title: "Stop",
-                                              options: [])
-        let snoozeCategory = UNNotificationCategory(identifier: "Snooze",
-                                                    actions: [snoozeAction, stopAction],
-                                                    intentIdentifiers: [],
-                                                    options: [])
-        UNUserNotificationCenter.current().setNotificationCategories([snoozeCategory])
-    }
-
     func initStatic() {
         let _ = Utility()
         let _ = Scheduler()
