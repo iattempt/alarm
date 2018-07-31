@@ -12,3 +12,4 @@
 * Handle event when user swipe out or tap close button of notification.
 * Short duration of song (30s restriction of notification sound).
 * Add timer notification for snoozing alarm.
+* Redo: schedule all notification after reboot
