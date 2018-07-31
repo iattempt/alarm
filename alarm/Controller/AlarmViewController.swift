@@ -96,7 +96,6 @@ class AlarmViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         debugPrint("alarms will disappear")
         super.viewWillDisappear(animated)
-        self.filter_groups = nil
         setEditing(false, animated: false)
     }
 
