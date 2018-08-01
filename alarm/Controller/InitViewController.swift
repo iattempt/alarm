@@ -46,7 +46,9 @@ extension InitViewController {
         let _ = Utility()
         let _ = Scheduler()
     }
+}
 
+extension InitViewController {
     func requestAuthorization() {
         if !UserDefaults.standard.bool(forKey: "firstLaunched") {
             UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
