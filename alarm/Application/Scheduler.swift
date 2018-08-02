@@ -55,7 +55,7 @@ class Scheduler {
         }
     }
 
-    fileprivate static func setUpAlarmOnceNotifications(_ alarm: Alarm) {
+    private static func setUpAlarmOnceNotifications(_ alarm: Alarm) {
         tearDownAlarmNotifications(alarm)
         let content = UNMutableNotificationContent()
         content.userInfo = ["alarmId": alarm.alarmId, "date": alarm.date]
@@ -173,7 +173,7 @@ extension Scheduler {
         return "\(alarm.alarmId)_\(Week.convertWeekCaseToString(week))"
     }
 
-    fileprivate static func setContentTitleForAlarm(_ content: UNMutableNotificationContent, _ alarm: Alarm) {
+    private static func setContentTitleForAlarm(_ content: UNMutableNotificationContent, _ alarm: Alarm) {
         content.title = alarm.alarmLabel
     }
 

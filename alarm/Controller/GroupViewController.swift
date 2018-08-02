@@ -114,11 +114,11 @@ UITableViewDataSource {
 }
 
 extension GroupViewController {
-    @objc fileprivate func handler(_ notification: Notification) {
+    @objc func handler(_ notification: Notification) {
         refresh()
     }
 
-    fileprivate func refresh() {
+    func refresh() {
         SelectedGroup = nil
         IsLoadedPropertiesOfSelectedAlarmOrGroup = false
         tableView.reloadData()

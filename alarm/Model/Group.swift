@@ -107,7 +107,7 @@ class Groups {
         persist()
     }
 
-    fileprivate func reorganize() -> Bool {
+    private func reorganize() -> Bool {
         guard _groups.count < Int.max else {
             return false
         }

@@ -94,7 +94,7 @@ extension AlarmGroupViewController: UITableViewDelegate,
 }
 
 extension AlarmGroupViewController {
-    fileprivate func refresh() {
+    func refresh() {
         tableView.allowsSelectionDuringEditing = true
         self.groups = Groups.instance().groups()
         tableView.reloadData()

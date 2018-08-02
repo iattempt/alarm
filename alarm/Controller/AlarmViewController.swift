@@ -8,7 +8,7 @@
 
 import UIKit
 
-fileprivate enum FilterStatus {
+enum FilterStatus {
     case All
     case On
     case Off
@@ -17,7 +17,7 @@ fileprivate enum FilterStatus {
 class AlarmViewController: UIViewController {
     var alarms = Alarms.instance().alarms()
     @IBOutlet weak var tableView: UITableView!
-    fileprivate var filter_status_type: FilterStatus = .On
+    var filter_status_type: FilterStatus = .On
     // nil means all
     // [-1] means non-group alarms
     var filter_groups: [Int]? = nil
@@ -123,7 +123,7 @@ extension AlarmViewController: UITableViewDelegate,
         return self.alarms.count
     }
 
-    fileprivate func isMatchingFilterStatus(_ theAlarm: Alarm) -> Bool {
+    func isMatchingFilterStatus(_ theAlarm: Alarm) -> Bool {
         return filter_status_type == .All ||
                (filter_status_type == .On && theAlarm.isEnabled()) ||
                (filter_status_type == .Off && theAlarm.isDisabled())
@@ -138,7 +138,7 @@ extension AlarmViewController: UITableViewDelegate,
         }
     }
 
-    fileprivate func isMatchingFilterGroup(_ theAlarm: Alarm) -> Bool {
+    func isMatchingFilterGroup(_ theAlarm: Alarm) -> Bool {
         // nil means all
         if let theFilterGroupIds = filter_groups {
             // empty means non-group alarms

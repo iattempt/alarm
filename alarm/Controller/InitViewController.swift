@@ -60,11 +60,11 @@ extension InitViewController {
         }
     }
 
-    fileprivate func requestMusicAuthorization() {
+    private func requestMusicAuthorization() {
         MPMediaQuery.songs()
     }
 
-    fileprivate func requestNotificationAuthorization() {
+    private func requestNotificationAuthorization() {
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.alert, .sound]) {(_,_) in}
     }

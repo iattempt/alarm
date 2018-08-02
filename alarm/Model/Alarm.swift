@@ -267,7 +267,7 @@ class Alarms {
         persist()
     }
 
-    fileprivate func reorganize() -> Bool {
+    private func reorganize() -> Bool {
         guard _alarms.count < Int.max else {
             return false
         }
@@ -318,7 +318,7 @@ class Alarms {
         NextAlarmId = data
     }
 
-    fileprivate func sorted(_ alarms: [Alarm]) -> [Alarm] {
+    private func sorted(_ alarms: [Alarm]) -> [Alarm] {
         return Utility.sortAlarmByTime(alarms.stableSorted(by: { (a, b) -> Bool in
             return a.alarmId < b.alarmId
         }))
