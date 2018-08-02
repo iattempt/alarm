@@ -208,6 +208,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         // TODO: handle that user tapped close button of notification
         UNUserNotificationCenter.current().removePendingNotificationRequests(
             withIdentifiers: [response.notification.request.identifier])
+
+        // TODO: Cannot snooze currectly if there are two or more notification ring simultenously
         switch response.actionIdentifier {
         case NotificationIdentifiers.AlarmStopAction:
             break
