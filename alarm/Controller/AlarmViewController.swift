@@ -91,6 +91,7 @@ class AlarmViewController: UIViewController {
         super.viewWillAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: Notification.Name.switchGroup, object: nil)
         refresh()
+        scrollToNearestRowOfDate()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -231,6 +232,27 @@ extension AlarmViewController {
     func isVisible(_ theAlarm: Alarm) -> (Bool) {
         return isMatchingFilterStatus(theAlarm) &&
             isMatchingFilterGroup(theAlarm)
+    }
+
+    func scrollToNearestRowOfDate() {
+        var nearestTimeIndexPathRow = 0
+        var isAnyCellVisible = false
+
+        // Find nearest row
+        for alarm in self.alarms {
+            if isVisible(alarm) {
+                isAnyCellVisible = true
+            }
+            if alarm.date >= Utility.unifyDate(Date()) {
+                break
+            }
+            nearestTimeIndexPathRow += 1
+        }
+
+        // Scroll to the nearest row
+        if isAnyCellVisible {
+            self.tableView.scrollToRow(at: IndexPath(row: nearestTimeIndexPathRow, section: 0), at: .top, animated: false)
+        }
     }
 
     func refreshItems() {
