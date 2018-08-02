@@ -220,8 +220,21 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             Scheduler.setUpAlarmOnceNotifications(alarm)
         }
 
+        // TODO: Cannot change the state when user tab the close button of notification directly
+        // Change state for each matched alarm, because we cannot handle multiple notification concurrently.
+        for var alarm in Alarms.instance().alarms() {
+            let date = response.notification.request.content.userInfo["date"] as! Date
+            if alarm.isEnabled() && alarm.date == date && alarm.repeatWeekdays.isEmpty {
+                alarm.enabled = false
+                Alarms.instance().update(alarm)
+            }
+        }
+
+        NotificationCenter.default.post(name: Notification.Name.switchGroup, object: nil)
+
         completionHandler()
     }
+
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.alert, .sound])
     }
