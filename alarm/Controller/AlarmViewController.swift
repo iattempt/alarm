@@ -179,11 +179,7 @@ extension AlarmViewController: UITableViewDelegate,
         cell.accessoryView = switchButton
         cell.editingAccessoryType = .disclosureIndicator
 
-        if !isMatchingFilterStatus(theAlarm){
-            cell.isHidden = true
-        }
-
-        if !isMatchingFilterGroup(theAlarm) {
+        if !isVisible(theAlarm) {
             cell.isHidden = true
         }
 
@@ -230,6 +226,11 @@ extension AlarmViewController {
         theAlarm.enabled = sender.isOn
         Alarms.instance().update(theAlarm)
         refresh()
+    }
+
+    func isVisible(_ theAlarm: Alarm) -> (Bool) {
+        return isMatchingFilterStatus(theAlarm) &&
+            isMatchingFilterGroup(theAlarm)
     }
 
     func refreshItems() {
