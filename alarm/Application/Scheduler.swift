@@ -55,7 +55,7 @@ class Scheduler {
         }
     }
 
-    private static func setUpAlarmOnceNotifications(_ alarm: Alarm) {
+    fileprivate static func setUpAlarmOnceNotifications(_ alarm: Alarm) {
         tearDownAlarmNotifications(alarm)
         let content = UNMutableNotificationContent()
         content.userInfo = ["alarmId": alarm.alarmId, "date": alarm.date]
@@ -78,7 +78,7 @@ class Scheduler {
         }
     }
 
-    private static func setUpAlarmWeekdaysNotifications(_ alarm: Alarm) {
+    fileprivate static func setUpAlarmWeekdaysNotifications(_ alarm: Alarm) {
         tearDownAlarmNotifications(alarm)
         var dateComponents = extractComponentFromDate(alarm.date)
         dateComponents.timeZone = Calendar.current.timeZone
@@ -91,7 +91,7 @@ class Scheduler {
         }
     }
 
-    private static func setUpAlarmNotificationsForWeekday(
+    fileprivate static func setUpAlarmNotificationsForWeekday(
         _ alarm: Alarm, identifier: String, dateComponents: DateComponents) {
 
         let content = UNMutableNotificationContent()
@@ -122,26 +122,26 @@ class Scheduler {
         tearDownAlarmNotificationsForSnooze(alarm)
     }
 
-    private static func tearDownAlarmNotificationsForOnce(_ alarm: Alarm) {
+    fileprivate static func tearDownAlarmNotificationsForOnce(_ alarm: Alarm) {
         // remove once
         let identifier = getOnceIdentifier(alarm)
         removePendingNotificationRequestsByIdentifier(identifier)
     }
 
-    private static func tearDownAlarmNotificationsForWeekdays(_ alarm: Alarm) {
+    fileprivate static func tearDownAlarmNotificationsForWeekdays(_ alarm: Alarm) {
         for week in Week.allCases {
             let identifier = getWeekIdentifierForWeek(alarm, week)
             removePendingNotificationRequestsByIdentifier(identifier)
         }
     }
 
-    private static func tearDownAlarmNotificationsForSnooze(_ alarm: Alarm) {
+    fileprivate static func tearDownAlarmNotificationsForSnooze(_ alarm: Alarm) {
         // remove once
         let identifier = getSnoozeIdentifier(alarm)
         removePendingNotificationRequestsByIdentifier(identifier)
     }
 
-    private static func removePendingNotificationRequestsByIdentifier(_ identifier: String) {
+    fileprivate static func removePendingNotificationRequestsByIdentifier(_ identifier: String) {
         UNUserNotificationCenter.current().getPendingNotificationRequests { (notifications) in
             for notification in notifications {
                 if notification.identifier == identifier {
@@ -152,7 +152,7 @@ class Scheduler {
         }
     }
 
-    private static func extractComponentFromDate(_ date: Date) -> DateComponents {
+    fileprivate static func extractComponentFromDate(_ date: Date) -> DateComponents {
         var components = DateComponents()
         components.hour = Calendar.current.component(.hour, from: date)
         components.minute = Calendar.current.component(.minute, from: date)
@@ -161,23 +161,23 @@ class Scheduler {
 }
 
 extension Scheduler {
-    private static func getOnceIdentifier(_ alarm: Alarm) -> String {
+    fileprivate static func getOnceIdentifier(_ alarm: Alarm) -> String {
         return "\(alarm.alarmId)_once"
     }
 
-    private static func getSnoozeIdentifier(_ alarm: Alarm) -> String {
+    fileprivate static func getSnoozeIdentifier(_ alarm: Alarm) -> String {
         return "\(alarm.alarmId)_snooze"
     }
 
-    private static func getWeekIdentifierForWeek(_ alarm: Alarm, _ week: Week) -> String {
+    fileprivate static func getWeekIdentifierForWeek(_ alarm: Alarm, _ week: Week) -> String {
         return "\(alarm.alarmId)_\(Week.convertWeekCaseToString(week))"
     }
 
-    private static func setContentTitleForAlarm(_ content: UNMutableNotificationContent, _ alarm: Alarm) {
+    fileprivate static func setContentTitleForAlarm(_ content: UNMutableNotificationContent, _ alarm: Alarm) {
         content.title = alarm.alarmLabel
     }
 
-    private static func setContentCategoryForAlarm(_ content: UNMutableNotificationContent, _ alarm: Alarm) {
+    fileprivate static func setContentCategoryForAlarm(_ content: UNMutableNotificationContent, _ alarm: Alarm) {
         if let snooze = alarm.snoozeId {
             content.subtitle = "Snooze \(snooze) Min"
             content.categoryIdentifier = NotificationIdentifiers.SnoozeAndStopCategory
@@ -186,7 +186,7 @@ extension Scheduler {
         }
     }
 
-    private static func setContentSoundForAlarm(_ content: UNMutableNotificationContent, _ alarm: Alarm) {
+    fileprivate static func setContentSoundForAlarm(_ content: UNMutableNotificationContent, _ alarm: Alarm) {
         if let _ = alarm.soundId {
             content.sound = UNNotificationSound(named: alarm.soundName)
         }
