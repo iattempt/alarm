@@ -34,18 +34,18 @@ class AlarmViewController: UIViewController {
         default:
             break
         }
-        tableView.reloadData()
+        refresh()
     }
 
     @IBAction func filter_group(_ sender: UIBarButtonItem) {
         let alertController = UIAlertController(title: "Filter", message: "", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "All", style: UIAlertActionStyle.destructive, handler: { (action) in
             self.filter_groups = nil
-            self.tableView.reloadData()
+            self.refresh()
         }))
         alertController.addAction(UIAlertAction(title: "Not belongs group", style: UIAlertActionStyle.destructive, handler: { (action) in
             self.filter_groups = [-1]
-            self.tableView.reloadData()
+            self.refresh()
         }))
         alertController.addAction(UIAlertAction(title: "Enabled group", style: UIAlertActionStyle.destructive, handler: { (action) in
             self.filter_groups = []
@@ -54,7 +54,7 @@ class AlarmViewController: UIViewController {
                     self.filter_groups?.append(group.groupId)
                 }
             }
-            self.tableView.reloadData()
+            self.refresh()
         }))
         alertController.addAction(UIAlertAction(title: "Disabled group", style: UIAlertActionStyle.destructive, handler: { (action) in
             self.filter_groups = []
@@ -63,13 +63,13 @@ class AlarmViewController: UIViewController {
                     self.filter_groups?.append(group.groupId)
                 }
             }
-            self.tableView.reloadData()
+            self.refresh()
         }))
         for group in Groups.instance().groups() {
             alertController.addAction(UIAlertAction(title: group.groupLabel, style: .default, handler: { (action) in
                 self.filter_groups = []
                 self.filter_groups?.append(group.groupId)
-                self.tableView.reloadData()
+                self.refresh()
             }))
         }
         alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { (action) in
