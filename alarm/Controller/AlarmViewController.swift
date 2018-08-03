@@ -250,7 +250,7 @@ extension AlarmViewController {
         }
 
         // Scroll to the nearest row
-        if isAnyCellVisible {
+        if isAnyCellVisible && 0 <= nearestTimeIndexPathRow && nearestTimeIndexPathRow < self.alarms.count {
             self.tableView.scrollToRow(at: IndexPath(row: nearestTimeIndexPathRow, section: 0), at: .top, animated: false)
         }
     }
