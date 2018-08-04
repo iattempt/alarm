@@ -14,13 +14,38 @@ enum FilterStatus : String {
     case Off = "off"
 }
 
+struct FilterGroupIds {
+    static let All = [-1]
+    static let NotBelongs = [-2]
+    static var EnabledGroups : [Int] {
+        get {
+            var result = [Int]()
+            for group in Groups.instance().groups() {
+                if group.enabled {
+                    result.append(group.groupId)
+                }
+            }
+            return result
+        }
+    }
+    static var DisabledGroups : [Int] {
+        get {
+            var result = [Int]()
+            for group in Groups.instance().groups() {
+                if !group.enabled {
+                    result.append(group.groupId)
+                }
+            }
+            return result
+        }
+    }
+}
+
 class AlarmViewController: UIViewController {
     var alarms = Alarms.instance().alarms()
     @IBOutlet weak var tableView: UITableView!
     var filter_status_type: FilterStatus = .On
-    // nil means all
-    // [-1] means non-group alarms
-    var filter_groups: [Int]? = nil
+    var filter_group_ids: [Int] = FilterGroupIds.All
 
     @IBAction func filter_status(_ sender: UISegmentedControl) {
         let string = sender.titleForSegment(at: sender.selectedSegmentIndex)!
@@ -40,40 +65,29 @@ class AlarmViewController: UIViewController {
     @IBAction func filter_group(_ sender: UIBarButtonItem) {
         let alertController = UIAlertController(title: "Filter", message: "", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "All", style: UIAlertActionStyle.destructive, handler: { (action) in
-            self.filter_groups = nil
+            self.filter_group_ids = FilterGroupIds.All
             self.refresh()
         }))
         alertController.addAction(UIAlertAction(title: "Not belongs group", style: UIAlertActionStyle.destructive, handler: { (action) in
-            self.filter_groups = [-1]
+            self.filter_group_ids = FilterGroupIds.NotBelongs
             self.refresh()
         }))
         alertController.addAction(UIAlertAction(title: "Enabled group", style: UIAlertActionStyle.destructive, handler: { (action) in
-            self.filter_groups = []
-            for group in Groups.instance().groups() {
-                if group.enabled {
-                    self.filter_groups?.append(group.groupId)
-                }
-            }
+            self.filter_group_ids = FilterGroupIds.EnabledGroups
             self.refresh()
         }))
         alertController.addAction(UIAlertAction(title: "Disabled group", style: UIAlertActionStyle.destructive, handler: { (action) in
-            self.filter_groups = []
-            for group in Groups.instance().groups() {
-                if !group.enabled {
-                    self.filter_groups?.append(group.groupId)
-                }
-            }
+            self.filter_group_ids = FilterGroupIds.DisabledGroups
             self.refresh()
         }))
         for group in Groups.instance().groups() {
             alertController.addAction(UIAlertAction(title: group.groupLabel, style: .default, handler: { (action) in
-                self.filter_groups = []
-                self.filter_groups?.append(group.groupId)
+                self.filter_group_ids = []
+                self.filter_group_ids.append(group.groupId)
                 self.refresh()
             }))
         }
-        alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { (action) in
-        }))
+        alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { (action) in }))
         self.present(alertController, animated: true) {}
     }
 
@@ -139,28 +153,20 @@ extension AlarmViewController: UITableViewDelegate,
     }
 
     func isMatchingFilterGroup(_ theAlarm: Alarm) -> Bool {
-        // nil means all
-        if let theFilterGroupIds = filter_groups {
-            // empty means non-group alarms
-            if theFilterGroupIds.count == 1 && theFilterGroupIds[0] == -1 {
-                if theAlarm.groupId != nil {
-                    return false
-                }
-            } else {
-                if let theGroupId = theAlarm.groupId {
-                    var matched = false
-                    for groupId in theFilterGroupIds {
-                        if theGroupId == groupId {
-                            matched = true
-                        }
+        if filter_group_ids == FilterGroupIds.All {
+            return true
+        } else if filter_group_ids == FilterGroupIds.NotBelongs && theAlarm.groupId == nil {
+            return true
+        } else {
+            if let theGroupId = theAlarm.groupId {
+                for filterGroupId in filter_group_ids {
+                    if theGroupId == filterGroupId {
+                        return true
                     }
-                    return matched
-                } else {
-                    return false
                 }
             }
         }
-        return true
+        return false
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
