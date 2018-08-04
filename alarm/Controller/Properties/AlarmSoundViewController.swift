@@ -13,6 +13,7 @@ import AVFoundation
 class AlarmSoundViewController: UIViewController {
     var isSelectedToPlay = false
     var isFailedToAccessMusic = false
+    let built_in_ringtongs = ["1", "2", "turn_down_for_what", "strum_dubstep", "luis_fonsi"]
 
     @IBOutlet weak var tableView: UITableView!
 
@@ -65,7 +66,7 @@ UITableViewDataSource {
         if section == 0 {
             return 1
         } else if section == 1 {
-            return 2
+            return built_in_ringtongs.count
         } else {
             return 0
 /*
@@ -108,8 +109,8 @@ UITableViewDataSource {
             cell.textLabel?.text = "none"
             cell.accessoryType = SoundIdProp == nil ? .checkmark : .none
         } else if indexPath.section == 1 {
-            cell.textLabel?.text = "\(indexPath.row + 1)"
-            cell.accessoryType = SoundIdProp == UInt64(indexPath.row + 1) ? .checkmark : .none
+            cell.textLabel?.text = built_in_ringtongs[indexPath.row]
+            cell.accessoryType = SoundIdProp == UInt64(indexPath.row) ? .checkmark : .none
         } else if indexPath.section == 2 {
             let item = items[indexPath.row]
             cell.textLabel?.text = item.title
@@ -125,8 +126,8 @@ UITableViewDataSource {
             SoundIdProp = nil
             SoundNameProp = "none"
         } else if indexPath.section == 1 {
-            SoundIdProp = UInt64(indexPath.row) + 1
-            SoundNameProp = "\(indexPath.row + 1).mp3"
+            SoundIdProp = UInt64(indexPath.row)
+            SoundNameProp = "\(built_in_ringtongs[indexPath.row]).mp3"
             isSelectedToPlay = true
 /*
  TODO: cannot play with our built-in ringtong
