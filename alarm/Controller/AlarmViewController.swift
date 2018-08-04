@@ -43,9 +43,10 @@ struct FilterGroupIds {
 
 class AlarmViewController: UIViewController {
     var alarms = Alarms.instance().alarms()
-    @IBOutlet weak var tableView: UITableView!
     var filter_status_type: FilterStatus = .On
     var filter_group_ids: [Int] = FilterGroupIds.All
+
+    @IBOutlet weak var tableView: UITableView!
 
     @IBAction func filter_status(_ sender: UISegmentedControl) {
         let string = sender.titleForSegment(at: sender.selectedSegmentIndex)!
