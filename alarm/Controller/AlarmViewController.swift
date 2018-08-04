@@ -246,6 +246,10 @@ extension AlarmViewController {
             isMatchingFilterGroup(theAlarm)
     }
 
+    private func isNotOutOfBound(_ nearestTimeIndexPathRow : Int) {
+        return 0 <= nearestTimeIndexPathRow && nearestTimeIndexPathRow < self.alarms.count
+    }
+
     func scrollToNearestRowOfDate() {
         var nearestTimeIndexPathRow = 0
         var isAnyCellVisible = false
@@ -262,7 +266,7 @@ extension AlarmViewController {
         }
 
         // Scroll to the nearest row
-        if isAnyCellVisible && 0 <= nearestTimeIndexPathRow && nearestTimeIndexPathRow < self.alarms.count {
+        if isAnyCellVisible && isNotOutOfBound(nearestTimeIndexPathRow) {
             self.tableView.scrollToRow(at: IndexPath(row: nearestTimeIndexPathRow, section: 0), at: .top, animated: false)
         }
     }
