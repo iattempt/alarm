@@ -8,10 +8,10 @@
 
 import UIKit
 
-enum FilterStatus {
-    case All
-    case On
-    case Off
+enum FilterStatus : String {
+    case All = "all"
+    case On = "on"
+    case Off = "off"
 }
 
 class AlarmViewController: UIViewController {
@@ -25,11 +25,11 @@ class AlarmViewController: UIViewController {
     @IBAction func filter_status(_ sender: UISegmentedControl) {
         let string = sender.titleForSegment(at: sender.selectedSegmentIndex)!
         switch string.lowercased() {
-        case "all":
+        case FilterStatus.All.rawValue:
             filter_status_type = FilterStatus.All
-        case "on":
+        case FilterStatus.On.rawValue:
             filter_status_type = FilterStatus.On
-        case "off":
+        case FilterStatus.Off.rawValue:
             filter_status_type = FilterStatus.Off
         default:
             break
