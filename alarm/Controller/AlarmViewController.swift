@@ -170,15 +170,22 @@ extension AlarmViewController: UITableViewDelegate,
         return false
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // Todo: the animation is not smooth
-        let theAlarm = self.alarms[indexPath.row]
-
+    fileprivate func getSwitchButton(_ theAlarm: Alarm) -> UISwitch {
         let switchButton = UISwitch()
+
         switchButton.isOn = theAlarm.isEnabled()
         switchButton.tag = theAlarm.alarmId
         switchButton.isEnabled = !theAlarm.isGroupAlarm() || theAlarm.isGroupEnabled()
         switchButton.addTarget(self, action: #selector(self.switchChanged(_:)), for: .valueChanged)
+
+        return switchButton
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // Todo: the animation is not smooth
+        let theAlarm = self.alarms[indexPath.row]
+
+        let switchButton = getSwitchButton(theAlarm)
 
         let cell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: nil)
         cell.textLabel?.text = Utility.dateFormatter.string(from: theAlarm.date)
