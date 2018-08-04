@@ -173,7 +173,6 @@ extension ModifyAlarmViewController {
                 VibrateIdProp = nil
                 VibrateNameProp = "none"
                 RepeatWeekdaysProp.removeAll()
-                // snooze after 10 minutes
                 SnoozeIdProp = 10
             }
         }
