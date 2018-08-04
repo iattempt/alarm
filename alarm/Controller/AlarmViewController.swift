@@ -198,8 +198,6 @@ extension AlarmViewController: UITableViewDelegate,
         SelectedAlarm = Alarms.instance().alarm(byId: alarmId!)
         if isEditing {
             performSegue(withIdentifier: SegueIdentifiers.EditAlarm, sender: self)
-        } else {
-//            performSegue(withIdentifier: "later", sender: self)
         }
     }
 
