@@ -12,6 +12,7 @@
 		1734994A210D77010001DADC /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17349949210D77010001DADC /* Scheduler.swift */; };
 		1734994E210DF7790001DADC /* InitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1734994D210DF7780001DADC /* InitViewController.swift */; };
 		174DAD2B20F80962008D4879 /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174DAD2A20F80961008D4879 /* GroupViewController.swift */; };
+		17A2DD392117499B005F422E /* SnoozeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A2DD382117499B005F422E /* SnoozeTableViewCell.swift */; };
 		17B5477120C3D0FB003B81DE /* AlarmGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B5477020C3D0FB003B81DE /* AlarmGroupViewController.swift */; };
 		17BAC86320C5546600775E0B /* ModifyGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BAC86220C5546600775E0B /* ModifyGroupViewController.swift */; };
 		17C2198D210E078C00306AAC /* Identifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C2198C210E078C00306AAC /* Identifiers.swift */; };
@@ -62,6 +63,7 @@
 		17349949210D77010001DADC /* Scheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scheduler.swift; sourceTree = "<group>"; };
 		1734994D210DF7780001DADC /* InitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitViewController.swift; sourceTree = "<group>"; };
 		174DAD2A20F80961008D4879 /* GroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewController.swift; sourceTree = "<group>"; };
+		17A2DD382117499B005F422E /* SnoozeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnoozeTableViewCell.swift; sourceTree = "<group>"; };
 		17B5477020C3D0FB003B81DE /* AlarmGroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmGroupViewController.swift; sourceTree = "<group>"; };
 		17BAC86220C5546600775E0B /* ModifyGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyGroupViewController.swift; sourceTree = "<group>"; };
 		17C2198C210E078C00306AAC /* Identifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifiers.swift; sourceTree = "<group>"; };
@@ -132,6 +134,14 @@
 			name = Sound;
 			sourceTree = "<group>";
 		};
+		17A2DD3721174981005F422E /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				17A2DD382117499B005F422E /* SnoozeTableViewCell.swift */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
 		17D8B23B20C0B65A0097F6A8 = {
 			isa = PBXGroup;
 			children = (
@@ -199,6 +209,7 @@
 		17D8B27A20C0C3130097F6A8 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				17A2DD3721174981005F422E /* CustomView */,
 				1734994D210DF7780001DADC /* InitViewController.swift */,
 				1732222B20C7EA0C001FDF4B /* AlarmViewController.swift */,
 				174DAD2A20F80961008D4879 /* GroupViewController.swift */,
@@ -408,6 +419,7 @@
 				17D8B2D020C3B9730097F6A8 /* Alarm.swift in Sources */,
 				17D8B24820C0B65A0097F6A8 /* AppDelegate.swift in Sources */,
 				17D8B2B320C18EC90097F6A8 /* AlarmSoundViewController.swift in Sources */,
+				17A2DD392117499B005F422E /* SnoozeTableViewCell.swift in Sources */,
 				1734994A210D77010001DADC /* Scheduler.swift in Sources */,
 				17D8B2C420C2934A0097F6A8 /* Notifications.swift in Sources */,
 				17D8B2A520C11BD90097F6A8 /* ModifyAlarmViewController.swift in Sources */,
