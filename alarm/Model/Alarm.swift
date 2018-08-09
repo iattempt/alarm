@@ -92,7 +92,7 @@ struct Alarm: Codable {
 }
 
 class Alarms {
-    private static var instance_: Alarms? = nil
+    private static var _instance: Alarms? = nil
     private let persistNextAlarmIdKey = "NextAlarmIdKey"
     private let persistKey = "AlarmKey"
     private let userDefaults = UserDefaults.standard
@@ -108,10 +108,10 @@ class Alarms {
     }
 
     static func instance() -> Alarms {
-        if instance_ == nil {
-            instance_ = Alarms()
+        if _instance == nil {
+            _instance = Alarms()
         }
-        return instance_!
+        return _instance!
     }
 
     func alarm(byId id: Int) -> Alarm {
