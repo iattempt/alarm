@@ -15,7 +15,7 @@ enum FilterStatus : String {
 }
 
 struct FilterGroupIds {
-    static let All = [-1]
+    static let Ignore = [-1]
     static let NotBelongs = [-2]
     static var EnabledGroups : [Int] {
         get {
@@ -44,7 +44,7 @@ struct FilterGroupIds {
 class AlarmViewController: UIViewController {
     var alarms = Alarms.instance().alarms()
     var filter_status_type: FilterStatus = .On
-    var filter_group_ids: [Int] = FilterGroupIds.All
+    var filter_group_ids: [Int] = FilterGroupIds.Ignore
 
     @IBOutlet weak var tableView: UITableView!
 
@@ -66,7 +66,7 @@ class AlarmViewController: UIViewController {
     @IBAction func filter_group(_ sender: UIBarButtonItem) {
         let alertController = UIAlertController(title: "Filter", message: "", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "All", style: UIAlertActionStyle.destructive, handler: { (action) in
-            self.filter_group_ids = FilterGroupIds.All
+            self.filter_group_ids = FilterGroupIds.Ignore
             self.refresh()
         }))
         alertController.addAction(UIAlertAction(title: "Not belongs group", style: UIAlertActionStyle.destructive, handler: { (action) in
@@ -140,46 +140,46 @@ extension AlarmViewController: UITableViewDelegate,
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let theAlarm = self.alarms[indexPath.row]
-        if isMatchingFilterStatus(theAlarm) && isMatchingFilterGroup(theAlarm) {
+        if isMatchedFilterStatus(theAlarm) && isMatchedFilterGroup(theAlarm) {
             return UITableViewAutomaticDimension
         } else {
             return CGFloat(0)
         }
     }
 
-    func isMatchingFilterStatus(_ theAlarm: Alarm) -> Bool {
-        return isMatchingAllStatus() ||
-               isMatchingEnabledStatus(theAlarm) ||
-               isMatchingDisabledStatus(theAlarm)
+    func isMatchedFilterStatus(_ theAlarm: Alarm) -> Bool {
+        return isMatchedIgnoredStatus() ||
+               isMatchedEnabledStatus(theAlarm) ||
+               isMatchedDisabledStatus(theAlarm)
     }
 
-    private func isMatchingAllStatus() -> Bool {
+    private func isMatchedIgnoredStatus() -> Bool {
         return filter_status_type == .All
     }
 
-    private func isMatchingEnabledStatus(_ theAlarm: Alarm) -> Bool {
+    private func isMatchedEnabledStatus(_ theAlarm: Alarm) -> Bool {
         return filter_status_type == .On && theAlarm.isEnabled()
     }
 
-    private func isMatchingDisabledStatus(_ theAlarm: Alarm) -> Bool {
+    private func isMatchedDisabledStatus(_ theAlarm: Alarm) -> Bool {
         return filter_status_type == .Off && theAlarm.isDisabled()
     }
 
-    func isMatchingFilterGroup(_ theAlarm: Alarm) -> Bool {
-        return isMatchingAllGroup() ||
-               isMatchingNotBelongedGroup(theAlarm) ||
-               isMatchingSpecifiedGroups(theAlarm)
+    func isMatchedFilterGroup(_ theAlarm: Alarm) -> Bool {
+        return isMatchedIgnoredGroup() ||
+               isMatchedNotBelongedGroup(theAlarm) ||
+               isMatchedSpecifiedGroups(theAlarm)
     }
 
-    private func isMatchingAllGroup() -> Bool {
-        return filter_group_ids == FilterGroupIds.All
+    private func isMatchedIgnoredGroup() -> Bool {
+        return filter_group_ids == FilterGroupIds.Ignore
     }
 
-    private func isMatchingNotBelongedGroup(_ theAlarm: Alarm) -> Bool {
+    private func isMatchedNotBelongedGroup(_ theAlarm: Alarm) -> Bool {
         return filter_group_ids == FilterGroupIds.NotBelongs && theAlarm.groupId == nil
     }
 
-    private func isMatchingSpecifiedGroups(_ theAlarm: Alarm) -> Bool {
+    private func isMatchedSpecifiedGroups(_ theAlarm: Alarm) -> Bool {
         if let theGroupId = theAlarm.groupId {
             for filterGroupId in filter_group_ids {
                 if theGroupId == filterGroupId {
@@ -251,8 +251,8 @@ extension AlarmViewController {
     }
 
     func isVisible(_ theAlarm: Alarm) -> (Bool) {
-        return isMatchingFilterStatus(theAlarm) &&
-            isMatchingFilterGroup(theAlarm)
+        return isMatchedFilterStatus(theAlarm) &&
+            isMatchedFilterGroup(theAlarm)
     }
 
     fileprivate func getSwitchButton(_ theAlarm: Alarm) -> UISwitch {
