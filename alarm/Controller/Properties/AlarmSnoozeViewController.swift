@@ -12,7 +12,7 @@ class AlarmSnoozeViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
 
     override func viewWillAppear(_ animated: Bool) {
-        debugPrint("selecting snooze will appear")
+        debugPrint("editing snooze will appear")
         super.viewWillAppear(animated)
     }
 
@@ -25,7 +25,7 @@ class AlarmSnoozeViewController: UIViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        debugPrint("selecting snooze will disappear")
+        debugPrint("editing snooze will disappear")
         super.viewWillDisappear(animated)
     }
 }
