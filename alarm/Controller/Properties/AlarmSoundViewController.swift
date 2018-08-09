@@ -20,7 +20,7 @@ class AlarmSoundViewController: UIViewController {
     var items: [MPMediaItem] = [MPMediaItem]()
 
     override func viewWillAppear(_ animated: Bool) {
-        debugPrint("selecting sound will appear")
+        debugPrint("editing sound will appear")
         super.viewWillAppear(animated)
         refresh()
         NotificationCenter.default.addObserver(self, selector: #selector(pauseMusic), name: NSNotification.Name.UIApplicationWillResignActive, object: nil    )
@@ -50,7 +50,7 @@ class AlarmSoundViewController: UIViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        debugPrint("selecting sound will disappear")
+        debugPrint("editing sound will disappear")
         super.viewWillDisappear(animated)
         pauseMusic()
     }
