@@ -12,7 +12,7 @@ class AlarmRepeatViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
 
     override func viewWillAppear(_ animated: Bool) {
-        debugPrint("selecting repeat will appear")
+        debugPrint("editing repeat will appear")
         super.viewWillAppear(animated)
     }
 
@@ -25,7 +25,7 @@ class AlarmRepeatViewController: UIViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        debugPrint("selecting repeat will disappear")
+        debugPrint("editing repeat will disappear")
         super.viewWillDisappear(animated)
     }
 }
