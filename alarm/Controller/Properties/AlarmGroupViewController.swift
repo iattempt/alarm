@@ -17,7 +17,7 @@ class AlarmGroupViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        debugPrint("selecting group will appear")
+        debugPrint("editing group will appear")
         super.viewWillAppear(animated)
         refresh()
     }
@@ -31,7 +31,7 @@ class AlarmGroupViewController: UIViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        debugPrint("selecting group will disappear")
+        debugPrint("editing group will disappear")
         super.viewWillDisappear(animated)
         setEditing(false, animated: false)
     }
