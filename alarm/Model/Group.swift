@@ -36,12 +36,12 @@ class Groups {
         importNextGroupId()
         importGroup()
     }
-    private static var instance_: Groups? = nil
+    private static var _instance: Groups? = nil
     static func instance() -> Groups {
-        if instance_ == nil {
-            instance_ = Groups()
+        if _instance == nil {
+            _instance = Groups()
         }
-        return instance_!
+        return _instance!
     }
 
     private let persistNextGroupIdKey = "NextGroupIdKey"
