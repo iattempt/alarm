@@ -167,7 +167,7 @@ extension ModifyAlarmViewController {
             } else {
                 AlarmIdProp = NextAlarmId
                 GroupIdProp = nil
-                LabelProp = "Group"
+                LabelProp = "Alarm"
                 SoundIdProp = nil
                 SoundNameProp = "none"
                 VibrateIdProp = nil
