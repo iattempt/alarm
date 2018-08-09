@@ -113,7 +113,7 @@ extension ModifyGroupViewController {
                 GroupIdProp = theGroup.groupId
                 RepeatWeekdaysProp = theGroup.repeatWeekdays
             } else {
-                LabelProp = "Label"
+                LabelProp = "Group"
                 GroupIdProp = NextGroupId
                 RepeatWeekdaysProp.removeAll()
             }
