@@ -49,7 +49,7 @@ class AlarmVibrateViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        debugPrint("selecting vibrate will appear")
+        debugPrint("editing vibrate will appear")
         super.viewWillAppear(animated)
         self.systemSoundID = 1011
         startVibrate()
@@ -81,7 +81,7 @@ class AlarmVibrateViewController: UIViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        debugPrint("selecting vibrate will disappear")
+        debugPrint("editing vibrate will disappear")
         super.viewWillDisappear(animated)
         self.stopVibrate()
     }
