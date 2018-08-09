@@ -138,12 +138,6 @@ extension AlarmViewController: UITableViewDelegate,
         return self.alarms.count
     }
 
-    func isMatchingFilterStatus(_ theAlarm: Alarm) -> Bool {
-        return filter_status_type == .All ||
-               (filter_status_type == .On && theAlarm.isEnabled()) ||
-               (filter_status_type == .Off && theAlarm.isDisabled())
-    }
-
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let theAlarm = self.alarms[indexPath.row]
         if isMatchingFilterStatus(theAlarm) && isMatchingFilterGroup(theAlarm) {
@@ -153,17 +147,43 @@ extension AlarmViewController: UITableViewDelegate,
         }
     }
 
+    func isMatchingFilterStatus(_ theAlarm: Alarm) -> Bool {
+        return isMatchingAllStatus() ||
+               isMatchingEnabledStatus(theAlarm) ||
+               isMatchingDisabledStatus(theAlarm)
+    }
+
+    private func isMatchingAllStatus() -> Bool {
+        return filter_status_type == .All
+    }
+
+    private func isMatchingEnabledStatus(_ theAlarm: Alarm) -> Bool {
+        return filter_status_type == .On && theAlarm.isEnabled()
+    }
+
+    private func isMatchingDisabledStatus(_ theAlarm: Alarm) -> Bool {
+        return filter_status_type == .Off && theAlarm.isDisabled()
+    }
+
     func isMatchingFilterGroup(_ theAlarm: Alarm) -> Bool {
-        if filter_group_ids == FilterGroupIds.All {
-            return true
-        } else if filter_group_ids == FilterGroupIds.NotBelongs && theAlarm.groupId == nil {
-            return true
-        } else {
-            if let theGroupId = theAlarm.groupId {
-                for filterGroupId in filter_group_ids {
-                    if theGroupId == filterGroupId {
-                        return true
-                    }
+        return isMatchingAllGroup() ||
+               isMatchingNotBelongedGroup(theAlarm) ||
+               isMatchingSpecifiedGroups(theAlarm)
+    }
+
+    private func isMatchingAllGroup() -> Bool {
+        return filter_group_ids == FilterGroupIds.All
+    }
+
+    private func isMatchingNotBelongedGroup(_ theAlarm: Alarm) -> Bool {
+        return filter_group_ids == FilterGroupIds.NotBelongs && theAlarm.groupId == nil
+    }
+
+    private func isMatchingSpecifiedGroups(_ theAlarm: Alarm) -> Bool {
+        if let theGroupId = theAlarm.groupId {
+            for filterGroupId in filter_group_ids {
+                if theGroupId == filterGroupId {
+                    return true
                 }
             }
         }
