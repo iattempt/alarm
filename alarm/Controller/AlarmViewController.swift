@@ -181,7 +181,6 @@ extension AlarmViewController: UITableViewDelegate,
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // Todo: the animation is not smooth
         let theAlarm = self.alarms[indexPath.row]
 
         let switchButton = getSwitchButton(theAlarm)
@@ -228,9 +227,34 @@ extension AlarmViewController {
         SelectedAlarm = nil
 
         IsLoadedPropertiesOfSelectedAlarmOrGroup = false
-        tableView.reloadData()
+        reloadDataSmoothly()
         refreshItems()
         self.tabBarController?.tabBar.isHidden = false
+    }
+
+    func reloadDataSmoothly() {
+        temporaryShowUpAllAlarms()
+        tableView.reloadData()
+        scrollToTopIfPossible()
+    }
+
+    fileprivate func temporaryShowUpAllAlarms() {
+        let realStatus = filter_status_type
+        let realGroup = filter_group_ids
+        filter_status_type = .All
+        filter_group_ids = FilterGroupIds.All
+        tableView.reloadData()
+        if !tableView.visibleCells.isEmpty {
+            tableView.setContentOffset(.zero, animated: false)
+        }
+        filter_status_type = realStatus
+        filter_group_ids = realGroup
+    }
+
+    fileprivate func scrollToTopIfPossible() {
+        if !tableView.visibleCells.isEmpty {
+            tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: UITableViewScrollPosition.top, animated: false)
+        }
     }
 
     @objc func switchChanged(_ sender: UISwitch!) {
