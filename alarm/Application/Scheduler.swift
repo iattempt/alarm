@@ -205,7 +205,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         default:
             let alarmId = response.notification.request.content.userInfo["alarmId"] as! Int
             var alarm = Alarms.instance().alarm(byId: alarmId)
-            alarm.date = Utility.unifyDate(Date().addMinutes(alarm.snoozeId!))
+            if let snoozeId = alarm.snoozeId {
+                alarm.date = Utility.unifyDate(Date().addMinutes(snoozeId))
+            }
             Scheduler.setUpAlarmOnceNotifications(alarm)
         }
 
