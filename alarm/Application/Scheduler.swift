@@ -36,17 +36,6 @@ class Scheduler {
         UNUserNotificationCenter.current().setNotificationCategories([snoozeAndStopCategory, stopOnlyCategory])
     }
 
-    static func reSetUpAllAlarmNotifications() {
-/*
- TODO
-
- cannot restart snooze alarm after reboot iphone or re-schedule
- */
-        for alarm in Alarms.instance().alarms() {
-            alarm.setUpNotification()
-        }
-    }
-
     static func setUpAlarmNotifications(_ alarm: Alarm) {
         if alarm.isRepeat() {
             setUpAlarmWeekdaysNotifications(alarm)
