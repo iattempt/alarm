@@ -61,7 +61,7 @@ extension ModifyGroupViewController: UITableViewDataSource,
             cell.detailTextLabel?.textAlignment = NSTextAlignment.right
         case 1:
             cell.textLabel?.text = "Repeat"
-            cell.detailTextLabel?.text = Week.convertWeekdaysToStringForDisplaying(RepeatWeekdaysProp)
+            cell.detailTextLabel?.text = Week.convertWeeksToStringForDisplaying(RepeatWeeksProp)
             cell.detailTextLabel?.textAlignment = NSTextAlignment.right
         default:
             break
@@ -88,7 +88,7 @@ extension ModifyGroupViewController {
         var theGroup = group
         theGroup.groupLabel = LabelProp
         theGroup.enabled = true
-        theGroup.repeatWeekdays = RepeatWeekdaysProp
+        theGroup.repeatWeeks = RepeatWeeksProp
         Groups.instance().update(theGroup)
     }
 
@@ -96,7 +96,7 @@ extension ModifyGroupViewController {
         let group = Group(groupId: GroupIdProp!,
                           groupLabel: LabelProp,
                           enabled: true,
-                          repeatWeekdays: RepeatWeekdaysProp)
+                          repeatWeeks: RepeatWeeksProp)
         Groups.instance().add(group)
     }
 
@@ -111,11 +111,11 @@ extension ModifyGroupViewController {
             if let theGroup = group {
                 LabelProp = theGroup.groupLabel
                 GroupIdProp = theGroup.groupId
-                RepeatWeekdaysProp = theGroup.repeatWeekdays
+                RepeatWeeksProp = theGroup.repeatWeeks
             } else {
                 LabelProp = "Label"
                 GroupIdProp = NextGroupId
-                RepeatWeekdaysProp.removeAll()
+                RepeatWeeksProp.removeAll()
             }
         }
         IsLoadedPropertiesOfSelectedAlarmOrGroup = true

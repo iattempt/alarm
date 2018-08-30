@@ -37,7 +37,7 @@ class alarmTests: XCTestCase {
         VibrateIdProp = nil
         SnoozeIdProp = 9
         GroupIdProp = nil
-        RepeatWeekdaysProp = [Week]()
+        RepeatWeeksProp = [Week]()
     }
     
     override func tearDown() {
@@ -167,8 +167,8 @@ class alarmTests: XCTestCase {
             XCTAssert(alarm.date == Utility.unifyDate(controller.datePicker.date))
             XCTAssert(alarm.soundId == SoundIdProp)
             XCTAssert(alarm.vibrateId == VibrateIdProp)
-            XCTAssert(alarm.repeatWeekdays.count == RepeatWeekdaysProp.count)
-            XCTAssert(alarm.repeatWeekdays == RepeatWeekdaysProp)
+            XCTAssert(alarm.repeatWeeks.count == RepeatWeeksProp.count)
+            XCTAssert(alarm.repeatWeeks == RepeatWeeksProp)
             XCTAssert(alarm.snoozeId == SnoozeIdProp)
         }
     }
@@ -190,7 +190,7 @@ class alarmTests: XCTestCase {
             VibrateIdProp = Utility.randomInt()
             SnoozeIdProp = Utility.randomInt()
             GroupIdProp = nil
-            RepeatWeekdaysProp = getRandomRepeatWeekdays()
+            RepeatWeeksProp = getRandomRepeatWeekdays()
 
             SelectedAlarm = nil
             SelectedGroup = nil
@@ -211,8 +211,8 @@ class alarmTests: XCTestCase {
             XCTAssert(alarm.date == Utility.unifyDate(controller.datePicker.date))
             XCTAssert(alarm.soundId == SoundIdProp)
             XCTAssert(alarm.vibrateId == VibrateIdProp)
-            XCTAssert(alarm.repeatWeekdays.count == RepeatWeekdaysProp.count)
-            XCTAssert(alarm.repeatWeekdays == RepeatWeekdaysProp)
+            XCTAssert(alarm.repeatWeeks.count == RepeatWeeksProp.count)
+            XCTAssert(alarm.repeatWeeks == RepeatWeeksProp)
             XCTAssert(alarm.snoozeId == SnoozeIdProp)
         }
     }
@@ -243,7 +243,7 @@ class alarmTests: XCTestCase {
             SoundIdProp = nil
             VibrateIdProp = Utility.randomInt()
             SnoozeIdProp = Utility.randomInt()
-            RepeatWeekdaysProp = getRandomRepeatWeekdays()
+            RepeatWeeksProp = getRandomRepeatWeekdays()
 
             // when
             controller.updateAlarm(SelectedAlarm!)
@@ -258,8 +258,8 @@ class alarmTests: XCTestCase {
             XCTAssert(alarm.date == Utility.unifyDate(controller.datePicker.date))
             XCTAssert(alarm.soundId == SoundIdProp)
             XCTAssert(alarm.vibrateId == VibrateIdProp)
-            XCTAssert(alarm.repeatWeekdays.count == RepeatWeekdaysProp.count)
-            XCTAssert(alarm.repeatWeekdays == RepeatWeekdaysProp)
+            XCTAssert(alarm.repeatWeeks.count == RepeatWeeksProp.count)
+            XCTAssert(alarm.repeatWeeks == RepeatWeeksProp)
             XCTAssert(alarm.snoozeId == SnoozeIdProp)
         }
     }
@@ -287,8 +287,8 @@ class alarmTests: XCTestCase {
 
             XCTAssert(group.groupId == NextGroupId - 1)
             XCTAssert(group.groupLabel == LabelProp)
-            XCTAssert(group.repeatWeekdays.count == RepeatWeekdaysProp.count)
-            XCTAssert(group.repeatWeekdays == RepeatWeekdaysProp)
+            XCTAssert(group.repeatWeeks.count == RepeatWeeksProp.count)
+            XCTAssert(group.repeatWeeks == RepeatWeeksProp)
         }
     }
 
@@ -302,7 +302,7 @@ class alarmTests: XCTestCase {
             // set up
             IsLoadedPropertiesOfSelectedAlarmOrGroup = false
             LabelProp = Utility.randomAlphaNumber(length: 5)
-            RepeatWeekdaysProp = getRandomRepeatWeekdays()
+            RepeatWeeksProp = getRandomRepeatWeekdays()
             SelectedAlarm = nil
             SelectedGroup = nil
             controller.loadProperties(group: SelectedGroup)
@@ -317,8 +317,8 @@ class alarmTests: XCTestCase {
 
             XCTAssert(group.groupId == NextGroupId - 1)
             XCTAssert(group.groupLabel == LabelProp)
-            XCTAssert(group.repeatWeekdays.count == RepeatWeekdaysProp.count)
-            XCTAssert(group.repeatWeekdays == RepeatWeekdaysProp)
+            XCTAssert(group.repeatWeeks.count == RepeatWeeksProp.count)
+            XCTAssert(group.repeatWeeks == RepeatWeeksProp)
         }
     }
 
@@ -341,7 +341,7 @@ class alarmTests: XCTestCase {
 
             // given
             LabelProp = Utility.randomAlphaNumber(length: 5)
-            RepeatWeekdaysProp = getRandomRepeatWeekdays()
+            RepeatWeeksProp = getRandomRepeatWeekdays()
             // when
             controller.updateGroup(SelectedGroup!)
 
@@ -350,8 +350,8 @@ class alarmTests: XCTestCase {
 
             XCTAssert(group.groupId == 0)
             XCTAssert(group.groupLabel == LabelProp)
-            XCTAssert(group.repeatWeekdays.count == RepeatWeekdaysProp.count)
-            XCTAssert(group.repeatWeekdays == RepeatWeekdaysProp)
+            XCTAssert(group.repeatWeeks.count == RepeatWeeksProp.count)
+            XCTAssert(group.repeatWeeks == RepeatWeeksProp)
         }
     }
 
@@ -528,7 +528,7 @@ extension alarmTests {
         SoundIdProp = nil
         VibrateIdProp = Utility.randomInt()
         SnoozeIdProp = Utility.randomInt()
-        RepeatWeekdaysProp = getRandomRepeatWeekdays()
+        RepeatWeeksProp = getRandomRepeatWeekdays()
 
         for i in 0...200 {
             SelectedAlarm = Alarms.instance().alarm(byId: i)

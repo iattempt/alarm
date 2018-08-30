@@ -22,7 +22,7 @@ struct Alarm: Codable {
     var soundName: String = "none"
     var vibrateId: Int?
     var vibrateName: String = "none"
-    var repeatWeekdays: [Week]
+    var repeatWeeks: [Week]
     var snoozeId: Int?
 
     func getLabel() -> String {
@@ -34,16 +34,16 @@ struct Alarm: Codable {
         }
     }
 
-    func getRepeatWeekdays() -> [Week] {
+    func getRepeatWeeks() -> [Week] {
         if let theGroupId = groupId {
-            return Groups.instance().group(byId: theGroupId).repeatWeekdays
+            return Groups.instance().group(byId: theGroupId).repeatWeeks
         } else {
-            return repeatWeekdays
+            return repeatWeeks
         }
     }
 
     func isRepeat() -> Bool {
-        return !getRepeatWeekdays().isEmpty
+        return !getRepeatWeeks().isEmpty
     }
 
     // if the alarm belongs to one group, then the group must enabled too.

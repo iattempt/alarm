@@ -85,7 +85,7 @@ extension ModifyAlarmViewController: UITableViewDataSource,
             cell.detailTextLabel?.textAlignment = NSTextAlignment.right
         case 5:
             cell.textLabel?.text = "Repeat"
-            cell.detailTextLabel?.text = Week.convertWeekdaysToStringForDisplaying(RepeatWeekdaysProp)
+            cell.detailTextLabel?.text = Week.convertWeeksToStringForDisplaying(RepeatWeeksProp)
             cell.detailTextLabel?.textAlignment = NSTextAlignment.right
         default:
             break
@@ -125,7 +125,7 @@ extension ModifyAlarmViewController {
         theAlarm.soundName = SoundNameProp
         theAlarm.vibrateId = VibrateIdProp
         theAlarm.vibrateName = VibrateNameProp
-        theAlarm.repeatWeekdays = RepeatWeekdaysProp
+        theAlarm.repeatWeeks = RepeatWeeksProp
         theAlarm.snoozeId = SnoozeIdProp
         Alarms.instance().update(theAlarm)
     }
@@ -140,7 +140,7 @@ extension ModifyAlarmViewController {
                           soundName: SoundNameProp,
                           vibrateId: VibrateIdProp,
                           vibrateName: VibrateNameProp,
-                          repeatWeekdays: RepeatWeekdaysProp,
+                          repeatWeeks: RepeatWeeksProp,
                           snoozeId: SnoozeIdProp)
         Alarms.instance().add(alarm)
     }
@@ -162,7 +162,7 @@ extension ModifyAlarmViewController {
                 SoundNameProp = theAlarm.soundName
                 VibrateIdProp = theAlarm.vibrateId
                 VibrateNameProp = theAlarm.vibrateName
-                RepeatWeekdaysProp = theAlarm.repeatWeekdays
+                RepeatWeeksProp = theAlarm.repeatWeeks
                 SnoozeIdProp = theAlarm.snoozeId
             } else {
                 AlarmIdProp = NextAlarmId
@@ -172,7 +172,7 @@ extension ModifyAlarmViewController {
                 SoundNameProp = "none"
                 VibrateIdProp = nil
                 VibrateNameProp = "none"
-                RepeatWeekdaysProp.removeAll()
+                RepeatWeeksProp.removeAll()
                 SnoozeIdProp = 10
             }
         }

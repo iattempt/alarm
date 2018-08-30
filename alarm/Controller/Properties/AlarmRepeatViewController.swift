@@ -44,7 +44,7 @@ extension AlarmRepeatViewController: UITableViewDelegate,
         let cell = UITableViewCell()
         cell.tintColor = UIColor.black
         cell.textLabel?.text = Week.convertWeekCaseToString(Week(rawValue: indexPath.row + 1)!)
-        if RepeatWeekdaysProp.contains(Week.convertWeekStringToCase((cell.textLabel?.text)!)) {
+        if RepeatWeeksProp.contains(Week.convertWeekStringToCase((cell.textLabel?.text)!)) {
             cell.accessoryType = .checkmark
         }
         return cell
@@ -52,14 +52,14 @@ extension AlarmRepeatViewController: UITableViewDelegate,
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let week = Week.convertWeekStringToCase((tableView.cellForRow(at: indexPath)?.textLabel?.text)!)
-        if RepeatWeekdaysProp.contains(week) {
-            for (i, w) in RepeatWeekdaysProp.enumerated() {
+        if RepeatWeeksProp.contains(week) {
+            for (i, w) in RepeatWeeksProp.enumerated() {
                 if w == week {
-                    RepeatWeekdaysProp.remove(at: i)
+                    RepeatWeeksProp.remove(at: i)
                 }
             }
         } else {
-            RepeatWeekdaysProp.append(week)
+            RepeatWeeksProp.append(week)
         }
         tableView.reloadData()
     }

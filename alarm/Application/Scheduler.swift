@@ -38,7 +38,7 @@ class Scheduler {
 
     static func setUpAlarmNotifications(_ alarm: Alarm) {
         if alarm.isRepeat() {
-            setUpAlarmWeekdaysNotifications(alarm)
+            setUpAlarmWeeksNotifications(alarm)
         } else {
             setUpAlarmOnceNotifications(alarm)
         }
@@ -67,20 +67,20 @@ class Scheduler {
         }
     }
 
-    fileprivate static func setUpAlarmWeekdaysNotifications(_ alarm: Alarm) {
+    fileprivate static func setUpAlarmWeeksNotifications(_ alarm: Alarm) {
         tearDownAlarmNotifications(alarm)
         var dateComponents = extractComponentFromDate(alarm.date)
         dateComponents.timeZone = Calendar.current.timeZone
-        for week in alarm.getRepeatWeekdays() {
+        for week in alarm.getRepeatWeeks() {
             dateComponents.weekday = Week.convertWeekToInt(week)
-            setUpAlarmNotificationsForWeekday(
+            setUpAlarmNotificationsForWeeks(
                 alarm,
                 identifier: getWeekIdentifierForWeek(alarm, week),
                 dateComponents: dateComponents)
         }
     }
 
-    fileprivate static func setUpAlarmNotificationsForWeekday(
+    fileprivate static func setUpAlarmNotificationsForWeeks(
         _ alarm: Alarm, identifier: String, dateComponents: DateComponents) {
 
         let content = UNMutableNotificationContent()
@@ -107,7 +107,7 @@ class Scheduler {
 
     static func tearDownAlarmNotifications(_ alarm: Alarm) {
         tearDownAlarmNotificationsForOnce(alarm)
-        tearDownAlarmNotificationsForWeekdays(alarm)
+        tearDownAlarmNotificationsForWeeks(alarm)
         tearDownAlarmNotificationsForSnooze(alarm)
     }
 
@@ -117,7 +117,7 @@ class Scheduler {
         removePendingNotificationRequestsByIdentifier(identifier)
     }
 
-    fileprivate static func tearDownAlarmNotificationsForWeekdays(_ alarm: Alarm) {
+    fileprivate static func tearDownAlarmNotificationsForWeeks(_ alarm: Alarm) {
         for week in Week.allCases {
             let identifier = getWeekIdentifierForWeek(alarm, week)
             removePendingNotificationRequestsByIdentifier(identifier)
@@ -213,7 +213,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         // Change state for each matched alarm, because we cannot handle multiple notification concurrently.
         for var alarm in Alarms.instance().alarms() {
             let date = response.notification.request.content.userInfo["date"] as! Date
-            if alarm.isEnabled() && alarm.date == date && alarm.repeatWeekdays.isEmpty {
+            if alarm.isEnabled() && alarm.date == date && alarm.repeatWeeks.isEmpty {
                 alarm.enabled = false
                 Alarms.instance().update(alarm)
             }

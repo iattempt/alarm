@@ -219,10 +219,10 @@ enum Week: Int, Codable {
         }
     }
 
-    static func convertWeekdaysToStringForDisplaying(_ repeatWeekdays: [Week]) -> String{
+    static func convertWeeksToStringForDisplaying(_ repeatWeeks: [Week]) -> String{
         var string = ""
         var count = 0
-        for day in repeatWeekdays {
+        for day in repeatWeeks {
             string += " \(Week.convertWeekCaseToAbbreviationString(day))"
             count += Week.convertWeekToFlagBit(day)
         }

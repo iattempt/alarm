@@ -27,7 +27,7 @@ var VibrateIdProp: Int?
 var VibrateNameProp = "none"
 var SnoozeIdProp: Int?
 var GroupIdProp: Int? = nil
-var RepeatWeekdaysProp: [Week] = [Week]()
+var RepeatWeeksProp: [Week] = [Week]()
 
 class InitViewController: UITabBarController {
     override func viewDidLoad() {
@@ -89,7 +89,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: 10))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "跑步",
@@ -103,15 +103,15 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: 10))
-        let 航站 = Group(groupId: NextGroupId, groupLabel: "航站", enabled: true, repeatWeekdays: RepeatWeekdaysProp)
+        let 航站 = Group(groupId: NextGroupId, groupLabel: "航站", enabled: true, repeatWeeks: RepeatWeeksProp)
         Groups.instance().add(航站)
-        let 航務值班 = Group(groupId: NextGroupId, groupLabel: "航務值班", enabled: true, repeatWeekdays: RepeatWeekdaysProp)
+        let 航務值班 = Group(groupId: NextGroupId, groupLabel: "航務值班", enabled: true, repeatWeeks: RepeatWeeksProp)
         Groups.instance().add(航務值班)
-        let 消防值班 = Group(groupId: NextGroupId, groupLabel: "消防值班", enabled: true, repeatWeekdays: RepeatWeekdaysProp)
+        let 消防值班 = Group(groupId: NextGroupId, groupLabel: "消防值班", enabled: true, repeatWeeks: RepeatWeeksProp)
         Groups.instance().add(消防值班)
-        let 消防A班 = Group(groupId: NextGroupId, groupLabel: "消防A班", enabled: true, repeatWeekdays: RepeatWeekdaysProp)
+        let 消防A班 = Group(groupId: NextGroupId, groupLabel: "消防A班", enabled: true, repeatWeeks: RepeatWeeksProp)
         Groups.instance().add(消防A班)
 
 
@@ -127,7 +127,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "打飯",
@@ -141,7 +141,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
 
         // 航務值班
@@ -157,7 +157,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "業務",
@@ -171,7 +171,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "業務",
@@ -185,7 +185,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "業務",
@@ -199,7 +199,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "吃飯",
@@ -213,7 +213,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "起床",
@@ -227,7 +227,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "業務",
@@ -241,7 +241,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "業務",
@@ -255,7 +255,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "業務",
@@ -269,7 +269,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "降旗",
@@ -283,7 +283,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
 
         // 消防值班
@@ -299,7 +299,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "廣播",
@@ -313,7 +313,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "訂早餐",
@@ -327,7 +327,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "無線電測試",
@@ -341,7 +341,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "警鈴測試",
@@ -355,7 +355,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "廣播",
@@ -369,7 +369,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "檢查FOD",
@@ -383,7 +383,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "廣播",
@@ -397,7 +397,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "廣播",
@@ -411,7 +411,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "廣播",
@@ -425,7 +425,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "廣播",
@@ -439,7 +439,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "廣播",
@@ -453,7 +453,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "廣播",
@@ -467,7 +467,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "檢查FOD",
@@ -481,7 +481,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "廣播",
@@ -495,7 +495,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "廣播",
@@ -509,7 +509,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "廣播",
@@ -523,7 +523,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "廣播",
@@ -537,7 +537,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                          alarmLabel: "廣播",
@@ -551,7 +551,7 @@ extension InitViewController {
                                          soundName: "1.mp3",
                                          vibrateId: nil,
                                          vibrateName: "",
-                                         repeatWeekdays: RepeatWeekdaysProp,
+                                         repeatWeeks: RepeatWeeksProp,
                                          snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                     alarmLabel: "巡視鳥網",
@@ -565,7 +565,7 @@ extension InitViewController {
                                     soundName: "1.mp3",
                                     vibrateId: nil,
                                     vibrateName: "",
-                                    repeatWeekdays: RepeatWeekdaysProp,
+                                    repeatWeeks: RepeatWeeksProp,
                                     snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                     alarmLabel: "十巧手",
@@ -579,7 +579,7 @@ extension InitViewController {
                                     soundName: "1.mp3",
                                     vibrateId: nil,
                                     vibrateName: "",
-                                    repeatWeekdays: RepeatWeekdaysProp,
+                                    repeatWeeks: RepeatWeeksProp,
                                     snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                     alarmLabel: "打飯",
@@ -593,7 +593,7 @@ extension InitViewController {
                                     soundName: "1.mp3",
                                     vibrateId: nil,
                                     vibrateName: "",
-                                    repeatWeekdays: RepeatWeekdaysProp,
+                                    repeatWeeks: RepeatWeeksProp,
                                     snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                     alarmLabel: "起床",
@@ -607,7 +607,7 @@ extension InitViewController {
                                     soundName: "1.mp3",
                                     vibrateId: nil,
                                     vibrateName: "",
-                                    repeatWeekdays: RepeatWeekdaysProp,
+                                    repeatWeeks: RepeatWeeksProp,
                                     snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                     alarmLabel: "上課",
@@ -621,7 +621,7 @@ extension InitViewController {
                                     soundName: "1.mp3",
                                     vibrateId: nil,
                                     vibrateName: "",
-                                    repeatWeekdays: RepeatWeekdaysProp,
+                                    repeatWeeks: RepeatWeeksProp,
                                     snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                     alarmLabel: "巡場",
@@ -635,7 +635,7 @@ extension InitViewController {
                                     soundName: "1.mp3",
                                     vibrateId: nil,
                                     vibrateName: "",
-                                    repeatWeekdays: RepeatWeekdaysProp,
+                                    repeatWeeks: RepeatWeeksProp,
                                     snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                     alarmLabel: "巡場",
@@ -649,7 +649,7 @@ extension InitViewController {
                                     soundName: "1.mp3",
                                     vibrateId: nil,
                                     vibrateName: "",
-                                    repeatWeekdays: RepeatWeekdaysProp,
+                                    repeatWeeks: RepeatWeeksProp,
                                     snoozeId: nil))
         Alarms.instance().add(Alarm(alarmId: NextAlarmId,
                                     alarmLabel: "打飯",
@@ -663,7 +663,7 @@ extension InitViewController {
                                     soundName: "1.mp3",
                                     vibrateId: nil,
                                     vibrateName: "",
-                                    repeatWeekdays: RepeatWeekdaysProp,
+                                    repeatWeeks: RepeatWeeksProp,
                                     snoozeId: nil))
     }
 }

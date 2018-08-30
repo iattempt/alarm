@@ -14,7 +14,7 @@ struct Group: Codable {
     var groupId: Int = 0
     var groupLabel = ""
     var enabled = false
-    var repeatWeekdays: [Week] = [Week]()
+    var repeatWeeks: [Week] = [Week]()
 
     func setUpAlarmNotification() {
         let alarms = Alarms.instance().alarms(byGroupId: groupId)
